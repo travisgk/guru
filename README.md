@@ -12,12 +12,31 @@ Guru makes use of the following libraries:
 <br>
 <br>
 
-## Windows Setup on Visual Studio 2022
-used:
+## Project Settings with Visual Studio 2022 on Windows
+### VC++ Directory
+Include Directories: 
+- ...\SDL2\include
+
+Library Directories: 
+- ...\SDL2\lib\x64
+
+### C/C++ -> General
+Additional Include Directories:
+- ...\glew\include
+- ...\glm
+
+### Linker
+General-> Additional Library Directories:
+- ...\glew\lib\Release\x64
+
+Input-> Additional Dependencies:
 - opengl32.lib
 - glew32s.lib
 - SDL2.lib
 - SDL2main.lib
+
+Command Line-> Additional Options:
+- `/NODEFAULTLIB:MSVCRT /NODEFAULTLIB:LIBCMT`
 
 unneeded (?):
 - user32.lib
