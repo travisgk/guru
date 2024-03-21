@@ -11,3 +11,15 @@ Guru makes use of the following libraries:
 - [ASSIMP](https://github.com/assimp/assimp) (Open Asset Import Library) - helps load 3D models into the program.
 <br>
 <br>
+
+## Windows Setup on Visual Studio 2022
+used:
+- opengl32.lib
+- glew32s.lib
+- SDL2.lib
+- SDL2main.lib
+
+unneeded (?):
+- user32.lib
+- gdi32.lib
+- shell32.lib
