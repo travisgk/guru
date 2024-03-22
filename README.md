@@ -47,6 +47,7 @@ Guru makes use of the following libraries:
     - Copy the `include` directory into the new ...\assimp directory.
 
 These instructions are modified from those given by [this user.](https://github.com/michaelg29/yt-tutorials/blob/master/CPP/OpenGL/install.md#open-asset-import-library-assimp)
+<br>
 
 ## Project Settings with Visual Studio 2022 on Windows
 ### C/C++ -> General
