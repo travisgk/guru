@@ -22,6 +22,7 @@ Guru makes use of the following libraries:
 7) Copy `gl.c` from the `glad\src` directory, paste it into the project's main directory, and then add it to the Visual Studio project.
 <br>
 
+
 ## Installing ASSIMP
 1) Download the [CMake gui](https://cmake.org/download) if you don't already have it.
 2) Download the latest release of [ASSIMP](https://github.com/assimp/assimp) as a .zip file.
@@ -47,6 +48,7 @@ Guru makes use of the following libraries:
     - Copy the `include` directory into the new ...\assimp directory.
 
 These instructions are modified from those given by [this user.](https://github.com/michaelg29/yt-tutorials/blob/master/CPP/OpenGL/install.md#open-asset-import-library-assimp)
+<br>
 <br>
 
 ## Project Settings with Visual Studio 2022 on Windows
