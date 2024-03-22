@@ -34,7 +34,7 @@ Guru makes use of the following libraries:
    - Choose the corresponding compiler.
    - If it gives errors, click `Configure` again.
    - Click `Generate`.
-6) Go to the build directory (...\assimp-master\build). Open the `Assimp.sln` file to open Visual Studio.
+6) Go to the build directory (...\assimp-master\build). Open the `Assimp.sln` file in Visual Studio.
    - This will open several projects at once.
    - Make sure your configuration is set to x64 and your choice of Debug/Release.
    - Highlight the ALL_BUILD project and build the solution for it.
@@ -44,7 +44,7 @@ Guru makes use of the following libraries:
    - Copy the files inside `lib\Debug` or `lib\Release` and paste them into the new ...\assimp directory.
 9) Navigate to ...\assimp-master\build\bin. Copy and paste the .dll file into the project's main directory.
 10) Navigate to ...\assimp-master (not the build folder).
-   - Copy the `include` directory into the new ...\assimp directory.
+    - Copy the `include` directory into the new ...\assimp directory.
 
 These instructions are modified from those given by [this user.](https://github.com/michaelg29/yt-tutorials/blob/master/CPP/OpenGL/install.md#open-asset-import-library-assimp)
 
