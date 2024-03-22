@@ -41,8 +41,9 @@ Guru makes use of the following libraries:
 7) Create a new folder in the external dependencies folder named `assimp` (e.g. `C:\Libraries\assimp`).
 8) Navigate to ...\assimp-master\build.
    - Copy the `include` directory into the new ...\assimp directory.
-   - Copy the `lib` directory into the new ...\assimp directory.
-9) Navigate to ...\assimp-master (not the build folder).
+   - Copy the files inside `lib\Debug` or `lib\Release` and paste them into the new ...\assimp directory.
+9) Navigate to ...\assimp-master\build\bin. Copy and paste the .dll file into the project's main directory.
+10) Navigate to ...\assimp-master (not the build folder).
    - Copy the `include` directory into the new ...\assimp directory.
 
 These instructions are modified from those given by [this user.](https://github.com/michaelg29/yt-tutorials/blob/master/CPP/OpenGL/install.md#open-asset-import-library-assimp)
@@ -54,14 +55,17 @@ Additional Include Directories:
 - ...\glm
 - ...\glfw\include
 - ...\soil\include
+- ...\assimp\include
 
 ### Linker
 General-> Additional Library Directories:
 - ...\glfw\lib-vc2022
+- ...\assimp\lib
 
 Input-> Additional Dependencies:
 - opengl32.lib
 - glfw3.lib
+- assimp-vc143-mtd.lib
 
 Command Line-> Additional Options:
 - `/NODEFAULTLIB:MSVCRT /NODEFAULTLIB:LIBCMT /ignore:4099`
