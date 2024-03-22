@@ -28,6 +28,7 @@ General-> Additional Library Directories:
 
 Input-> Additional Dependencies:
 - opengl32.lib
+- glfw3.lib
 - glew32s.lib
 
 Command Line-> Additional Options:
