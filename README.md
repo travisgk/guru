@@ -17,9 +17,9 @@ Guru makes use of the following libraries:
 2) Set GL to `Version 4.6`.
 3) Click `Add All` under the `Extensions` option.
 4) Under `Options`, check the tickbox for `Loader`.
-5) Download the resulting .zip file.
+5) Click `Generate` and then download the resulting .zip file.
 6) Extract the files, place the `include` and `src` folders under a directory `glad` in the external dependencies folder (e.g. `C:\Libraries`).
-7) Copy `gl.c` from the `glad\src` directory and paste it into the project's main directory, then include it in the project.
+7) Copy `gl.c` from the `glad\src` directory, paste it into the project's main directory, and then add it to the Visual Studio project.
 <br>
 
 ## Project Settings with Visual Studio 2022 on Windows
