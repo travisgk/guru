@@ -13,7 +13,7 @@ Guru makes use of the following libraries:
 <br>
 
 ## Installing glad
-1) Open the [generator for Glad.](https://gen.glad.sh/)
+1) Open the [generator for glad.](https://gen.glad.sh/)
 2) Set GL to `Version 4.6`.
 3) Set the option next to it to `Core`.
 4) Under `Options`, check the tickbox for `Loader`.
