@@ -15,7 +15,7 @@ Guru makes use of the following libraries:
 ## Installing glad
 1) Open the [generator for Glad.](https://gen.glad.sh/)
 2) Set GL to `Version 4.6`.
-3) Click `Add All` under the `Extensions` option.
+3) Set the option next to it to `Core`.
 4) Under `Options`, check the tickbox for `Loader`.
 5) Click `Generate` and then download the resulting .zip file.
 6) Extract the files, place the `include` and `src` folders under a directory `glad` in the external dependencies folder (e.g. `C:\Libraries`).
