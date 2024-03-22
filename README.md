@@ -5,11 +5,10 @@ A simple framework for building 3D scenes in OpenGL.
 ## Libraries
 Guru makes use of the following libraries:
 - [GL](https://www.opengl.org/) (OpenGL, v4.6) - for rendering 2D and 3D vector graphics.
-- [GLEW](https://github.com/nigels-com/glew) (OpenGL Extension Wrangler Library, v7.0) - helps the program use advanced graphics features.
-- [GLM](https://github.com/g-truc/glm) (OpenGL Mathematics, v0.9.9) - help with math for graphics that involve vectors and matrices.
 - [glad](https://github.com/Dav1dde/glad) (v2) - used for loading OpenGL function pointers, enabling cross-platform development.
-- [SOIL](https://github.com/littlstar/soil) (Simple OpenGL Image Library) - loads and manipulates images for OpenGL.
 - [GLFW](https://github.com/glfw/glfw) - provides low-level access for creating windows, creating contexts and surfaces, and reading input.
+- [GLM](https://github.com/g-truc/glm) (OpenGL Mathematics, v0.9.9) - help with math for graphics that involve vectors and matrices.
+- [SOIL](https://github.com/littlstar/soil) (Simple OpenGL Image Library) - loads and manipulates images for OpenGL.
 - [ASSIMP](https://github.com/assimp/assimp) (Open Asset Import Library) - helps load 3D models into the program.
 <br>
 
