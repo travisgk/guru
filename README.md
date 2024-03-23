@@ -52,6 +52,10 @@ These instructions are modified from those given by [this user.](https://github.
 <br>
 
 ## Project Settings with Visual Studio 2022 on Windows
+### General
+C++ Language Standard:
+- `ISO C++ 20 Standard`
+
 ### C/C++ -> General
 Additional Include Directories:
 - ...\glad\include
