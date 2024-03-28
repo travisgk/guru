@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\guru">
+      <UniqueIdentifier>{55d71641-8fb1-4686-a122-f1a9dbab9b34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\guru\system">
+      <UniqueIdentifier>{1383154a-8fe0-441a-b8eb-8a5b2ed5e527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\guru">
+      <UniqueIdentifier>{09446901-ff48-4c0e-9907-5ff248f221f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\guru\system">
+      <UniqueIdentifier>{d25715c8-9205-4a42-b0d7-3999b4d134fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\guru\environment">
+      <UniqueIdentifier>{8c49aba3-96bd-4c90-8452-ee37d24e621a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\guru\environment">
+      <UniqueIdentifier>{9e841adb-ae25-46ba-9301-682f154d73f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\guru\mathematics">
+      <UniqueIdentifier>{dcbd7249-11b5-4483-90c2-ba9787643f5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\guru\mathematics">
+      <UniqueIdentifier>{0ec34d06-af8c-4468-ac22-48a986f1be4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\guru\image">
+      <UniqueIdentifier>{d9f19145-ba8c-414c-8df4-b68d969d9901}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\guru\image">
+      <UniqueIdentifier>{602dd2c9-6092-48f0-8abe-dbb23789f9fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\guru\framebuffer">
+      <UniqueIdentifier>{48edf843-de14-4861-a904-c41062583c03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\guru\framebuffer">
+      <UniqueIdentifier>{57889124-081f-457b-9508-e9f8190ba534}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\guru\shader">
+      <UniqueIdentifier>{028a5b69-d3af-4a03-b784-c1cd80a63139}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\guru\shader">
+      <UniqueIdentifier>{9dad4543-4de8-4dc1-ae79-ac0d738dd83b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\system\time.cpp">
+      <Filter>Source Files\guru\system</Filter>
+    </ClCompile>
+    <ClCompile Include="gl.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\system\window.cpp">
+      <Filter>Source Files\guru\system</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\environment\camera.cpp">
+      <Filter>Source Files\guru\environment</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\mathmatics\orientation.cpp">
+      <Filter>Source Files\guru\mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\mathmatics\quat_point.cpp">
+      <Filter>Source Files\guru\mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\environment\environment.cpp">
+      <Filter>Source Files\guru\environment</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\system\settings.cpp">
+      <Filter>Source Files\guru\system</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\mathmatics\transformation.cpp">
+      <Filter>Source Files\guru\mathematics</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\image\color.cpp">
+      <Filter>Source Files\guru\image</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\image\color_texture.cpp">
+      <Filter>Source Files\guru\image</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\image\texture_list.cpp">
+      <Filter>Source Files\guru\image</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\image\load_texture.cpp">
+      <Filter>Source Files\guru\image</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\framebuffer\screenbuffer.cpp">
+      <Filter>Source Files\guru\framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\shader\shader.cpp">
+      <Filter>Source Files\guru\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\shader\screen_shader.cpp">
+      <Filter>Source Files\guru\shader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="guru\system\time.hpp">
+      <Filter>Header Files\guru\system</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\system\window.hpp">
+      <Filter>Header Files\guru\system</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\environment\camera.hpp">
+      <Filter>Header Files\guru\environment</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\mathmatics\orientation.hpp">
+      <Filter>Header Files\guru\mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\mathmatics\quat_point.hpp">
+      <Filter>Header Files\guru\mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\environment\environment.hpp">
+      <Filter>Header Files\guru\environment</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\system\settings.hpp">
+      <Filter>Header Files\guru\system</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\mathmatics\transformation.hpp">
+      <Filter>Header Files\guru\mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\image\color.hpp">
+      <Filter>Header Files\guru\image</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\image\stb_image.h">
+      <Filter>Header Files\guru\image</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\image\texture_list.hpp">
+      <Filter>Header Files\guru\image</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\image\color_texture.hpp">
+      <Filter>Header Files\guru\image</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\image\load_texture.hpp">
+      <Filter>Header Files\guru\image</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\framebuffer\screenbuffer.hpp">
+      <Filter>Header Files\guru\framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\shader\shader.hpp">
+      <Filter>Header Files\guru\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\shader\screen_shader.hpp">
+      <Filter>Header Files\guru\shader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
+  </ItemGroup>
+</Project>
