@@ -158,6 +158,7 @@
     <ClCompile Include="guru\mathmatics\transformation.cpp" />
     <ClCompile Include="guru\shader\screen_shader.cpp" />
     <ClCompile Include="guru\shader\shader.cpp" />
+    <ClCompile Include="guru\shader\skybox_shader.cpp" />
     <ClCompile Include="guru\system\time.cpp" />
     <ClCompile Include="guru\system\settings.cpp" />
     <ClCompile Include="guru\system\window.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="guru\mathmatics\transformation.hpp" />
     <ClInclude Include="guru\shader\screen_shader.hpp" />
     <ClInclude Include="guru\shader\shader.hpp" />
+    <ClInclude Include="guru\shader\skybox_shader.hpp" />
     <ClInclude Include="guru\system\time.hpp" />
     <ClInclude Include="guru\system\settings.hpp" />
     <ClInclude Include="guru\system\window.hpp" />
