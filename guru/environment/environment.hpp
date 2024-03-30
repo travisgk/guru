@@ -42,14 +42,14 @@ private:
 public:
 	// dtor. properly deletes the screen display rectangle VAO and VBO.
 	~env();
-	inline static void set_clear_color(const gu::Color& color) {
+	inline static void set_clear_color(const gu::Color &color) {
 		_clear_color = color;
 	}
 
 	// sets up the <_window> and <_cameras>,
 	// sets up the <_screenbuffer>,
 	// and builds the shaders.
-	static void reset(Window& window);
+	static void reset(Window &window);
 
 private:
 	static void _create_screen_display();
@@ -61,19 +61,19 @@ public:
 
 	// sets the paths to files used to build the <_screen_shader>.
 	static void set_screen_shader_paths(
-		const std::filesystem::path& v_shader_path,
-		const std::filesystem::path& f_shader_path
+		const std::filesystem::path &v_shader_path,
+		const std::filesystem::path &f_shader_path
 	);
 
 	// sets the paths to files used to build the <_skybox_shader>.
 	static void set_skybox_shader_paths(
-		const std::filesystem::path& v_shader_path,
-		const std::filesystem::path& f_shader_path
+		const std::filesystem::path &v_shader_path,
+		const std::filesystem::path &f_shader_path
 	);
 
 	// returns a reference to a specified Camera.
 	// a negative <index> will return the most recently created Camera.
-	static Camera& get_camera(int index = -1);
+	static Camera &get_camera(int index = -1);
 
 	inline static size_t n_cameras() { return _cameras.size();	}
 
@@ -83,17 +83,13 @@ public:
 		const glm::mat4 &camera_projview_mat, GLuint cubemap_ID
 	);
 
-	// this function will maintain an FPS limit if enabled,
-	// delta time will be updated, window events will be polled, 
-	// and the Window and Screenbuffer will be set up for drawing.
-	// this function should be called at the beginning on the main loop.
-	static void preprocess_for_frame();
+	static void update_delta_and_poll_events();
 
-	// this function will update the matrices of any modified
-	// mathematics object, swap buffers to display the Screenbuffer,
-	// and handle vsync if enabled.
-	// this function should be called at the end of the main loop.
-	static void postprocess_for_frame();
+	// sets up the Window and Screenbuffer for drawing.
+	static void clear_window_and_screenbuffer();
+
+	// swaps buffers to display the Screenbuffer in the Window.
+	static void display_frame();
 
 private:
 	// this function is called whenever the Window size is changed.

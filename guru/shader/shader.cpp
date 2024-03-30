@@ -4,7 +4,7 @@
 
 // loads text from the file located at <path> into the given string <received>.
 static bool load_text_from_file(
-	std::string& received, const std::filesystem::path& path
+	std::string &received, const std::filesystem::path &path
 ) {
 	std::ifstream buffer;
 	buffer.exceptions(std::ifstream::badbit);
@@ -17,7 +17,7 @@ static bool load_text_from_file(
 		received = stream.str();
 		return true;
 	}
-	catch (const std::ifstream::failure& e) {
+	catch (const std::ifstream::failure &e) {
 		std::cerr 
 			<< "Could not load text from " << path
 			<< ". Error:" << e.what() << std::endl;
@@ -46,8 +46,8 @@ Shader::~Shader() {
 }
 
 bool Shader::build_from_files(
-	const std::filesystem::path& v_shader_path,
-	const std::filesystem::path& f_shader_path
+	const std::filesystem::path &v_shader_path,
+	const std::filesystem::path &f_shader_path
 ) {
 	std::string v_shader_src, f_shader_src;
 	load_text_from_file(v_shader_src, v_shader_path);

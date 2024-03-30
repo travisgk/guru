@@ -41,7 +41,7 @@ env::~env() {
 	_skybox_VAO_ID = 0;
 }
 
-void env::reset(Window& window) {
+void env::reset(Window &window) {
 	// sets up the <_window> and <_cameras>.
 	_window = &window;
 	set_clear_color(gu::Color(0.3f, 0.3f, 0.3f));
@@ -147,29 +147,29 @@ size_t env::create_camera() {
 }
 
 void env::set_screen_shader_paths(
-	const std::filesystem::path& v_shader_path,
-	const std::filesystem::path& f_shader_path
+	const std::filesystem::path &v_shader_path,
+	const std::filesystem::path &f_shader_path
 ) {
 	_screen_shader_v_shader_path = v_shader_path;
 	_screen_shader_f_shader_path = f_shader_path;
 }
 
 void env::set_skybox_shader_paths(
-	const std::filesystem::path& v_shader_path,
-	const std::filesystem::path& f_shader_path
+	const std::filesystem::path &v_shader_path,
+	const std::filesystem::path &f_shader_path
 ) {
 	_skybox_shader_v_shader_path = v_shader_path;
 	_skybox_shader_f_shader_path = f_shader_path;
 }
 
-Camera& env::get_camera(int index) {
+Camera &env::get_camera(int index) {
 	if (index >= 0)
 		return *_cameras.at(index);
 	return *_cameras[_cameras.size() - 1];
 }
 
 void env::draw_skybox(
-	const glm::mat4& camera_projview_mat, GLuint cubemap_ID
+	const glm::mat4 &camera_projview_mat, GLuint cubemap_ID
 ) {
 	_skybox_shader.use();
 	_skybox_shader.set_projview_mat(camera_projview_mat);
@@ -181,22 +181,21 @@ void env::draw_skybox(
 	glBindVertexArray(0);
 }
 
-void env::preprocess_for_frame() {
+void env::update_delta_and_poll_events() {
 	gu::maintain_fps();
 	gu::Delta::update();
 	glfwPollEvents();
+}
+
+void env::clear_window_and_screenbuffer() {
 	_window->clear();
 	_screenbuffer.bind_and_clear(_clear_color);
 	glfwSwapInterval(gu::Settings::using_vsync());
 }
 
-void env::postprocess_for_frame() {
-	#if not defined(GURU_AUTO_UPDATE_MATH_OBJECTS)
-	_update_everything();
-	#endif
+void env::display_frame() {
 	_window->reset_viewport();
 	_display_frame();
-	 // UNCERTAIN: move to preprocess..?
 	glfwSwapBuffers(_window->get_GLFWwindow());
 }
 
@@ -224,8 +223,8 @@ void env::_display_frame() {
 	
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, _screenbuffer.image_ID());
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _screenbuffer.inter_ID());
-	const GLsizei& w = _screenbuffer.width();
-	const GLsizei& h = _screenbuffer.height();
+	const GLsizei &w = _screenbuffer.width();
+	const GLsizei &h = _screenbuffer.height();
 	glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0 );

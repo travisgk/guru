@@ -12,7 +12,7 @@
 namespace gu {
 class Transformation : public QuatPoint {
 protected:
-	glm::mat4 _model_matrix = glm::mat4(1.0);
+	glm::mat4 _model_mat = glm::mat4(1.0);
 	glm::vec3 _scaling = glm::vec3(1.0, 1.0, 1.0);
 	bool _scaling_is_new = true;
 
@@ -20,11 +20,11 @@ public:
 	// ctor. the function <_update_relative_directions()> 
 	// will not set <_orientation_is_new> to false.
 	inline Transformation() : QuatPoint(false) {}
-	inline const glm::mat4& get_model_matrix() const { 
-		return _model_matrix; 
+	inline const glm::mat4 &get_model_matrix() const { 
+		return _model_mat;
 	}
-	inline const glm::vec3& get_scaling() const { return _scaling; }
-	void set_scaling(const float& absolute_scale);
+	inline const glm::vec3 &get_scaling() const { return _scaling; }
+	void set_scaling(const float &absolute_scale);
 	
 	// updates the object's matrices. 
 	// if the compiler flag GURU_AUTO_UPDATE_MATH_OBJECTS is not used,

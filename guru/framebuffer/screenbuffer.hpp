@@ -28,19 +28,19 @@ private:
 public:
 	// dtor. deletes resources.
 	~Screenbuffer();
-	inline const GLsizei& width() const { return _width; }
-	inline const GLsizei& height() const { return _height; }
+	inline const GLsizei &width() const { return _width; }
+	inline const GLsizei &height() const { return _height; }
 
 	// returns the image buffer ID.
-	inline const GLuint& image_ID() const { return _image_buffer_ID; }
+	inline const GLuint &image_ID() const { return _image_buffer_ID; }
 
 	// returns the intermediate buffer ID.
-	inline const GLuint& inter_ID() const { 
+	inline const GLuint &inter_ID() const { 
 		return _intermediate_buffer_ID; 
 	}
 
 	// returns the screen texture ID.
-	inline const GLuint& screen_ID() const { 
+	inline const GLuint &screen_ID() const { 
 		return _screen_texture_ID; 
 	}
 
@@ -54,10 +54,10 @@ public:
 
 	// allocates the textures and buffers of the Screenbuffer object.
 	// this will destroy any pre-existing resources.
-	bool create(const int& width, const int& height);
+	bool create(const int &width, const int &height);
 
 	// binds the resources in order to be rendered to.
-	void bind_and_clear(const gu::Color& clear_color=gu::Color(0.0, 0.0, 0.0));
+	void bind_and_clear(const gu::Color &clear_color=gu::Color(0.0, 0.0, 0.0));
 
 private:
 	void _delete_resources();

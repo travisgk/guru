@@ -4,7 +4,7 @@
 
 namespace gu {
 namespace texture {
-GLuint create_solid_color(const gu::Color& color) {
+GLuint create_solid_color(const gu::Color &color) {
 	// returns the existing texture ID 
 	// if the same configuration has been found.
 	std::string path = "solid: " + color.to_str_255();
@@ -41,7 +41,7 @@ GLuint create_solid_color(const gu::Color& color) {
 }
 
 GLuint create_radial_gradient(
-	const gu::Color& center, const gu::Color& edge, const int& resolution
+	const gu::Color &center, const gu::Color &edge, const int &resolution
 ) {
 	// returns the existing texture ID 
 	// if the same configuration has been found.
@@ -106,10 +106,10 @@ GLuint create_radial_gradient(
 }
 
 GLuint create_checkerboard(
-	const gu::Color& light, 
-	const gu::Color& dark, 
-	const int& width, 
-	const int& height 
+	const gu::Color &light, 
+	const gu::Color &dark, 
+	const int &width, 
+	const int &height 
 ) {
 	// returns the existing texture ID 
 	// if the same configuration has been found.
@@ -149,10 +149,10 @@ GLuint create_checkerboard(
 }
 
 unsigned char *create_checkerboard_data(
-	const gu::Color& light,
-	const gu::Color& dark,
-	const int& width,
-	const int& height
+	const gu::Color &light,
+	const gu::Color &dark,
+	const int &width,
+	const int &height
 ) {
 	unsigned char *data = new unsigned char[width * height * 4];
 	for (int y = 0; y < height; ++y) {

@@ -54,7 +54,7 @@ void Window::make_fullscreen(int mode_num) {
 			return;
 		}
 		if (mode_num < count) {
-			const GLFWvidmode& mode = modes[mode_num];
+			const GLFWvidmode &mode = modes[mode_num];
 			glfwSetWindowMonitor(
 				_window, 
 				monitor, 
@@ -89,7 +89,7 @@ void Window::reset_viewport() {
 	glViewport(0, 0, width, height);
 }
 
-void Window::_get_monitor_center(int& x, int& y) const {
+void Window::_get_monitor_center(int &x, int &y) const {
 	GLFWmonitor *monitor = glfwGetPrimaryMonitor();
 	if (monitor) {
 		GLFWvidmode const *mode = glfwGetVideoMode(monitor);

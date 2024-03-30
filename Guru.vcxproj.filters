@@ -55,6 +55,12 @@
     <Filter Include="Source Files\guru\shader">
       <UniqueIdentifier>{9dad4543-4de8-4dc1-ae79-ac0d738dd83b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\guru\model">
+      <UniqueIdentifier>{1a6527b1-bfb3-4e3a-83f2-fbb2b41209df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\guru\model">
+      <UniqueIdentifier>{d0148127-6dc3-4e5f-a9e5-4df6279288d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -111,6 +117,12 @@
     <ClCompile Include="guru\shader\skybox_shader.cpp">
       <Filter>Source Files\guru\shader</Filter>
     </ClCompile>
+    <ClCompile Include="guru\model\material.cpp">
+      <Filter>Source Files\guru\model</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\model\mesh.cpp">
+      <Filter>Source Files\guru\model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="guru\system\time.hpp">
@@ -140,9 +152,6 @@
     <ClInclude Include="guru\image\color.hpp">
       <Filter>Header Files\guru\image</Filter>
     </ClInclude>
-    <ClInclude Include="guru\image\stb_image.h">
-      <Filter>Header Files\guru\image</Filter>
-    </ClInclude>
     <ClInclude Include="guru\image\texture_list.hpp">
       <Filter>Header Files\guru\image</Filter>
     </ClInclude>
@@ -163,6 +172,12 @@
     </ClInclude>
     <ClInclude Include="guru\shader\skybox_shader.hpp">
       <Filter>Header Files\guru\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\model\material.hpp">
+      <Filter>Header Files\guru\model</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\model\mesh.hpp">
+      <Filter>Header Files\guru\model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,17 +4,22 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace gu {
-void Camera::set_field_of_view(const float& radians) {
+Camera::Camera(const glm::dvec3& position) : QuatPoint(false) {
+	place(position);
+	update();
+}
+
+void Camera::set_field_of_view(const float &radians) {
 	_fov = glm::radians(radians);
 	_proj_mat_needs_update = true;
 }
 
-void Camera::set_min_render_distance(const float& distance) {
+void Camera::set_min_render_distance(const float &distance) {
 	_min_render_dist = distance;
 	_proj_mat_needs_update = true;
 }
 
-void Camera::set_max_render_distance(const float& distance) {
+void Camera::set_max_render_distance(const float &distance) {
 	_max_render_dist = distance;
 	_proj_mat_needs_update = true;
 }

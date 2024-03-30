@@ -1424,7 +1424,8 @@ static void glad_gl_load_GL_VERSION_4_6(GLADuserptrloadfunc load, void* userptr)
 }
 
 
-
+#pragma warning(push)
+#pragma warning(disable : 6001)
 static void glad_gl_free_extensions(char **exts_i) {
     if (exts_i != NULL) {
         unsigned int index;

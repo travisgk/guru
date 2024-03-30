@@ -24,8 +24,8 @@ public:
 
 	// returns true if the shader program was successfully built.
 	virtual bool build_from_files(
-		const std::filesystem::path& v_shader_path,
-		const std::filesystem::path& f_shader_path
+		const std::filesystem::path &v_shader_path,
+		const std::filesystem::path &f_shader_path
 	);
 
 	// returns true if the shader program was successfully built.

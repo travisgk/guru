@@ -11,7 +11,7 @@ static const gu::Color RAW_COLOR = gu::Color(1.0, 0.0, 0.0);
 namespace gu {
 Screenbuffer::~Screenbuffer() { _delete_resources(); }
 
-bool Screenbuffer::create(const int& width, const int& height) {
+bool Screenbuffer::create(const int &width, const int &height) {
 	if (width <= 0 or height <= 0)
 		return false;
 	_delete_resources();
@@ -118,7 +118,7 @@ bool Screenbuffer::create(const int& width, const int& height) {
 	return true;
 }
 
-void Screenbuffer::bind_and_clear(const gu::Color& clear_color) {
+void Screenbuffer::bind_and_clear(const gu::Color &clear_color) {
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glClearColor(RAW_COLOR.r, RAW_COLOR.g, RAW_COLOR.b, RAW_COLOR.a);
 	glClear(GL_COLOR_BUFFER_BIT);

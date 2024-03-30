@@ -10,7 +10,7 @@ Color::Color(float r, float g, float b, float a) {
 	this->a = a;
 }
 
-Color Color::interpolate(const Color& c, const float& scale) const {
+Color Color::interpolate(const Color &c, const float &scale) const {
 	float d_r = c.r - r;
 	float d_g = c.g - g;
 	float d_b = c.b - b;

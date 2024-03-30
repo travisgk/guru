@@ -24,7 +24,7 @@ static GLenum determine_format(int n_color_channels) {
 
 namespace gu {
 namespace texture {
-GLuint load(const std::filesystem::path& path, const bool smooth_on_mag) {
+GLuint load(const std::filesystem::path &path, const bool smooth_on_mag) {
 	// returns the existing texture ID if the same <path> has been found.
 	GLuint texture_ID = TextureList::find_existing_texture_ID(path);
 	if (texture_ID != NO_TEXTURE)
@@ -79,8 +79,8 @@ GLuint load(const std::filesystem::path& path, const bool smooth_on_mag) {
 }
 
 GLuint load_cube_map(
-	const std::filesystem::path& directory,
-	const std::string& image_extension,
+	const std::filesystem::path &directory,
+	const std::string &image_extension,
 	const bool smooth_on_mag
 ) {
 	// sets up the six image paths to be loaded from.

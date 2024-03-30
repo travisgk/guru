@@ -15,7 +15,7 @@ namespace texture {
 // returns the OpenGL ID of the loaded image.
 // <smooth_on_mag> being true will upscale the texture 
 // without sharpening the pixels.
-GLuint load(const std::filesystem::path& path, const bool smooth_on_mag=true);
+GLuint load(const std::filesystem::path &path, const bool smooth_on_mag=true);
 
 // returns the OpenGL ID of the loaded cube map.
 // <smooth_on_mag> being true will upscale the texture 
@@ -24,8 +24,8 @@ GLuint load(const std::filesystem::path& path, const bool smooth_on_mag=true);
 // the cube map file names are expected to be:
 // "posx", "negx", "posy", "negy", "posz", and "negz".
 GLuint load_cube_map(
-	const std::filesystem::path& directory, 
-	const std::string& image_extension,
+	const std::filesystem::path &directory, 
+	const std::string &image_extension,
 	const bool smooth_on_mag=true
 );
 }

@@ -33,22 +33,19 @@ protected:
 public:
 	// ctor. the function <_update_relative_directions()> 
 	// will not set <_orientation_is_new> to false.
-	inline Camera(const glm::vec3& position = glm::vec3(0.0, 0.0, 0.0)) : QuatPoint(false) {
-		place(position);
-		update();
-	}
+	Camera(const glm::dvec3 &position = glm::dvec3(0.0, 0.0, 0.0));
 
 	// returns the view matrix.
-	inline const glm::mat4& get_view() const { return _view_mat; }
+	inline const glm::mat4 &get_view() const { return _view_mat; }
 
 	// returns the projection matrix.
-	inline const glm::mat4& get_projection() const { return _proj_mat; }
+	inline const glm::mat4 &get_projection() const { return _proj_mat; }
 
 	// returns the projection * view matrix.
-	inline const glm::mat4& get_projview() const { return _projview_mat; }
+	inline const glm::mat4 &get_projview() const { return _projview_mat; }
 
 	// returns the Camera's field of view in radians.
-	inline const float& get_field_of_view() const { return _fov; }
+	inline const float &get_field_of_view() const { return _fov; }
 
 	// sets the projection matrix to use perspective projection.
 	inline void use_perspective_projection() { 
@@ -66,13 +63,13 @@ public:
 	}
 	
 	// sets the fraction of the screen that the Camera will render to.
-	inline void set_render_section(const glm::vec4& render_section) {
+	inline void set_render_section(const glm::vec4 &render_section) {
 		_render_section = render_section;
 	}
 
-	void set_field_of_view(const float& radians);
-	void set_min_render_distance(const float& distance);
-	void set_max_render_distance(const float& distance);
+	void set_field_of_view(const float &radians);
+	void set_min_render_distance(const float &distance);
+	void set_max_render_distance(const float &distance);
 
 	// updates the <_render_ratio> for a new Window size.
 	// this should be called whenever the Window size is changed.

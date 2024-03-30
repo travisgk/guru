@@ -156,6 +156,8 @@
     <ClCompile Include="guru\mathmatics\orientation.cpp" />
     <ClCompile Include="guru\mathmatics\quat_point.cpp" />
     <ClCompile Include="guru\mathmatics\transformation.cpp" />
+    <ClCompile Include="guru\model\material.cpp" />
+    <ClCompile Include="guru\model\mesh.cpp" />
     <ClCompile Include="guru\shader\screen_shader.cpp" />
     <ClCompile Include="guru\shader\shader.cpp" />
     <ClCompile Include="guru\shader\skybox_shader.cpp" />
@@ -171,11 +173,12 @@
     <ClInclude Include="guru\image\color.hpp" />
     <ClInclude Include="guru\image\color_texture.hpp" />
     <ClInclude Include="guru\image\load_texture.hpp" />
-    <ClInclude Include="guru\image\stb_image.h" />
     <ClInclude Include="guru\image\texture_list.hpp" />
     <ClInclude Include="guru\mathmatics\orientation.hpp" />
     <ClInclude Include="guru\mathmatics\quat_point.hpp" />
     <ClInclude Include="guru\mathmatics\transformation.hpp" />
+    <ClInclude Include="guru\model\material.hpp" />
+    <ClInclude Include="guru\model\mesh.hpp" />
     <ClInclude Include="guru\shader\screen_shader.hpp" />
     <ClInclude Include="guru\shader\shader.hpp" />
     <ClInclude Include="guru\shader\skybox_shader.hpp" />

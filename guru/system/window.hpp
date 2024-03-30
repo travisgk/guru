@@ -37,7 +37,7 @@ public:
 	
 	// deletes copy ctors to prevent access to the deleted GLFWwindow.
 	Window(const Window&) = delete;
-	Window& operator= (const Window&) = delete;
+	Window &operator= (const Window&) = delete;
 private:
 	void _init(int width, int height);
 
@@ -63,6 +63,6 @@ public:
 	void reset_viewport();
 
 private:
-	void _get_monitor_center(int& x, int& y) const;
+	void _get_monitor_center(int &x, int &y) const;
 };
 }

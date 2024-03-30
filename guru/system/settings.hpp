@@ -31,18 +31,14 @@ private:
 	static bool _vsync;
 	static uint16_t _fps_limit;
 	static int64_t _fps_pause_microseconds;
-	static bool _maintains_texture_list;
 	
 	// instances of this struct cannot be created.
 	inline Settings() {}
 public:
 	inline static bool using_vsync() { return _vsync; }
 	inline static uint16_t get_fps_limit() { return _fps_limit; }
-	inline static const int64_t& get_fps_pause() {
+	inline static const int64_t &get_fps_pause() {
 		return _fps_pause_microseconds; 
-	}
-	inline static bool maintains_texture_list() { 
-		return _maintains_texture_list; 
 	}
 	inline static void set_vsync(bool activated) { _vsync = activated; }
 	static void set_fps_limit(uint16_t limit);

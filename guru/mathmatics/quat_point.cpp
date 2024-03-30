@@ -2,29 +2,29 @@
 #include "../system/settings.hpp"
 
 namespace gu {
-void QuatPoint::move(const glm::vec3& direction, const float& factor) {
-	_position.x += static_cast<float>(direction.x * factor * Delta::get());
-	_position.y += static_cast<float>(direction.y * factor * Delta::get());
-	_position.z += static_cast<float>(direction.z * factor * Delta::get());
+void QuatPoint::move(const glm::dvec3 &direction, const float &factor) {
+	_position.x += direction.x * factor * Delta::get();
+	_position.y += direction.y * factor * Delta::get();
+	_position.z += direction.z * factor * Delta::get();
 	_set_position_as_modified();
 }
 
-void QuatPoint::place(const glm::vec3& position) {
+void QuatPoint::place(const glm::dvec3 &position) {
 	_position = position;
 	_set_position_as_modified();
 }
 
-void QuatPoint::set_x(const float& x) {
+void QuatPoint::set_x(const double &x) {
 	_position.x = x;
 	_set_position_as_modified();
 }
 
-void QuatPoint::set_y(const float& y) {
+void QuatPoint::set_y(const double &y) {
 	_position.y = y;
 	_set_position_as_modified();
 }
 
-void QuatPoint::set_z(const float& z) {
+void QuatPoint::set_z(const double &z) {
 	_position.z = z;
 	_set_position_as_modified();
 }

@@ -27,7 +27,7 @@ public:
 	inline unsigned char unsigned_char_a() const {
 		return static_cast<unsigned char>(255.0f * a);
 	}
-	Color interpolate(const Color& c, const float& scale) const;
+	Color interpolate(const Color &c, const float &scale) const;
 	std::string to_str() const;
 	std::string to_str_255() const;
 };
