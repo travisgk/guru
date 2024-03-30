@@ -23,7 +23,12 @@ int main() {
 	while (not window.should_close()) {
 		gu::env::preprocess_for_frame();
 
-		gu::env::get_camera()->move_forward(0.3f);
+		for (int i = 0; i < gu::env::n_cameras(); i++) {
+			gu::Camera &cam = gu::env::get_camera(i);
+			cam.add_yaw(-0.3f);
+			cam.update();
+			gu::env::draw_skybox(cam.get_projview(), texture_ID1);
+		}
 
 		gu::env::postprocess_for_frame();
 	}

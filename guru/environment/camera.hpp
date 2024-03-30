@@ -33,7 +33,7 @@ protected:
 public:
 	// ctor. the function <_update_relative_directions()> 
 	// will not set <_orientation_is_new> to false.
-	inline Camera(const glm::vec3& position = glm::vec3(0.0, 0.0, 0.0)) {
+	inline Camera(const glm::vec3& position = glm::vec3(0.0, 0.0, 0.0)) : QuatPoint(false) {
 		place(position);
 		update();
 	}
@@ -66,7 +66,7 @@ public:
 	}
 	
 	// sets the fraction of the screen that the Camera will render to.
-	inline void set_render_section( const glm::vec4& render_section ) {
+	inline void set_render_section(const glm::vec4& render_section) {
 		_render_section = render_section;
 	}
 

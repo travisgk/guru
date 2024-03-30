@@ -12,9 +12,6 @@
 
 namespace gu {
 class ScreenShader : public Shader {
-private:
-	GLint _uni_screen_texture_ID = 0;
-
 protected:
 	// sets the class's contained uniform IDs by searching for them in the code.
 	virtual void _config_uniform_IDs() override;

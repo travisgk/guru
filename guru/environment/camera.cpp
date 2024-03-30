@@ -38,9 +38,9 @@ void Camera::update() {
 	bool projview_needs_update = false;
 	if (_orientation_is_new or _position_is_new) {
 		_view_mat = glm::lookAt(_position, _position + _forward, _up);
+		projview_needs_update = _orientation_is_new;
 		_orientation_is_new = false;
 		_position_is_new = false;
-		projview_needs_update = _orientation_is_new;
 	}
 
 	if (_proj_mat_needs_update) {
