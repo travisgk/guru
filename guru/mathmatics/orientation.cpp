@@ -1,6 +1,5 @@
 #include "orientation.hpp"
 #include "../system/time.hpp"
-#include "../system/settings.hpp"
 
 namespace gu {
 void Orientation::rotate(const glm::dvec3 &axis, const float &factor) {
@@ -9,6 +8,8 @@ void Orientation::rotate(const glm::dvec3 &axis, const float &factor) {
 	) * _quat;
 	_set_orientation_as_modified();
 }
+
+void Orientation::update() { _update_relative_directions(); }
 
 void Orientation::_set_orientation_as_modified() {
 	_orientation_is_new = true;

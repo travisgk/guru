@@ -7,29 +7,46 @@
  */
 
 #pragma once
+#include <filesystem>
 #include <glad/gl.h>
 #include "color.hpp"
 
 namespace gu {
 namespace texture {
 // returns the OpenGL ID of a created 2D texture that's one solid <color>.
-GLuint create_solid_color(const gu::Color &color);
+// if a solid color texture with the same parameters has already been created,
+// then the ID of that already existing texture will be returned.
+// <output_path> can be used to retrieve the image path
+// decided upon by the program.
+GLuint create_solid_color(
+	const gu::Color &color, std::filesystem::path *output_path=nullptr
+);
 
 // returns the OpenGL ID of a created 2D texture 
 // that's <center> color in the center and <edge> color along the boarders.
+// if a radial texture with the same parameters has already been created,
+// then the ID of that already existing texture will be returned.
+// <output_path> can be used to retrieve the image path
+// decided upon by the program.
 GLuint create_radial_gradient(
 	const gu::Color &center, 
 	const gu::Color &edge, 
+	std::filesystem::path *output_path=nullptr,
 	const int &resolution=256
 );
 
 // returns the OpenGL ID of a created 2D texture
 // that has a checkerboard pattern of <width> pixels by <height> pixels.
+// if a checkerboard texture with the same parameters has already been created,
+// then the ID of that already existing texture will be returned.
+// <output_path> can be used to retrieve the image path
+// decided upon by the program.
 GLuint create_checkerboard(
 	const gu::Color &light,
 	const gu::Color &dark,
-	const int &width=16,
-	const int &height=16
+	std::filesystem::path *output_path=nullptr,
+	const int &W=16,
+	const int &H=16
 );
 
 // returns a dynamically-created array of unsigned bytes

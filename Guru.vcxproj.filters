@@ -123,6 +123,12 @@
     <ClCompile Include="guru\model\mesh.cpp">
       <Filter>Source Files\guru\model</Filter>
     </ClCompile>
+    <ClCompile Include="guru\model\model_resource.cpp">
+      <Filter>Source Files\guru\model</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\model\material_list.cpp">
+      <Filter>Source Files\guru\model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="guru\system\time.hpp">
@@ -177,6 +183,15 @@
       <Filter>Header Files\guru\model</Filter>
     </ClInclude>
     <ClInclude Include="guru\model\mesh.hpp">
+      <Filter>Header Files\guru\model</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\image\stb_image.h">
+      <Filter>Header Files\guru\image</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\model\model_resource.hpp">
+      <Filter>Header Files\guru\model</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\model\material_list.hpp">
       <Filter>Header Files\guru\model</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,3 +4,4 @@
 #define GL_RGB
 #define GL_RGBA
 #define GL_RED
+#define GL_NONE

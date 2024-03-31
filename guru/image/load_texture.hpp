@@ -13,9 +13,15 @@
 namespace gu {
 namespace texture {
 // returns the OpenGL ID of the loaded image.
+// <output_path> can be used to retrieve the image path
+// decided upon by the program.
 // <smooth_on_mag> being true will upscale the texture 
 // without sharpening the pixels.
-GLuint load(const std::filesystem::path &path, const bool smooth_on_mag=true);
+GLuint load(
+	const std::filesystem::path &path, 
+	std::filesystem::path *output_path=nullptr, 
+	const bool smooth_on_mag=true
+);
 
 // returns the OpenGL ID of the loaded cube map.
 // <smooth_on_mag> being true will upscale the texture 

@@ -29,6 +29,12 @@ bool init_glad() {
 	return true;
 }
 
+Window::Window(int width, int height, std::string name) : _name(name) { 
+	_init(width, height); 
+}
+
+Window::~Window() { glfwDestroyWindow(_window); }
+
 void Window::_init(int width, int height) {
 	_window = glfwCreateWindow(
 		width, height, _name.c_str(), nullptr, nullptr 

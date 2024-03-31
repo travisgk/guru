@@ -11,11 +11,11 @@
 namespace gu {
 struct Delta {
 private:
+	friend void maintain_fps();
 	static double _delta;
 	static double _fps;
 	static double _last_time;
 	static double _current_time;
-	friend void maintain_fps();
 	
 	// instances of this struct cannot be created.
 	inline Delta() {}

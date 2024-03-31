@@ -3,7 +3,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include "texture_list.hpp"
-#include "../system/settings.hpp"
 #include "color_texture.hpp"
 
 static const gu::Color RAW_COLOR = gu::Color(1.0, 0.0, 0.0);
@@ -24,11 +23,19 @@ static GLenum determine_format(int n_color_channels) {
 
 namespace gu {
 namespace texture {
-GLuint load(const std::filesystem::path &path, const bool smooth_on_mag) {
+GLuint load(
+	const std::filesystem::path &path, 
+	std::filesystem::path *output_path,
+	const bool smooth_on_mag
+) {
 	// returns the existing texture ID if the same <path> has been found.
 	GLuint texture_ID = TextureList::find_existing_texture_ID(path);
-	if (texture_ID != NO_TEXTURE)
+
+	if (texture_ID != NO_TEXTURE) {
+		if (output_path)
+			*output_path = path;
 		return texture_ID;
+	}
 
 	// creates texture in OpenGL memory and sets its parameters.
 	glGenTextures(1, &texture_ID);
@@ -42,28 +49,23 @@ GLuint load(const std::filesystem::path &path, const bool smooth_on_mag) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mag_option);
 
 	// loads image with stbi.
-	int width, height, n_channels;
+	int w, h, n_channels;
 	unsigned char *data = stbi_load(
-		path.string().c_str(), &width, &height, &n_channels, 0
+		path.string().c_str(), &w, &h, &n_channels, 0
 	);
 
 	if (data) {
 		// transfers data to the texture.
 		GLenum format = determine_format(n_channels);
 		glTexImage2D(
-			GL_TEXTURE_2D, 
-			0, 
-			format, 
-			width, 
-			height, 
-			0, 
-			format, 
-			GL_UNSIGNED_BYTE, 
-			data
+			GL_TEXTURE_2D, 0, format, w, h, 0, format, GL_UNSIGNED_BYTE, data
 		);
 		glGenerateMipmap(GL_TEXTURE_2D);
 		stbi_image_free(data);
 		TextureList::add_entry(texture_ID, path);
+		if (output_path)
+			*output_path = path;
+
 		return texture_ID;
 	}
 
@@ -73,7 +75,9 @@ GLuint load(const std::filesystem::path &path, const bool smooth_on_mag) {
 	stbi_image_free(data);
 	glDeleteTextures(1, &texture_ID);
 	GLuint error_ID = create_checkerboard(
-		ERROR_CHECKERBOARD_LIGHT, ERROR_CHECKERBOARD_DARK
+		ERROR_CHECKERBOARD_LIGHT, 
+		ERROR_CHECKERBOARD_DARK, 
+		output_path
 	);
 	return error_ID;
 }
@@ -97,45 +101,26 @@ GLuint load_cube_map(
 	GLuint texture_ID;
 	glGenTextures(1, &texture_ID);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, texture_ID);
-	glTexParameteri(
-		GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE
-	);
-	glTexParameteri(
-		GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE
-	);
-	glTexParameteri(
-		GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE
-	);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	GLenum mag_option = smooth_on_mag ? GL_LINEAR : GL_NEAREST;
-	glTexParameteri(
-		GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, mag_option
-	);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, mag_option);
 
 	// loads the six images into the cube map texture.
 	for (uint8_t i = 0; i < 6; ++i) {
-		int width, height, n_channels;
+		int w, h, n_channels;
 		unsigned char *data = stbi_load(
-			PATHS[i].string().c_str(), 
-			&width, 
-			&height, 
-			&n_channels, 
-			0
+			PATHS[i].string().c_str(), &w, &h, &n_channels, 0
 		);
 
+		GLenum face = GL_TEXTURE_CUBE_MAP_POSITIVE_X + i;
 		if (data) {
 			// transfers data to the cube map.
 			GLenum format = determine_format(n_channels);
 			glTexImage2D(
-				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-				0,
-				format,
-				width,
-				height,
-				0,
-				format,
-				GL_UNSIGNED_BYTE,
-				data
+				face, 0, format, w, h, 0, format, GL_UNSIGNED_BYTE, data
 			);
 			stbi_image_free(data);
 		} else {
@@ -144,14 +129,10 @@ GLuint load_cube_map(
 				<< " could not be loaded." << std::endl;
 			stbi_image_free(data);
 			data = create_checkerboard_data(
-				ERROR_CHECKERBOARD_LIGHT, 
-				ERROR_CHECKERBOARD_DARK,
-				16,
-				16
+				ERROR_CHECKERBOARD_LIGHT, ERROR_CHECKERBOARD_DARK, 16, 16
 			);
-			GLenum map_i = GL_TEXTURE_CUBE_MAP_POSITIVE_X + i;
 			glTexImage2D(
-				map_i, 0, GL_RGBA, 16, 16, 0, GL_RGBA, GL_UNSIGNED_BYTE, data
+				face, 0, GL_RGBA, 16, 16, 0, GL_RGBA, GL_UNSIGNED_BYTE, data
 			);
 			delete[] data;
 		}

@@ -1,5 +1,4 @@
 #include "quat_point.hpp"
-#include "../system/settings.hpp"
 
 namespace gu {
 void QuatPoint::move(const glm::dvec3 &direction, const float &factor) {

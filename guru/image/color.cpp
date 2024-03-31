@@ -27,9 +27,9 @@ std::string Color::to_str() const {
 	std::ostringstream stream;
 	stream 
 		<< '('
-		<< std::fixed << std::setprecision(3) << r << ", " 
-		<< std::fixed << std::setprecision(3) << g << ", " 
-		<< std::fixed << std::setprecision(3) << b << ", "
+		<< std::fixed << std::setprecision(3) << r << "," 
+		<< std::fixed << std::setprecision(3) << g << "," 
+		<< std::fixed << std::setprecision(3) << b << ","
 		<< std::fixed << std::setprecision(3) << a << ')';
 	return stream.str();
 }
@@ -38,9 +38,9 @@ std::string Color::to_str_255() const {
 	std::ostringstream stream;
 	stream 
 		<< '('
-		<< std::to_string(static_cast<uint8_t>(255.0f * r)) << ", "
-		<< std::to_string(static_cast<uint8_t>(255.0f * g)) << ", "
-		<< std::to_string(static_cast<uint8_t>(255.0f * b)) << ", "
+		<< std::to_string(static_cast<uint8_t>(255.0f * r)) << ","
+		<< std::to_string(static_cast<uint8_t>(255.0f * g)) << ","
+		<< std::to_string(static_cast<uint8_t>(255.0f * b)) << ","
 		<< std::to_string(static_cast<uint8_t>(255.0f * a)) << ')';
 	return stream.str();
 }

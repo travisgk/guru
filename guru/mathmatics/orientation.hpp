@@ -80,7 +80,7 @@ public:
 	// if the compiler flag GURU_AUTO_UPDATE_MATH_OBJECTS is not used,
 	// then this should be called on every frame, 
 	// or whenever the object's attributes were modified.
-	inline virtual void update() { _update_relative_directions(); }
+	virtual void update();
 
 private:
 	// this is called by any method that modifies the rotation quaternion.

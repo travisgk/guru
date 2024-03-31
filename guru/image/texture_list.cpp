@@ -48,6 +48,9 @@ void TextureList::add_entry(
 }
 
 void TextureList::delete_texture(const GLuint &texture_ID) {
+	if (not texture_ID)
+		return;
+	
 	bool ID_found = false;
 	size_t element_num;
 	for (element_num = 0; element_num < _texture_IDs.size(); ++element_num) {

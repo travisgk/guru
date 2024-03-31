@@ -5,7 +5,7 @@
  * 
  * ---
  * compiler flags for Guru are:
- * - #define GURU_DISABLE_TANGENTS_AND_BITANGENTS
+ * - #define GURU_DISABLE_TANGENT_SPACE
  *    disables the implementation of tangents and bitangents in Vertices.
  * 
  * - #define GURU_AUTO_UPDATE_MATH_OBJECTS 

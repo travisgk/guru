@@ -30,10 +30,8 @@ private:
 	GLFWwindow *_window;
 
 public:
-	inline Window(int width, int height, std::string name) : _name(name) {
-		_init(width, height);
-	}
-	inline ~Window() { glfwDestroyWindow(_window); }
+	Window(int width, int height, std::string name);
+	~Window();
 	
 	// deletes copy ctors to prevent access to the deleted GLFWwindow.
 	Window(const Window&) = delete;

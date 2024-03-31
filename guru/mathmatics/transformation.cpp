@@ -1,5 +1,4 @@
 #include "transformation.hpp"
-#include "../system/settings.hpp"
 
 namespace gu {
 void Transformation::set_scaling(const float &absolute_scale) {

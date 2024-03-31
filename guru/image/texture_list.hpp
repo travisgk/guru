@@ -30,10 +30,8 @@ private:
 	// instances of this struct cannot be created.
 	inline TextureList() {}
 public:
-	static GLuint find_existing_texture_ID(
-		const std::filesystem::path &path
-	);
-
+	static GLuint find_existing_texture_ID(const std::filesystem::path &path);
+	
 	static const std::filesystem::path &find_path_from_GL_ID(
 		const GLuint &texture_ID
 	);

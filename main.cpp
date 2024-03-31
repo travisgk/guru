@@ -4,6 +4,7 @@
 #include "guru/system/settings.hpp"
 #include "guru/system/window.hpp"
 #include "guru/image/load_texture.hpp"
+#include "guru/model/model_resource.hpp"
 
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
@@ -16,6 +17,7 @@ int main() {
 
 	// gu::settings.set_vsync(false);
 	// gu::settings.set_fps_limit(10);
+	gu::ModelResource backpack("res/backpack/backpack.obj");
 	GLuint texture_ID1 = gu::texture::load_cube_map(
 		"res/skybox/meadow", ".jpg"
 	);
