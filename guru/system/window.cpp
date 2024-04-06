@@ -4,46 +4,26 @@
 #include "settings.hpp"
 
 namespace gu {
-bool init_GLFW() {
-	if (glfwInit() == GLFW_FALSE) {
-		std::cerr << "GLFW failed to initialize.\n";
-		return false;
-	}
-	glfwWindowHint(
-		GLFW_CONTEXT_VERSION_MAJOR, gu::Settings::OPENGL_VERSION_MAJOR
-	);
-	glfwWindowHint(
-		GLFW_CONTEXT_VERSION_MINOR, gu::Settings::OPENGL_VERSION_MINOR
-	);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	return true;
-}
-
-bool init_glad() {
-	if (not gladLoadGL(GLADloadfunc(glfwGetProcAddress))) {
-		std::cerr << "glad failed to initialize." << std::endl;
-		return false;
-	}
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
-	return true;
-}
-
 Window::Window(int width, int height, std::string name) : _name(name) { 
 	_init(width, height); 
 }
 
-Window::~Window() { glfwDestroyWindow(_window); }
+Window::~Window() { 
+	glfwDestroyWindow(_window); 
+}
 
 void Window::_init(int width, int height) {
 	_window = glfwCreateWindow(
 		width, height, _name.c_str(), nullptr, nullptr 
 	);
 
-	if (_window == nullptr)
+	if (_window == nullptr) {
 		std::cerr << "GLFW failed to create a new window.\n";
-	else
-		glfwMakeContextCurrent(_window);
+		return;
+	}
+	_prev_size = glm::vec2(width, height);
+	glfwMakeContextCurrent(_window);
+	make_windowed();
 }
 
 void Window::make_fullscreen(int mode_num) {
@@ -103,10 +83,10 @@ void Window::_get_monitor_center(int &x, int &y) const {
 			int monitor_x, monitor_y;
 			glfwGetMonitorPos(monitor, &monitor_x, &monitor_y);
 			x = static_cast<int>(
-				monitor_x + (mode->width / 2.0) - (_prev_size.x / 2.0)
+				monitor_x + mode->width / 2.0 - _prev_size.x / 2.0
 			);
 			y = static_cast<int>(
-				monitor_y + (mode->height / 2.0) - (_prev_size.y / 2.0)
+				monitor_y + mode->height / 2.0 - _prev_size.y / 2.0
 			);
 			return;
 		}

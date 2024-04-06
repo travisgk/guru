@@ -35,6 +35,7 @@ public:
 
 	// returns the quaternion representing the rotation.
 	inline const glm::dquat &get() const { return _quat; }
+
 	inline const glm::dvec3 &right() const { return _right; }
 	inline const glm::dvec3 &up() const { return _up; }
 	inline const glm::dvec3 &forward() const { return _forward; }
@@ -76,17 +77,19 @@ public:
 	// by the given <factor>.
 	void rotate(const glm::dvec3 &axis, const float &factor);
 
+private:
+	// this is called by any method that modifies the rotation quaternion.
+	void _set_orientation_as_modified();
+
+public:
 	// updates the object's matrices. 
 	// if the compiler flag GURU_AUTO_UPDATE_MATH_OBJECTS is not used,
 	// then this should be called on every frame, 
 	// or whenever the object's attributes were modified.
 	virtual void update();
 
-private:
-	// this is called by any method that modifies the rotation quaternion.
-	void _set_orientation_as_modified();
-
 protected:
+	// updates <_right>, <_up>, and <_forward> to match the new <_quat>.
 	void _update_relative_directions();
 };
 }

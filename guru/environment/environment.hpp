@@ -3,7 +3,7 @@
  * ---
  * this file defines the env struct, which helps simplify
  * the management of interfacing with OpenGL. it takes a Window object
- * and handles its events internally, updating the ScreenBuffer and Cameras.
+ * and handles its events internally, updating the Screenbuffer and Cameras.
  * 
  */
 
@@ -13,17 +13,34 @@
 #include "../system/window.hpp"
 #include "camera.hpp"
 #include "../mathmatics/transformation.hpp"
-#include "../image/color.hpp"
-#include "../framebuffer/screenbuffer.hpp"
+#include "../resources/color.hpp"
+#include "../resources/material/material_list.hpp"
+#include "../resources/model/model_list.hpp"
+#include "../resources/texture/texture_list.hpp"
+#include "../system/screenbuffer.hpp"
 #include "../shader/screen_shader.hpp"
 #include "../shader/skybox_shader.hpp"
 
+
 namespace gu {
+static auto &model_res_list = gu::res::ModelResourceList::model_res_list;
+static auto &material_list = gu::res::MaterialList::material_list;
+static auto &texture_list = gu::res::TextureList::texture_list;
+
+// returns true if the GLFW library was initialized successfully.
+bool init_GLFW();
+
+// returns true if the glad library was initialized successfully.
+bool init_glad();
+
+// deallocates loaded resources in the appropriate order.
+void terminate();
+
 struct env {
 private:
 	static Window *_window;
-	static GLuint _screen_display_VAO_ID;
-	static GLuint _screen_display_VBO_ID;
+	static GLuint _screen_display_VAO_ID; // screenbuffer display
+	static GLuint _screen_display_VBO_ID; // screenbuffer display
 	static GLuint _skybox_VAO_ID;
 	static GLuint _skybox_VBO_ID;
 	static std::vector<std::shared_ptr<Camera>> _cameras;
@@ -42,6 +59,7 @@ private:
 public:
 	// dtor. properly deletes the screen display rectangle VAO and VBO.
 	~env();
+
 	inline static void set_clear_color(const gu::Color &color) {
 		_clear_color = color;
 	}
@@ -75,7 +93,7 @@ public:
 	// a negative <index> will return the most recently created Camera.
 	static Camera &get_camera(int index = -1);
 
-	inline static size_t n_cameras() { return _cameras.size();	}
+	inline static size_t n_cameras() { return _cameras.size(); }
 
 	// draws a skybox, given a Camera's projview matrix
 	// and an OpenGL cubemap ID.
@@ -83,6 +101,7 @@ public:
 		const glm::mat4 &camera_projview_mat, GLuint cubemap_ID
 	);
 
+	// updates the delta time and polls the Window for events.
 	static void update_delta_and_poll_events();
 
 	// sets up the Window and Screenbuffer for drawing.
@@ -93,6 +112,7 @@ public:
 
 private:
 	// this function is called whenever the Window size is changed.
+	// it will reallocate the Screenbuffer to match the new Window size.
 	static void _screenbuffer_size_callback(
 		GLFWwindow *window, int width, int height
 	);

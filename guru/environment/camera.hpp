@@ -71,6 +71,10 @@ public:
 	void set_min_render_distance(const float &distance);
 	void set_max_render_distance(const float &distance);
 
+private:
+	// this is called by any method that modifies the Camera's projection.
+	void _set_camera_as_modified();
+public:
 	// updates the <_render_ratio> for a new Window size.
 	// this should be called whenever the Window size is changed.
 	void framebuffer_size_callback(int width, int height);

@@ -37,29 +37,35 @@
     <Filter Include="Source Files\guru\mathematics">
       <UniqueIdentifier>{0ec34d06-af8c-4468-ac22-48a986f1be4d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\guru\image">
-      <UniqueIdentifier>{d9f19145-ba8c-414c-8df4-b68d969d9901}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\guru\image">
-      <UniqueIdentifier>{602dd2c9-6092-48f0-8abe-dbb23789f9fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\guru\framebuffer">
-      <UniqueIdentifier>{48edf843-de14-4861-a904-c41062583c03}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\guru\framebuffer">
-      <UniqueIdentifier>{57889124-081f-457b-9508-e9f8190ba534}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\guru\shader">
       <UniqueIdentifier>{028a5b69-d3af-4a03-b784-c1cd80a63139}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\guru\shader">
       <UniqueIdentifier>{9dad4543-4de8-4dc1-ae79-ac0d738dd83b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\guru\model">
-      <UniqueIdentifier>{1a6527b1-bfb3-4e3a-83f2-fbb2b41209df}</UniqueIdentifier>
+    <Filter Include="Header Files\guru\resources">
+      <UniqueIdentifier>{7c7d587e-1107-4dd9-b278-5285672d6d54}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\guru\model">
-      <UniqueIdentifier>{d0148127-6dc3-4e5f-a9e5-4df6279288d0}</UniqueIdentifier>
+    <Filter Include="Header Files\guru\resources\texture">
+      <UniqueIdentifier>{fa47613b-a011-4fb5-a578-84ddcb21b6c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\guru\resources\model">
+      <UniqueIdentifier>{d40f5170-7ddf-4aff-8cb3-5daf015955ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\guru\resources\material">
+      <UniqueIdentifier>{4bbf09d4-841a-435e-9eaf-5c449d7e309f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\guru\resources">
+      <UniqueIdentifier>{02c29189-42c2-4353-9572-46dd379cf4b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\guru\resources\texture">
+      <UniqueIdentifier>{79f621fa-10dc-475f-bc14-087250976811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\guru\resources\material">
+      <UniqueIdentifier>{fae96425-5c30-4ddf-ab3e-45f082fcf783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\guru\resources\model">
+      <UniqueIdentifier>{48cda7f9-fb4c-46c6-acc1-a32ba78a1233}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -81,9 +87,6 @@
     <ClCompile Include="guru\mathmatics\orientation.cpp">
       <Filter>Source Files\guru\mathematics</Filter>
     </ClCompile>
-    <ClCompile Include="guru\mathmatics\quat_point.cpp">
-      <Filter>Source Files\guru\mathematics</Filter>
-    </ClCompile>
     <ClCompile Include="guru\environment\environment.cpp">
       <Filter>Source Files\guru\environment</Filter>
     </ClCompile>
@@ -92,21 +95,6 @@
     </ClCompile>
     <ClCompile Include="guru\mathmatics\transformation.cpp">
       <Filter>Source Files\guru\mathematics</Filter>
-    </ClCompile>
-    <ClCompile Include="guru\image\color.cpp">
-      <Filter>Source Files\guru\image</Filter>
-    </ClCompile>
-    <ClCompile Include="guru\image\color_texture.cpp">
-      <Filter>Source Files\guru\image</Filter>
-    </ClCompile>
-    <ClCompile Include="guru\image\texture_list.cpp">
-      <Filter>Source Files\guru\image</Filter>
-    </ClCompile>
-    <ClCompile Include="guru\image\load_texture.cpp">
-      <Filter>Source Files\guru\image</Filter>
-    </ClCompile>
-    <ClCompile Include="guru\framebuffer\screenbuffer.cpp">
-      <Filter>Source Files\guru\framebuffer</Filter>
     </ClCompile>
     <ClCompile Include="guru\shader\shader.cpp">
       <Filter>Source Files\guru\shader</Filter>
@@ -117,17 +105,44 @@
     <ClCompile Include="guru\shader\skybox_shader.cpp">
       <Filter>Source Files\guru\shader</Filter>
     </ClCompile>
-    <ClCompile Include="guru\model\material.cpp">
-      <Filter>Source Files\guru\model</Filter>
+    <ClCompile Include="guru\mathmatics\point.cpp">
+      <Filter>Source Files\guru\mathematics</Filter>
     </ClCompile>
-    <ClCompile Include="guru\model\mesh.cpp">
-      <Filter>Source Files\guru\model</Filter>
+    <ClCompile Include="guru\resources\material\material.cpp">
+      <Filter>Source Files\guru\resources\material</Filter>
     </ClCompile>
-    <ClCompile Include="guru\model\model_resource.cpp">
-      <Filter>Source Files\guru\model</Filter>
+    <ClCompile Include="guru\resources\material\material_list.cpp">
+      <Filter>Source Files\guru\resources\material</Filter>
     </ClCompile>
-    <ClCompile Include="guru\model\material_list.cpp">
-      <Filter>Source Files\guru\model</Filter>
+    <ClCompile Include="guru\resources\model\mesh.cpp">
+      <Filter>Source Files\guru\resources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\resources\model\model_list.cpp">
+      <Filter>Source Files\guru\resources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\resources\model\model_resource.cpp">
+      <Filter>Source Files\guru\resources\model</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\resources\texture\color_texture.cpp">
+      <Filter>Source Files\guru\resources\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\resources\texture\load_texture.cpp">
+      <Filter>Source Files\guru\resources\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\resources\texture\texture_list.cpp">
+      <Filter>Source Files\guru\resources\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\resources\color.cpp">
+      <Filter>Source Files\guru\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\system\screenbuffer.cpp">
+      <Filter>Source Files\guru\system</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\shader\model_shader.cpp">
+      <Filter>Source Files\guru\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\environment\model.cpp">
+      <Filter>Source Files\guru\environment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,21 +170,6 @@
     <ClInclude Include="guru\mathmatics\transformation.hpp">
       <Filter>Header Files\guru\mathematics</Filter>
     </ClInclude>
-    <ClInclude Include="guru\image\color.hpp">
-      <Filter>Header Files\guru\image</Filter>
-    </ClInclude>
-    <ClInclude Include="guru\image\texture_list.hpp">
-      <Filter>Header Files\guru\image</Filter>
-    </ClInclude>
-    <ClInclude Include="guru\image\color_texture.hpp">
-      <Filter>Header Files\guru\image</Filter>
-    </ClInclude>
-    <ClInclude Include="guru\image\load_texture.hpp">
-      <Filter>Header Files\guru\image</Filter>
-    </ClInclude>
-    <ClInclude Include="guru\framebuffer\screenbuffer.hpp">
-      <Filter>Header Files\guru\framebuffer</Filter>
-    </ClInclude>
     <ClInclude Include="guru\shader\shader.hpp">
       <Filter>Header Files\guru\shader</Filter>
     </ClInclude>
@@ -179,20 +179,53 @@
     <ClInclude Include="guru\shader\skybox_shader.hpp">
       <Filter>Header Files\guru\shader</Filter>
     </ClInclude>
-    <ClInclude Include="guru\model\material.hpp">
-      <Filter>Header Files\guru\model</Filter>
+    <ClInclude Include="guru\mathmatics\point.hpp">
+      <Filter>Header Files\guru\mathematics</Filter>
     </ClInclude>
-    <ClInclude Include="guru\model\mesh.hpp">
-      <Filter>Header Files\guru\model</Filter>
+    <ClInclude Include="guru\resources\model\mesh.hpp">
+      <Filter>Header Files\guru\resources\model</Filter>
     </ClInclude>
-    <ClInclude Include="guru\image\stb_image.h">
-      <Filter>Header Files\guru\image</Filter>
+    <ClInclude Include="guru\resources\model\model_list.hpp">
+      <Filter>Header Files\guru\resources\model</Filter>
     </ClInclude>
-    <ClInclude Include="guru\model\model_resource.hpp">
-      <Filter>Header Files\guru\model</Filter>
+    <ClInclude Include="guru\resources\model\model_resource.hpp">
+      <Filter>Header Files\guru\resources\model</Filter>
     </ClInclude>
-    <ClInclude Include="guru\model\material_list.hpp">
-      <Filter>Header Files\guru\model</Filter>
+    <ClInclude Include="guru\resources\material\material.hpp">
+      <Filter>Header Files\guru\resources\material</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\resources\material\material_list.hpp">
+      <Filter>Header Files\guru\resources\material</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\resources\texture\color_texture.hpp">
+      <Filter>Header Files\guru\resources\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\resources\texture\load_texture.hpp">
+      <Filter>Header Files\guru\resources\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\resources\texture\stb_image.h">
+      <Filter>Header Files\guru\resources\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\resources\texture\texture_list.hpp">
+      <Filter>Header Files\guru\resources\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\resources\color.hpp">
+      <Filter>Header Files\guru\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\resources\resource_list.hpp">
+      <Filter>Header Files\guru\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\system\screenbuffer.hpp">
+      <Filter>Header Files\guru\system</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\resources\texture\texture_info.hpp">
+      <Filter>Header Files\guru\resources\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\shader\model_shader.hpp">
+      <Filter>Header Files\guru\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\environment\model.hpp">
+      <Filter>Header Files\guru\environment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

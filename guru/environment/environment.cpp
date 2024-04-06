@@ -1,5 +1,7 @@
 #include "environment.hpp"
 #include "../system/settings.hpp"
+#include "../environment/model.hpp"
+#include <iostream>
 
 namespace gu {
 Window *env::_window;
@@ -24,6 +26,38 @@ std::filesystem::path env::_skybox_shader_f_shader_path = (
 );
 ScreenShader env::_screen_shader;
 SkyboxShader env::_skybox_shader;
+
+bool init_GLFW() {
+	if (glfwInit() == GLFW_FALSE) {
+		std::cerr << "GLFW failed to initialize.\n";
+		return false;
+	}
+	glfwWindowHint(
+		GLFW_CONTEXT_VERSION_MAJOR, gu::Settings::OPENGL_VERSION_MAJOR
+	);
+	glfwWindowHint(
+		GLFW_CONTEXT_VERSION_MINOR, gu::Settings::OPENGL_VERSION_MINOR
+	);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	return true;
+}
+
+bool init_glad() {
+	if (not gladLoadGL(GLADloadfunc(glfwGetProcAddress))) {
+		std::cerr << "glad failed to initialize." << std::endl;
+		return false;
+	}
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+	return true;
+}
+
+void terminate() {
+	model_res_list.deallocate();
+	material_list.deallocate();
+	texture_list.deallocate();
+	glfwTerminate();
+}
 
 env::~env() {
 	if (_screen_display_VBO_ID != 0)
@@ -165,14 +199,16 @@ void env::set_skybox_shader_paths(
 Camera &env::get_camera(int index) {
 	if (index >= 0)
 		return *_cameras.at(index);
-	return *_cameras[_cameras.size() - 1];
+	return *_cameras.back();
 }
 
 void env::draw_skybox(
 	const glm::mat4 &camera_projview_mat, GLuint cubemap_ID
 ) {
 	_skybox_shader.use();
-	_skybox_shader.set_projview_mat(camera_projview_mat);
+	_skybox_shader.set_PV_mat_4fv(camera_projview_mat);
+	glActiveTexture(GL_TEXTURE0 + Material::MAP_TYPE::SKYBOX);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap_ID);
 	glDisable(GL_CULL_FACE);
 	glDepthFunc(GL_LEQUAL);
 	glBindVertexArray(_skybox_VAO_ID);

@@ -11,21 +11,31 @@ Camera::Camera(const glm::dvec3& position) : QuatPoint(false) {
 
 void Camera::set_field_of_view(const float &radians) {
 	_fov = glm::radians(radians);
-	_proj_mat_needs_update = true;
+	_set_camera_as_modified();
 }
 
 void Camera::set_min_render_distance(const float &distance) {
 	_min_render_dist = distance;
-	_proj_mat_needs_update = true;
+	_set_camera_as_modified();
 }
 
 void Camera::set_max_render_distance(const float &distance) {
 	_max_render_dist = distance;
+	_set_camera_as_modified();
+}
+
+void Camera::_set_camera_as_modified() {
 	_proj_mat_needs_update = true;
+	#if defined(GURU_AUTO_UPDATE_MATH_OBJECTS)
+	update();
+	#endif
 }
 
 void Camera::framebuffer_size_callback(int width, int height) {
+	// prevents zero-division error
 	height = std::max(1, height);
+
+	// updates the Camera's glViewport parameters for its <_render_section>
 	float f_render_w = width * _render_section.z;
 	float f_render_h = height * _render_section.w;
 	_render_x = static_cast<GLint>(_render_section.x * f_render_w);
@@ -36,6 +46,7 @@ void Camera::framebuffer_size_callback(int width, int height) {
 	_render_h = static_cast<GLsizei>(f_render_h);
 	_render_ratio = abs(f_render_w / f_render_h);
 	_proj_mat_needs_update = true;
+	update();
 }
 
 void Camera::update() {

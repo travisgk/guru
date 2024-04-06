@@ -8,7 +8,6 @@
 
 #pragma once
 #include "shader.hpp"
-#include "../framebuffer/screenbuffer.hpp"
 
 namespace gu {
 class ScreenShader : public Shader {

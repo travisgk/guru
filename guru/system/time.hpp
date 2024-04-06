@@ -22,6 +22,8 @@ private:
 public:
 	static inline double get() { return _delta; }
 	static inline double fps() { return _fps; }
+
+	// calculates the delta time and the fps.
 	static void update();
 };
 

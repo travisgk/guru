@@ -15,25 +15,23 @@
  */
 
 #pragma once
-
-// dependencies compiler flags.
-#define GLFW_INCLUDE_NONE
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <stdint.h>
+#include <string>
 
 namespace gu {
 struct Settings {
 public:
 	static const uint8_t OPENGL_VERSION_MAJOR = 4;
 	static const uint8_t OPENGL_VERSION_MINOR = 6;
+
 private:
-	static bool _vsync;
-	static uint16_t _fps_limit;
-	static int64_t _fps_pause_microseconds;
+	static bool _vsync; // true if vertical synchronization is used
+	static uint16_t _fps_limit; // used if <vsync> is false and is more than 0
+	static int64_t _fps_pause_microseconds; // manual sleep duration per frame
 	
 	// instances of this struct cannot be created.
 	inline Settings() {}
+
 public:
 	inline static bool using_vsync() { return _vsync; }
 	inline static uint16_t get_fps_limit() { return _fps_limit; }

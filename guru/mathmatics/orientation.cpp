@@ -2,6 +2,10 @@
 #include "../system/time.hpp"
 
 namespace gu {
+const glm::dvec3 Orientation::X_AXIS = glm::dvec3(1.0, 0.0, 0.0);
+const glm::dvec3 Orientation::Y_AXIS = glm::dvec3(0.0, 1.0, 0.0);
+const glm::dvec3 Orientation::Z_AXIS = glm::dvec3(0.0, 0.0, 1.0);
+
 void Orientation::rotate(const glm::dvec3 &axis, const float &factor) {
 	_quat = glm::angleAxis(
 		factor * Delta::get(), axis
@@ -9,13 +13,15 @@ void Orientation::rotate(const glm::dvec3 &axis, const float &factor) {
 	_set_orientation_as_modified();
 }
 
-void Orientation::update() { _update_relative_directions(); }
-
 void Orientation::_set_orientation_as_modified() {
 	_orientation_is_new = true;
 	#if defined(GURU_AUTO_UPDATE_MATH_OBJECTS)
 	update();
 	#endif
+}
+
+void Orientation::update() { 
+	_update_relative_directions(); 
 }
 
 void Orientation::_update_relative_directions() {

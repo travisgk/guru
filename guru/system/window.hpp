@@ -30,17 +30,22 @@ private:
 	GLFWwindow *_window;
 
 public:
+	// ctor. runs _init(...) to create a GLFWwindow.
 	Window(int width, int height, std::string name);
+	
+	// dtor. destroys the GLFWwindow properly.
 	~Window();
 	
 	// deletes copy ctors to prevent access to the deleted GLFWwindow.
 	Window(const Window&) = delete;
 	Window &operator= (const Window&) = delete;
 private:
+	// creates a GLFWwindow and places it in the center of the monitor.
 	void _init(int width, int height);
 
 public:
 	inline GLFWwindow *get_GLFWwindow() { return _window; }
+	
 	inline bool should_close() const { 
 		return glfwWindowShouldClose(_window); 
 	}
@@ -53,6 +58,9 @@ public:
 	// <mode_num> provides the selection for a particular video mode.
 	// -1 will use the default video mode.
 	void make_fullscreen(int mode_num=-1);
+
+	// makes the GLFWwindow windowed in its previous windowed size.
+	// the window will also be placed in the center of the monitor.
 	void make_windowed();
 
 	// resets the GL viewport. 

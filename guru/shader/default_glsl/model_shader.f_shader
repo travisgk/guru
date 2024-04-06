@@ -1,0 +1,10 @@
+#version 330 core
+out vec4 FragColor;
+
+in vec2 shared_tex_coords;
+
+uniform sampler2D _diffuse_texture_ID;
+
+void main() {
+	FragColor = texture(_diffuse_texture_ID, shared_tex_coords);
+}
