@@ -16,9 +16,12 @@
 
 namespace gu {
 class QuatPoint : public Orientation, public Point {
-public:
-	inline QuatPoint(bool CALC_REL_DIRS_WILL_UPDATE = true)
+protected:
+	inline QuatPoint(bool CALC_REL_DIRS_WILL_UPDATE)
 		: Orientation(CALC_REL_DIRS_WILL_UPDATE) {}
+
+public:
+	inline QuatPoint() : Orientation(true) {}
 	inline void move_right(const float &factor) { move(_right, factor); }
 	inline void move_up(const float &factor) { move(_up, factor); }
 	inline void move_forward(const float &factor) {

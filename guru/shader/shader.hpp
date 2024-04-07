@@ -13,7 +13,7 @@
 namespace gu {
 class Shader {
 protected:
-GLuint _program_ID = 0;
+	GLuint _program_ID = 0;
 
 public:
 	// deconstructor. deletes the GL program if it exists.

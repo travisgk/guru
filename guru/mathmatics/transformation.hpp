@@ -24,6 +24,8 @@ public:
 		return _model_mat;
 	}
 	inline const glm::vec3 &get_scaling() const { return _scaling; }
+	
+	// sets consistent scaling across all three axes.
 	void set_scaling(const float &absolute_scale);
 	
 	// updates the object's matrices. 

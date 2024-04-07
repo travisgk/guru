@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdint.h>
 #include "settings.hpp"
+#include "../resources/texture/stb_image.h"
 
 namespace gu {
 Window::Window(int width, int height, std::string name) : _name(name) { 
@@ -24,6 +25,14 @@ void Window::_init(int width, int height) {
 	_prev_size = glm::vec2(width, height);
 	glfwMakeContextCurrent(_window);
 	make_windowed();
+
+	// attempts to load an image for the Window's icon.
+	GLFWimage images[1] = {GLFWimage()};
+	images[0].pixels = stbi_load(
+		"res/icon.png", &images[0].width, &images[0].height, 0, 4
+	);
+	glfwSetWindowIcon(_window, 1, images);
+	stbi_image_free(images[0].pixels);
 }
 
 void Window::make_fullscreen(int mode_num) {
@@ -38,8 +47,7 @@ void Window::make_fullscreen(int mode_num) {
 		if (not modes) {
 			std::cerr << "GLFW failed to get video modes.\n";
 			return;
-		}
-		if (mode_num < count) {
+		} else if (mode_num < count) {
 			const GLFWvidmode &mode = modes[mode_num];
 			glfwSetWindowMonitor(
 				_window, 

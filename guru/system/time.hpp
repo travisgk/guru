@@ -19,6 +19,7 @@ private:
 	
 	// instances of this struct cannot be created.
 	inline Delta() {}
+
 public:
 	static inline double get() { return _delta; }
 	static inline double fps() { return _fps; }

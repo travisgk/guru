@@ -4,6 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace gu {
+// ctor. the function <_update_relative_directions()> 
+// will not set <_orientation_is_new> to false.
 Camera::Camera(const glm::dvec3& position) : QuatPoint(false) {
 	place(position);
 	update();
@@ -31,11 +33,10 @@ void Camera::_set_camera_as_modified() {
 	#endif
 }
 
+// updates the <_render_ratio> for a new Window size.
 void Camera::framebuffer_size_callback(int width, int height) {
-	// prevents zero-division error
-	height = std::max(1, height);
-
-	// updates the Camera's glViewport parameters for its <_render_section>
+	// updates the Camera's glViewport parameters for its <_render_section>.
+	height = std::max(1, height); // prevents zero-division error
 	float f_render_w = width * _render_section.z;
 	float f_render_h = height * _render_section.w;
 	_render_x = static_cast<GLint>(_render_section.x * f_render_w);
@@ -49,6 +50,8 @@ void Camera::framebuffer_size_callback(int width, int height) {
 	update();
 }
 
+// updates the Camera's matrices:
+// the view matrix, the projection matrix, and/or the projview matrix.
 void Camera::update() {
 	_update_relative_directions();
 	bool projview_needs_update = false;

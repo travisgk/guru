@@ -77,19 +77,16 @@ int main() {
 		for (int i = 0; i < gu::env::n_cameras(); ++i) {
 			model_shader.use();
 			gu::Camera &cam = gu::env::get_camera(i);
-			cam.add_yaw(-0.01f);
-			cam.update();
+			// cam.add_yaw(-0.01f);
+			// cam.update();
 			
-			glm::mat4 PVM = (
-				cam.get_projview() * transformation_a.get_model_matrix()
-			);
+			glm::mat4 PVM;
+			PVM = cam.get_projview() * transformation_a.get_model_matrix();
 			model_shader.set_PVM_mat(PVM);
 			duck->draw_opaque_meshes(material_overrides_b);
 			duck->draw_transparent_meshes(material_overrides_b);
 
-			PVM = (
-				cam.get_projview() * transformation_b.get_model_matrix()
-			);
+			PVM = cam.get_projview() * transformation_b.get_model_matrix();
 			model_shader.set_PVM_mat(PVM);
 			duck->draw_opaque_meshes(material_overrides_c);
 			duck->draw_transparent_meshes(material_overrides_c);

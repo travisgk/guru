@@ -75,15 +75,16 @@ env::~env() {
 	_skybox_VAO_ID = 0;
 }
 
+// sets up the <_window> and <_cameras>,
+// sets up the <_screenbuffer>,
+// and builds the shaders.
 void env::reset(Window &window) {
-	// sets up the <_window> and <_cameras>.
 	_window = &window;
 	set_clear_color(gu::Color(0.3f, 0.3f, 0.3f));
 	_create_screen_display();
 	_create_skybox();
 	create_camera();
 
-	// sets up the <_screen_buffer>.
 	int width, height;
 	glfwGetWindowSize(_window->get_GLFWwindow(), &width, &height);
 	_screenbuffer_size_callback(_window->get_GLFWwindow(), width, height);
@@ -91,7 +92,6 @@ void env::reset(Window &window) {
 		_window->get_GLFWwindow(), _screenbuffer_size_callback
 	);
 
-	// builds the shaders.
 	_screen_shader.build_from_files(
 		_screen_shader_v_shader_path, _screen_shader_f_shader_path
 	);
@@ -100,6 +100,7 @@ void env::reset(Window &window) {
 	);
 }
 
+// creates the VAO and VBO for the rectangle used to show the <_screenbuffer>.
 void env::_create_screen_display() {
 	if (_screen_display_VAO_ID != 0 or _screen_display_VBO_ID != 0)
 		return;
@@ -136,6 +137,7 @@ void env::_create_screen_display() {
 	glBindVertexArray(0);
 }
 
+// creates the VAO and VBO for the cube used to render the skybox.
 void env::_create_skybox() {
 	if (_skybox_VAO_ID != 0 or _skybox_VBO_ID != 0)
 		return;
@@ -223,15 +225,26 @@ void env::update_delta_and_poll_events() {
 	glfwPollEvents();
 }
 
+// clears the default buffer and 
+// then binds the <_screenbuffer> so that its image buffer is being drawn to.
 void env::clear_window_and_screenbuffer() {
 	_window->clear();
 	_screenbuffer.bind_and_clear(_clear_color);
 	glfwSwapInterval(gu::Settings::using_vsync());
 }
 
+// processes the <_screenbuffer> for an output frame image (texture),
+// draws the Screenbuffer display with the output texture as its bound texture
+// to the Screenbuffer's final screen texture, and then 
+// swaps buffers with the default buffer to display the frame to the Window.
 void env::display_frame() {
 	_window->reset_viewport();
-	_display_frame();
+	_blit_frame_to_buffer();
+	glBindVertexArray(_screen_display_VAO_ID);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, _screenbuffer.screen_ID());
+	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glfwSwapBuffers(_window->get_GLFWwindow());
 }
 
@@ -252,9 +265,9 @@ void env::_update_everything() {
 		get_camera(i).update();
 }
 
-void env::_display_frame() {
-	glDisable(GL_CULL_FACE);
+void env::_blit_frame_to_buffer() {
 	_screen_shader.use();
+	glDisable(GL_CULL_FACE);
 	glPolygonMode(GL_BACK, GL_FILL);
 	
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, _screenbuffer.image_ID());
@@ -263,14 +276,8 @@ void env::_display_frame() {
 	const GLsizei &h = _screenbuffer.height();
 	glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0 );
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0 );
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
 	glDisable(GL_DEPTH_TEST);
-
-	glBindVertexArray(_screen_display_VAO_ID);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _screenbuffer.screen_ID());
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindTexture(GL_TEXTURE_2D, 0);
 }
 } // namespace gu

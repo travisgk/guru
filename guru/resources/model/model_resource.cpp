@@ -217,19 +217,13 @@ static size_t load_material(
 	}
 
 	// loads the Material's textures.
-	#if defined(GURU_PRINT_RESOURCE_DEBUG_MESSAGES)
-	std::cout << "loading textures..." << std::endl;
-	#endif
 	materials.push_back(material_list.create_and_load(paths));
-
-	#if defined(GURU_PRINT_RESOURCE_DEBUG_MESSAGES)
-	std::cout << "done." << std::endl;
-	#endif
 	return materials.size() - 1;
 }
 
 void ModelResource::_process_node(size_t &n_meshes, aiNode *node, const aiScene *scene) {
 	std::filesystem::path directory = _path.parent_path();
+
 	// loads the contained meshes to the <_meshes> vector.
 	for (uint32_t i = 0; i < node->mNumMeshes; ++i) {
 		aiMesh *const ai_mesh = scene->mMeshes[node->mMeshes[i]];
@@ -271,7 +265,7 @@ void ModelResource::set_face_cull_option(const GLenum& cull_option) {
 
 void ModelResource::draw_transparent_meshes(
 	const std::vector<Material::Override> &material_overrides,
-	const std::vector<Material::Override> &mesh_overrides
+	const std::vector<Mesh::Override> &mesh_overrides
 ) {
 	_draw_mesh_by_indices(
 		material_overrides, mesh_overrides, _transparent_mesh_indices
@@ -280,7 +274,7 @@ void ModelResource::draw_transparent_meshes(
 
 void ModelResource::draw_opaque_meshes(
 	const std::vector<Material::Override> &material_overrides,
-	const std::vector<Material::Override> &mesh_overrides
+	const std::vector<Mesh::Override> &mesh_overrides
 ) {
 	_draw_mesh_by_indices(
 		material_overrides, mesh_overrides, _opaque_mesh_indices
@@ -289,7 +283,7 @@ void ModelResource::draw_opaque_meshes(
 
 void ModelResource::_draw_mesh_by_indices(
 	const std::vector<Material::Override> &material_overrides,
-	const std::vector<Material::Override> &mesh_overrides,
+	const std::vector<Mesh::Override> &mesh_overrides,
 	const std::vector<size_t> &mesh_indices
 ) {
 
@@ -299,11 +293,11 @@ void ModelResource::_draw_mesh_by_indices(
 	for (const auto &mat_override : material_overrides) {
 		backup_materials.emplace_back(
 			Material::Override(
-				mat_override.overriden_index,
-				_materials[mat_override.overriden_index]
+				mat_override.material_index,
+				_materials[mat_override.material_index]
 			)
 		);
-		_materials[mat_override.overriden_index] = mat_override.material;
+		_materials[mat_override.material_index] = mat_override.material;
 	}
 
 	// draws Meshes.
@@ -312,15 +306,13 @@ void ModelResource::_draw_mesh_by_indices(
 	for (const size_t &i : mesh_indices) {
 		// determines the Material for the Mesh.
 		std::shared_ptr<Material> mesh_material = nullptr;
-		if (mesh_overrides_index < mesh_overrides.size()) {
+		if (
+			    mesh_overrides_index < mesh_overrides.size() 
+			and mesh_overrides[mesh_overrides_index].mesh_index == i
+		) {
 			// applies Mesh Material overriding if given.
-			const auto &mesh_override = mesh_overrides[mesh_overrides_index];
-			if (mesh_override.overriden_index == i) {
-				mesh_material = mesh_override.material;
-				++mesh_overrides_index;
-			} else {
-				mesh_material = _materials[_meshes[i].material_index()];
-			}
+			mesh_material = mesh_overrides[mesh_overrides_index].material;
+			++mesh_overrides_index;
 		} else {
 			mesh_material = _materials[_meshes[i].material_index()];
 		}
@@ -335,6 +327,6 @@ void ModelResource::_draw_mesh_by_indices(
 
 	// restores the default Material shared pointers.
 	for (const auto &mat_backup : backup_materials)
-		_materials[mat_backup.overriden_index] = mat_backup.material;
+		_materials[mat_backup.material_index] = mat_backup.material;
 }
 } // namespace gu

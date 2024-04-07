@@ -55,7 +55,8 @@ public:
 	// this will destroy any pre-existing resources.
 	bool create(const int &width, const int &height);
 
-	// binds the resources in order to be rendered to.
+	// clears and binds the Screenbuffer 
+	// so that its image buffer is being drawn to.
 	void bind_and_clear(
 		const gu::Color &clear_color = gu::Color(0.0, 0.0, 0.0)
 	);

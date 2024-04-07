@@ -44,7 +44,7 @@ public:
 	void set_z(const double &z);
 
 private:
-	// this is called by any method that modifies the <_position>.
+	// this is called by any method that modifies the position.
 	void _set_position_as_modified();
 };
 }

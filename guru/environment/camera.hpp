@@ -29,10 +29,8 @@ protected:
 	float _min_render_dist = 0.01f; // minimum render distance
 	float _max_render_dist = 1000.0f; // maximum render distance
 
-
 public:
-	// ctor. the function <_update_relative_directions()> 
-	// will not set <_orientation_is_new> to false.
+	// ctor. sets the position.
 	Camera(const glm::dvec3 &position = glm::dvec3(0.0, 0.0, 0.0));
 
 	// returns the view matrix.
@@ -72,15 +70,14 @@ public:
 	void set_max_render_distance(const float &distance);
 
 private:
-	// this is called by any method that modifies the Camera's projection.
+	// this is called by any member method that modifies the Cam's projection.
 	void _set_camera_as_modified();
 public:
-	// updates the <_render_ratio> for a new Window size.
-	// this should be called whenever the Window size is changed.
+	// updates how the Camera will utilize glViewport(...).
+	// this should be called when the Window changes size.
 	void framebuffer_size_callback(int width, int height);
 	
-	// updates the Camera's matrices:
-	// the view matrix, the projection matrix, and/or the projview matrix.
+	// updates the Camera's matrices.
 	// if the compiler flag GURU_AUTO_UPDATE_MATH_OBJECTS is not used,
 	// then this should be called on every frame, 
 	// or whenever the object's attributes were modified.

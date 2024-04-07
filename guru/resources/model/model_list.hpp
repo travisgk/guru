@@ -1,7 +1,7 @@
 /**
  * model_list.hpp
  * ---
- * this file defines the <ModelResourceList> class, a child of ResourceList,
+ * this file defines the ModelResourceList class, a child of ResourceList,
  * which maintains all the ModelResources loaded into Guru. 
  * it will also maintain how many sources are making use of the ModelResource, 
  * and will delete the ModelResource from memory 

@@ -26,12 +26,14 @@ protected:
 	glm::dvec3 _up = glm::dvec3(0.0, 1.0, 0.0); // relative up
 	glm::dvec3 _forward = glm::dvec3(0.0, 0.0, 1.0); // relative forward
 
-public:
 	// ctor. the parameter determines if updating the relative directions
 	// will make this Orientation considered as updated.
-	inline Orientation(bool CALC_REL_DIRS_UPDATES = true)
+	inline Orientation(bool CALC_REL_DIRS_UPDATES)
 		: CALC_REL_DIRS_WILL_UPDATE(CALC_REL_DIRS_UPDATES)
 	{}
+
+public:
+	inline Orientation() : CALC_REL_DIRS_WILL_UPDATE(true) {}
 
 	// returns the quaternion representing the rotation.
 	inline const glm::dquat &get() const { return _quat; }
@@ -61,6 +63,9 @@ public:
 		);
 	}
 
+	// sets the rotation using pitch, yaw, and roll in radians.
+	void orient(const double &pitch, const double &yaw, const double &roll);
+
 	// sets the rotation with the given quaternion.
 	inline void orient(const glm::dquat &quat) {
 		_quat = quat;
@@ -82,14 +87,17 @@ private:
 	void _set_orientation_as_modified();
 
 public:
-	// updates the object's matrices. 
+	// updates the object's matrices.
+	// ---
 	// if the compiler flag GURU_AUTO_UPDATE_MATH_OBJECTS is not used,
 	// then this should be called on every frame, 
 	// or whenever the object's attributes were modified.
 	virtual void update();
 
 protected:
-	// updates <_right>, <_up>, and <_forward> to match the new <_quat>.
+	// updates the 3D vectors for the Orientation's 
+	// relative right, up, and forward directions
+	// to match the new internal rotation quaternion.
 	void _update_relative_directions();
 };
 }

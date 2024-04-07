@@ -15,6 +15,7 @@ namespace res {
 struct TextureInfo {
 private:
 	const std::filesystem::path _path;
+
 public:
 	const GLuint texture_ID;
 

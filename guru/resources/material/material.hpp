@@ -125,6 +125,27 @@
 namespace gu {
 class Material {
 public:
+	/**
+	 * Material::Override
+	 * ---
+	 * this struct specifies to a ModelResource's draw function
+	 * to go to the <material_index> of the ModelResource's Materials list
+	 * and temporarily replace the element with the given <material>.
+	 * 
+	 * this is useful for changing all the Meshes
+	 * that use one particular Material.
+	 * 
+	 */
+	struct Override {
+		size_t material_index;
+		std::shared_ptr<Material> material;
+
+		inline Override(
+			const size_t &material_index,
+			const std::shared_ptr<Material> &material
+		) : material_index(material_index), material(material) {}
+	};
+
 	enum MAP_TYPE {
 		DIFFUSE = 0, 
 		NORMAL, 
@@ -134,38 +155,6 @@ public:
 		EMISSIVE, 
 		SKYBOX, 
 		ENUM_MAX
-	};
-
-	/* Material::Override
-	 * ---
-	 * a vector of instances of this struct can be given 
-	 * to a ModelResource's mesh drawing method
-	 * in order to manually specify either: 
-	 * 
-	 * which particular Material in ModelResource's <_materials> vector
-	 * should be instead bound for drawing Meshes that use that Material.
-	 * this is useful for changing all the Meshes 
-	 * that use one particular Material.
-	 *
-	 * or
-	 * 
-	 * which Material of a particular Mesh in ModelResource's <_meshes> vector
-	 * should be bound for drawing that particular Mesh.
-	 * this could perhaps be useful for rendering texture-based animation
-	 * that uses multiple different Materials
-	 */
-	struct Override {
-		size_t overriden_index;
-		std::shared_ptr<Material> material;
-
-		inline Override(
-			const size_t &overriden_index,
-			const std::shared_ptr<Material> &material
-		) : overriden_index(overriden_index), material(material) {}
-
-		bool operator<(const Override &other) const {
-			return overriden_index < other.overriden_index;
-		}
 	};
 
 	// matches MAP_TYPE enum.
@@ -181,10 +170,11 @@ private:
 	bool _transparent = false; // true if diffuse has transparency
 
 public:
-	// ctor. initializes the member array.
+	// ctor. initializes member variables.
 	Material();
 
-	// dtor. tells texture list to handle these textures no longer being used.
+	// dtor. tells the global TextureList 
+	// to handle these textures no longer being used.
 	~Material();
 
 	// returns the path to the image used for the diffuse texture.
@@ -203,7 +193,7 @@ public:
 	// loads textures based on the given diffuse image path.
 	void load_textures(const std::filesystem::path &diffuse_path);
 
-	// loads textures from a given image paths. 
+	// loads textures from the given image paths. 
 	// if the paths to other texture maps aren't given,
 	// then the program tries to load from the same image path 
 	// as the diffuse texture, but with an underscore

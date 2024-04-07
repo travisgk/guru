@@ -39,6 +39,7 @@ public:
 	// deletes copy ctors to prevent access to the deleted GLFWwindow.
 	Window(const Window&) = delete;
 	Window &operator= (const Window&) = delete;
+
 private:
 	// creates a GLFWwindow and places it in the center of the monitor.
 	void _init(int width, int height);

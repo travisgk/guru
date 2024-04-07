@@ -11,13 +11,13 @@
 */
 
 #pragma once
+#if defined(GURU_PRINT_RESOURCE_DEBUG_MESSAGES)
+#include <iostream>
+#endif
 #include <filesystem>
 #include <functional>
 #include <unordered_map>
 #include <vector>
-#if defined(GURU_PRINT_RESOURCE_DEBUG_MESSAGES)
-#include <iostream>
-#endif
 
 namespace gu {
 namespace res {
@@ -181,6 +181,8 @@ public:
 	}
 
 protected:
+	// this method exists to be overridden by child classes
+	// in order to handle specialized deletion processes of an entry.
 	inline virtual void _delete_resource(const std::shared_ptr<T> &res_ptr) {}
 };
 } // namespace res

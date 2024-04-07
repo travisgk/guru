@@ -1,7 +1,7 @@
 /**
  * mesh.hpp
  * ---
- * this file defines the Vertex and Mesh class, 
+ * this file defines the Vertex struct and Mesh class, 
  * with a Mesh being a unit of a Model,
  * which is composed of vertices, indices, and
  * a shared pointer to a Material.
@@ -28,6 +28,33 @@ struct Vertex {
 };
 
 class Mesh {
+public:
+	/**
+	* Mesh::Override
+	* ---
+	* this struct specifies to a ModelResource's draw function
+	* to override the bound Material for a particular <mesh_index>
+	* in the ModelResource's Mesh list and change its default Material
+	* to the given <material>.
+	* 
+	* this could perhaps be useful for rendering texture-based animation
+	* that uses multiple different Materials.
+	* 
+	*/
+	struct Override : public Material::Override {
+		size_t mesh_index = 0;
+		std::shared_ptr<Material> material = nullptr;
+
+		inline Override(
+			const size_t &mesh_index,
+			const std::shared_ptr<Material> &material
+		) : Material::Override(mesh_index, material) {}
+
+		bool operator<(const Override &other) const {
+			return mesh_index < other.mesh_index;
+		}
+	};
+
 private:
 	size_t _material_index = 0;
 	GLuint _vao_ID = 0; // vertex array object
@@ -52,6 +79,7 @@ public:
 		const std::filesystem::path &model_directory,
 		const size_t &material_index
 	);
+
 private:
 	// sets the Mesh's VAO, VBO, and EBO by 
 	// sending the given <vertices> and <indices> vectors to the videocard.

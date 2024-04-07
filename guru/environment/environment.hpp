@@ -1,7 +1,7 @@
 /**
  * environment.hpp
  * ---
- * this file defines the env struct, which helps simplify
+ * this file defines the env class, which helps simplify
  * the management of interfacing with OpenGL. it takes a Window object
  * and handles its events internally, updating the Screenbuffer and Cameras.
  * 
@@ -21,7 +21,6 @@
 #include "../shader/screen_shader.hpp"
 #include "../shader/skybox_shader.hpp"
 
-
 namespace gu {
 static auto &model_res_list = gu::res::ModelResourceList::model_res_list;
 static auto &material_list = gu::res::MaterialList::material_list;
@@ -36,7 +35,7 @@ bool init_glad();
 // deallocates loaded resources in the appropriate order.
 void terminate();
 
-struct env {
+class env {
 private:
 	static Window *_window;
 	static GLuint _screen_display_VAO_ID; // screenbuffer display
@@ -53,20 +52,17 @@ private:
 	static ScreenShader _screen_shader;
 	static SkyboxShader _skybox_shader;
 
-	
 	// instances of this struct cannot be created.
 	inline env() {}
 public:
-	// dtor. properly deletes the screen display rectangle VAO and VBO.
+	// dtor. properly deletes the screen display and skybox VAOs and VBOs.
 	~env();
 
 	inline static void set_clear_color(const gu::Color &color) {
 		_clear_color = color;
 	}
 
-	// sets up the <_window> and <_cameras>,
-	// sets up the <_screenbuffer>,
-	// and builds the shaders.
+	// sets up the Guru environment with the given Window.
 	static void reset(Window &window);
 
 private:
@@ -107,7 +103,7 @@ public:
 	// sets up the Window and Screenbuffer for drawing.
 	static void clear_window_and_screenbuffer();
 
-	// swaps buffers to display the Screenbuffer in the Window.
+	// displays the frame after everything has been drawn.
 	static void display_frame();
 
 private:
@@ -120,7 +116,9 @@ private:
 	// updates the matrices of every object in the environment.
 	static void _update_everything();
 
-	// uses the <_screen_shader> to draw the contents of <_screenbuffer>.
-	static void _display_frame();
+	// binds the Screenbuffer's image buffer 
+	// and blits it using the internal ScreenShader
+	// to the Screenbuffer's intermediate buffer.
+	static void _blit_frame_to_buffer();
 };
 } // namespace gu

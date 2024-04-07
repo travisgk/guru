@@ -77,7 +77,6 @@ std::shared_ptr<TextureInfo> load_texture(
 					break;
 			}
 		}
-
 		stbi_image_free(data);
 		TextureInfo new_info = TextureInfo(path, texture_ID);
 		texture_list.create_entry(new_info);
@@ -154,5 +153,5 @@ GLuint load_cube_map(
 	}
 	return texture_ID;
 }
-} // namespace texture
+} // namespace res
 } // namespace gu

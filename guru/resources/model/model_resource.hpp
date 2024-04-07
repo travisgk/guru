@@ -22,7 +22,7 @@ protected:
 	bool _uses_map[Material::N_MAP_TYPES]; // [i] is true if Mesh loaded map
 
 public:
-	// ctor. initializes the <_use_map> array.
+	// ctor. initializes member variables.
 	ModelResource();
 
 	// ctor. loads 3D object from the given <path> 
@@ -32,10 +32,11 @@ public:
 		const GLenum &face_cull_option = GL_NONE
 	);
 
-	// dtor. tells the material::MaterialList 
+	// dtor. tells the global MaterialList
 	// to delete Materials if no other instance is using them.
 	~ModelResource();
 
+	// returns true if this ModelResource uses a particular map type.
 	inline bool uses_map(uint8_t map_type) const { 
 		return (map_type < Material::N_MAP_TYPES and _uses_map[map_type]); 
 	}
@@ -44,14 +45,14 @@ public:
 	inline const std::filesystem::path &path() const { return _path; }
 
 	// takes the given <mesh_indices> vector and pushes back 
-	// the indices of <_meshes> whose Materials 
-	// have the local diffuse path set to <search_local_path>.
+	// the indices of the Meshes whose Materials 
+	// have their local diffuse path set to <search_local_path>.
 	void get_mesh_indices_by_path(
 		std::vector<size_t> &mesh_indices, 
 		const std::filesystem::path &search_local_path
 	) const;
 
-	// returns the index of the Material in <_materials>
+	// returns the index of the Material in the object's list of Materials
 	// whose local diffuse path matches the <search_local_path>.
 	size_t get_material_index_by_path(
 		const std::filesystem::path &search_local_path
@@ -61,8 +62,8 @@ public:
 	void load(const std::filesystem::path& path);
 
 protected:
-	// processes a given node and its contained aiMeshes,
-	// with each aiMesh's data being transferred to the <_nodes> vector.
+	// processes a given node and its contained aiMeshes, with each 
+	// aiMesh's data being transferred to the object's list of Meshes.
 	void _process_node(size_t &n_meshes, aiNode *node, const aiScene *scene);
 
 public:
@@ -72,7 +73,7 @@ public:
 	// draws the transparent meshes of the ModelResource.
 	// ---
 	// <material_overrides> can be given
-	// to override the Material in the ModelResource's <_materials>,
+	// to override the Material in the ModelResource's list of Materials,
 	// which will change the Material for all Meshes using it.
 	// ---
 	// <mesh_overrides> can be given
@@ -81,15 +82,15 @@ public:
 		const std::vector<Material::Override> &material_overrides = (
 			std::vector<Material::Override>()
 		),
-		const std::vector<Material::Override> &mesh_overrides = (
-			std::vector<Material::Override>()
+		const std::vector<Mesh::Override> &mesh_overrides = (
+			std::vector<Mesh::Override>()
 		)
 	);
 
 	// draws the opaque meshes of the ModelResource.
 	// ---
 	// <material_overrides> can be given
-	// to override the Material in the ModelResource's <_materials>,
+	// to override the Material in the ModelResource's list of Materials,
 	// which will change the Material for all Meshes using it.
 	// ---
 	// <mesh_overrides> can be given
@@ -98,16 +99,16 @@ public:
 		const std::vector<Material::Override> &material_overrides = (
 			std::vector<Material::Override>()
 		),
-		const std::vector<Material::Override> &mesh_overrides = (
-			std::vector<Material::Override>()
+		const std::vector<Mesh::Override> &mesh_overrides = (
+			std::vector<Mesh::Override>()
 		)
 	);
 
 protected:
-	// draws the members of <_meshes>, whose <mesh_indices> are specified.
+	// draws the object's list of Meshes, whose <mesh_indices> are specified.
 	void _draw_mesh_by_indices(
 		const std::vector<Material::Override> &material_overrides,
-		const std::vector<Material::Override> &mesh_overrides,
+		const std::vector<Mesh::Override> &mesh_overrides,
 		const std::vector<size_t> &mesh_indices
 	);
 };

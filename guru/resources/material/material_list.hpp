@@ -1,7 +1,7 @@
 /**
  * material_list.hpp
  * ---
- * this file defines the <MaterialList> class, a child class of ResourceList
+ * this file defines the MaterialList class, a child class of ResourceList
  * which will maintain a list of all the Materials loaded into Guru. 
  * it will also maintain how many sources are making use of the Material, 
  * and will delete the Material from memory 

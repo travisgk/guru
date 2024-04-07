@@ -20,12 +20,15 @@ public:
 	inline unsigned char unsigned_char_r() const { 
 		return static_cast<unsigned char>(255.0f * r); 
 	}
+
 	inline unsigned char unsigned_char_g() const {
 		return static_cast<unsigned char>(255.0f * g);
 	}
+
 	inline unsigned char unsigned_char_b() const {
 		return static_cast<unsigned char>(255.0f * b);
 	}
+
 	inline unsigned char unsigned_char_a() const {
 		return static_cast<unsigned char>(255.0f * a);
 	}
