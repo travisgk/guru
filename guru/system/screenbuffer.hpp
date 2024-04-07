@@ -22,13 +22,15 @@ private:
 	GLuint _depth_buffer_ID = 0;
 	GLuint _intermediate_buffer_ID = 0;
 	GLuint _screen_texture_ID = 0;
-	uint16_t _n_samples = 8;
+	bool _is_used = true;
+	uint8_t _n_samples = 4;
 
 public:
 	// dtor. deletes resources.
 	~Screenbuffer();
 	inline const GLsizei &width() const { return _width; }
 	inline const GLsizei &height() const { return _height; }
+	inline bool is_used() const { return _is_used; }
 
 	// returns the image buffer ID.
 	inline const GLuint &image_ID() const { return _image_buffer_ID; }
@@ -43,11 +45,12 @@ public:
 		return _screen_texture_ID; 
 	}
 
-	inline void set_n_samples(uint16_t n_samples) {
+	inline void set_n_samples(uint8_t n_samples) {
+		_is_used = n_samples > 0;
 		_n_samples = std::clamp(
 			n_samples, 
-			static_cast<uint16_t>(1), 
-			static_cast<uint16_t>(8)
+			static_cast<uint8_t>(1), 
+			static_cast<uint8_t>(32)
 		);
 	}
 

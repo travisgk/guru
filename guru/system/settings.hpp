@@ -12,6 +12,7 @@
  *    changing attributes of an object of the "mathematics" module
  *    will run <update()> automatically.
  * 
+ * - #define GURU_DISABLE_ANTIALIASING
  */
 
 #pragma once

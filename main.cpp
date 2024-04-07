@@ -19,6 +19,9 @@ int main() {
 	gu::Window window(WIDTH, HEIGHT, "Guru");
 	gu::init_glad();
 	gu::env::reset(window);
+	
+	gu::SpotLight spot_light = gu::SpotLight();
+	spot_light.constant_factor().value();
 
 	gu::ModelResource *duck = new gu::ModelResource("res/duck/duck.obj");
 	

@@ -10,7 +10,6 @@
 #pragma once
 #include <memory>
 #include <vector>
-#include "../system/window.hpp"
 #include "camera.hpp"
 #include "../mathmatics/transformation.hpp"
 #include "../resources/color.hpp"
@@ -18,6 +17,7 @@
 #include "../resources/model/model_list.hpp"
 #include "../resources/texture/texture_list.hpp"
 #include "../system/screenbuffer.hpp"
+#include "../system/window.hpp"
 #include "../shader/screen_shader.hpp"
 #include "../shader/skybox_shader.hpp"
 
@@ -70,6 +70,12 @@ private:
 	static void _create_skybox();
 
 public:
+	// returns a reference to a specified Camera.
+	// a negative <index> will return the most recently created Camera.
+	static Camera &get_camera(int index = -1);
+
+	inline static size_t n_cameras() { return _cameras.size(); }
+
 	// returns the index of a newly created Camera in memory.
 	static size_t create_camera();
 
@@ -85,11 +91,9 @@ public:
 		const std::filesystem::path &f_shader_path
 	);
 
-	// returns a reference to a specified Camera.
-	// a negative <index> will return the most recently created Camera.
-	static Camera &get_camera(int index = -1);
-
-	inline static size_t n_cameras() { return _cameras.size(); }
+	// turns on MSAA antialiasing, which will utilize the Screenbuffer.
+	// giving 0 for <n_multisamples> will turn the Screenbuffer off.
+	static void activate_MSAA(uint8_t n_multisamples);
 
 	// draws a skybox, given a Camera's projview matrix
 	// and an OpenGL cubemap ID.

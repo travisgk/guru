@@ -39,6 +39,9 @@ bool init_GLFW() {
 		GLFW_CONTEXT_VERSION_MINOR, gu::Settings::OPENGL_VERSION_MINOR
 	);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	
+	//glfwWindowHint(GLFW_SAMPLES, gu::Settings::MAX_GLFW_MULTISAMPLES);
+
 	return true;
 }
 
@@ -49,6 +52,7 @@ bool init_glad() {
 	}
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
+	// glEnable(GL_MULTISAMPLE);
 	return true;
 }
 
@@ -76,7 +80,7 @@ env::~env() {
 }
 
 // sets up the <_window> and <_cameras>,
-// sets up the <_screenbuffer>,
+// sets up the <_screenbuffer> with <n_multisamples>,
 // and builds the shaders.
 void env::reset(Window &window) {
 	_window = &window;
@@ -176,6 +180,12 @@ void env::_create_skybox() {
 	glBindVertexArray(0);
 }
 
+Camera &env::get_camera(int index) {
+	if (index >= 0)
+		return *_cameras.at(index);
+	return *_cameras.back();
+}
+
 size_t env::create_camera() {
 	std::shared_ptr<Camera> new_camera = std::make_shared<Camera>();
 	_cameras.push_back(new_camera);
@@ -198,10 +208,14 @@ void env::set_skybox_shader_paths(
 	_skybox_shader_f_shader_path = f_shader_path;
 }
 
-Camera &env::get_camera(int index) {
-	if (index >= 0)
-		return *_cameras.at(index);
-	return *_cameras.back();
+void env::activate_MSAA(uint8_t n_multisamples) {
+	_screenbuffer.set_n_samples(n_multisamples);
+	int width, height;
+	glfwGetWindowSize(_window->get_GLFWwindow(), &width, &height);
+	_screenbuffer_size_callback(_window->get_GLFWwindow(), width, height);
+	glfwSetFramebufferSizeCallback(
+		_window->get_GLFWwindow(), _screenbuffer_size_callback
+	);
 }
 
 void env::draw_skybox(
@@ -228,8 +242,16 @@ void env::update_delta_and_poll_events() {
 // clears the default buffer and 
 // then binds the <_screenbuffer> so that its image buffer is being drawn to.
 void env::clear_window_and_screenbuffer() {
-	_window->clear();
-	_screenbuffer.bind_and_clear(_clear_color);
+	
+
+	if (_screenbuffer.is_used()) {
+		_window->clear();
+		_screenbuffer.bind_and_clear(_clear_color);
+	} else {
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		_window->clear();
+	}
+	
 	glfwSwapInterval(gu::Settings::using_vsync());
 }
 
@@ -239,12 +261,16 @@ void env::clear_window_and_screenbuffer() {
 // swaps buffers with the default buffer to display the frame to the Window.
 void env::display_frame() {
 	_window->reset_viewport();
-	_blit_frame_to_buffer();
-	glBindVertexArray(_screen_display_VAO_ID);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, _screenbuffer.screen_ID());
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	
+	if (_screenbuffer.is_used()) {
+		_blit_frame_to_buffer();
+		glBindVertexArray(_screen_display_VAO_ID);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, _screenbuffer.screen_ID());
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
 	glfwSwapBuffers(_window->get_GLFWwindow());
 }
 
@@ -254,8 +280,10 @@ void env::_screenbuffer_size_callback(
 	// UNCERTAIN: glViewport(0, 0, width, height);
 	if (width <= 0 or height <= 0)
 		return;
+	
+	if (_screenbuffer.is_used())
+		_screenbuffer.create(width, height);
 
-	_screenbuffer.create(width, height);
 	for (int i = 0; i < _cameras.size(); ++i)
 		get_camera(i).framebuffer_size_callback(width, height);
 }
