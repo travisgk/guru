@@ -39,8 +39,6 @@ bool init_GLFW() {
 		GLFW_CONTEXT_VERSION_MINOR, gu::Settings::OPENGL_VERSION_MINOR
 	);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	
-	//glfwWindowHint(GLFW_SAMPLES, gu::Settings::MAX_GLFW_MULTISAMPLES);
 
 	return true;
 }
@@ -52,7 +50,6 @@ bool init_glad() {
 	}
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
-	// glEnable(GL_MULTISAMPLE);
 	return true;
 }
 
@@ -80,7 +77,7 @@ env::~env() {
 }
 
 // sets up the <_window> and <_cameras>,
-// sets up the <_screenbuffer> with <n_multisamples>,
+// sets up the <_screenbuffer>,
 // and builds the shaders.
 void env::reset(Window &window) {
 	_window = &window;
