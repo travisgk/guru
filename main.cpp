@@ -9,6 +9,7 @@
 #include "guru/resources/material/material_list.hpp"
 #include "guru/resources/texture/load_texture.hpp"
 #include "guru/shader/model_shader.hpp"
+#include "guru/environment/lights.hpp"
 
 const unsigned int WIDTH = 800;
 const unsigned int HEIGHT = 600;
@@ -53,7 +54,6 @@ int main() {
 	transformation_b.set_z(9.0);
 	transformation_b.set_scaling(0.15f);
 	transformation_b.update();
-
 	gu::ModelShader model_shader;
 	model_shader.build_from_files(
 		"guru/shader/default_glsl/model_shader.v_shader", 

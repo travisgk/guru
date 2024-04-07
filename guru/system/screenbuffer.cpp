@@ -123,14 +123,14 @@ bool Screenbuffer::create(const int &width, const int &height) {
 void Screenbuffer::bind_and_clear(const gu::Color &clear_color) {
 	// clears Window in preparation.
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glClearColor(RAW_COLOR.r, RAW_COLOR.g, RAW_COLOR.b, RAW_COLOR.a);
+	glClearColor(RAW_COLOR.r(), RAW_COLOR.g(), RAW_COLOR.b(), RAW_COLOR.a());
 	glClear(GL_COLOR_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
 	
 	// draws the Screenbuffer.
 	glBindFramebuffer(GL_FRAMEBUFFER, _image_buffer_ID);
 	glClearColor(
-		clear_color.r, clear_color.g, clear_color.b, clear_color.a
+		clear_color.r(), clear_color.g(), clear_color.b(), clear_color.a()
 	);
 	glClear(
 		  GL_COLOR_BUFFER_BIT 

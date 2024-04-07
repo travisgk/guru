@@ -220,7 +220,7 @@ void env::draw_skybox(
 }
 
 void env::update_delta_and_poll_events() {
-	gu::maintain_fps();
+	gu::Delta::maintain_fps();
 	gu::Delta::update();
 	glfwPollEvents();
 }

@@ -28,12 +28,15 @@ public:
 	inline void move_x(const float &factor) {
 		set_x(_position.x + factor * Delta::get());
 	}
+
 	inline void move_y(const float &factor) {
 		set_y(_position.y + factor * Delta::get());
 	}
+
 	inline void move_z(const float &factor) {
 		set_z(_position.z + factor * Delta::get());
 	}
+
 	inline void place(const double &x, const double &y, const double &z) {
 		place(glm::dvec3(x, y, z));
 	}
@@ -43,8 +46,8 @@ public:
 	void set_y(const double &y);
 	void set_z(const double &z);
 
-private:
+protected:
 	// this is called by any method that modifies the position.
-	void _set_position_as_modified();
+	virtual void _set_position_as_modified();
 };
 }

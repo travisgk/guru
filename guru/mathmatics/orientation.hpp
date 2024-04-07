@@ -36,7 +36,7 @@ public:
 	inline Orientation() : CALC_REL_DIRS_WILL_UPDATE(true) {}
 
 	// returns the quaternion representing the rotation.
-	inline const glm::dquat &get() const { return _quat; }
+	inline const glm::dquat &get_quat() const { return _quat; }
 
 	inline const glm::dvec3 &right() const { return _right; }
 	inline const glm::dvec3 &up() const { return _up; }
@@ -71,6 +71,19 @@ public:
 		_quat = quat;
 		_set_orientation_as_modified();
 	}
+
+	inline void set_pitch(const double &radians) {
+		orient(radians, calc_yaw(), calc_roll());
+	}
+
+	inline void set_yaw(const double &radians) {
+		orient(calc_pitch(), radians, calc_roll());
+	}
+
+	inline void set_roll(const double &radians) {
+		orient(calc_pitch(), calc_yaw(), radians);
+	}
+
 	inline void rotate_x(const float &factor) { rotate(X_AXIS, factor); }
 	inline void rotate_y(const float &factor) { rotate(Y_AXIS, factor); }
 	inline void rotate_z(const float &factor) { rotate(Z_AXIS, factor); }
@@ -82,9 +95,9 @@ public:
 	// by the given <factor>.
 	void rotate(const glm::dvec3 &axis, const float &factor);
 
-private:
+protected:
 	// this is called by any method that modifies the rotation quaternion.
-	void _set_orientation_as_modified();
+	virtual void _set_orientation_as_modified();
 
 public:
 	// updates the object's matrices.

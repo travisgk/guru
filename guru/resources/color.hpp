@@ -10,27 +10,38 @@
 #include <string>
 
 namespace gu {
-struct Color {
+class Color {
+protected:
+	float _r, _g, _b, _a;
+	bool _is_new = true;
+
 public:
-	float r, g, b, a;
-
 	// ctor. sets channel values.
-	Color(float r, float g, float b, float a = 1.0);
+	Color(
+		const float &red, 
+		const float &green, 
+		const float &blue, 
+		const float &alpha = 1.0
+	);
 
+	inline const float &r() const { return _r; }
+	inline const float &g() const { return _g; }
+	inline const float &b() const { return _b; }
+	inline const float &a() const { return _a; }
 	inline unsigned char unsigned_char_r() const { 
-		return static_cast<unsigned char>(255.0f * r); 
+		return static_cast<unsigned char>(255.0f * _r); 
 	}
 
 	inline unsigned char unsigned_char_g() const {
-		return static_cast<unsigned char>(255.0f * g);
+		return static_cast<unsigned char>(255.0f * _g);
 	}
 
 	inline unsigned char unsigned_char_b() const {
-		return static_cast<unsigned char>(255.0f * b);
+		return static_cast<unsigned char>(255.0f * _b);
 	}
 
 	inline unsigned char unsigned_char_a() const {
-		return static_cast<unsigned char>(255.0f * a);
+		return static_cast<unsigned char>(255.0f * _a);
 	}
 
 	// returns a Color that is a transition between <this> Color

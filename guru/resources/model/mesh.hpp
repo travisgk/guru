@@ -16,7 +16,7 @@
 #include <assimp/scene.h>
 #include "../material/material.hpp"
 
-namespace gu {
+namespace {
 struct Vertex {
 	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec2 uv = glm::vec2(0.0f, 0.0f);
@@ -26,7 +26,9 @@ struct Vertex {
 	glm::vec3 bitangent = glm::vec3(0.0f, 0.0f, 0.0f);
 	#endif
 };
+} // empty namespace
 
+namespace gu {
 class Mesh {
 public:
 	/**

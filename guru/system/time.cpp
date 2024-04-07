@@ -22,12 +22,12 @@ void Delta::update() {
 	_fps = 1.0 / _delta;
 }
 
-void maintain_fps() {
+void Delta::maintain_fps() {
 	if (Settings::get_fps_limit() <= 0 or Settings::using_vsync())
 		return;
 	
 	int64_t process_time_microseconds = static_cast<int64_t>(
-		(glfwGetTime() - Delta::_current_time) * 1000000.0
+		(glfwGetTime() - _current_time) * 1000000.0
 	);
 
 	if (process_time_microseconds < Settings::get_fps_pause()) {

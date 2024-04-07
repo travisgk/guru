@@ -148,6 +148,7 @@
     <ClCompile Include="gl.c" />
     <ClCompile Include="guru\environment\camera.cpp" />
     <ClCompile Include="guru\environment\environment.cpp" />
+    <ClCompile Include="guru\environment\lights.cpp" />
     <ClCompile Include="guru\environment\model.cpp" />
     <ClCompile Include="guru\mathmatics\orientation.cpp" />
     <ClCompile Include="guru\mathmatics\point.cpp" />
@@ -174,6 +175,7 @@
   <ItemGroup>
     <ClInclude Include="guru\environment\camera.hpp" />
     <ClInclude Include="guru\environment\environment.hpp" />
+    <ClInclude Include="guru\environment\lights.hpp" />
     <ClInclude Include="guru\environment\model.hpp" />
     <ClInclude Include="guru\mathmatics\orientation.hpp" />
     <ClInclude Include="guru\mathmatics\point.hpp" />

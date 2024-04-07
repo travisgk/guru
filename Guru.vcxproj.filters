@@ -144,6 +144,9 @@
     <ClCompile Include="guru\environment\model.cpp">
       <Filter>Source Files\guru\environment</Filter>
     </ClCompile>
+    <ClCompile Include="guru\environment\lights.cpp">
+      <Filter>Source Files\guru\environment</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="guru\system\time.hpp">
@@ -225,6 +228,9 @@
       <Filter>Header Files\guru\shader</Filter>
     </ClInclude>
     <ClInclude Include="guru\environment\model.hpp">
+      <Filter>Header Files\guru\environment</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\environment\lights.hpp">
       <Filter>Header Files\guru\environment</Filter>
     </ClInclude>
   </ItemGroup>

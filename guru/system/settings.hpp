@@ -30,7 +30,7 @@ private:
 	static int64_t _fps_pause_microseconds; // manual sleep duration per frame
 	
 	// instances of this struct cannot be created.
-	inline Settings() {}
+	Settings() = delete;
 
 public:
 	inline static bool using_vsync() { return _vsync; }
