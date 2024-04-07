@@ -4,11 +4,11 @@
 
 namespace {
 /**
-	* LightColors
-	* ---
-	* this class defines the Color properties of a light source.
-	* 
-	*/
+ * LightColors
+ * ---
+ * this class defines the Color properties of a light source.
+ * 
+ */
 class LightColors {
 protected:
 	gu::Color _diffuse = gu::Color(1.0f, 1.0f, 1.0f);
@@ -22,12 +22,12 @@ public:
 };
 
 /**
-	* FloatUniform
-	* ---
-	* this class defines a float value that will report
-	* when it's been modified.
-	*
-	*/
+ * FloatUniform
+ * ---
+ * this class defines a float value that will report
+ * when it's been modified.
+ *
+ */
 class FloatUniform {
 protected:
 	float _value;
@@ -40,11 +40,11 @@ public:
 };
 
 /**
-	* LightAttenuationFactors
-	* ---
-	* this class defines the factors for light attenuation.
-	*
-	*/
+ * LightAttenuationFactors
+ * ---
+ * this class defines the factors for light attenuation.
+ *
+ */
 class LightAttenuationFactors {
 protected:
 	FloatUniform _constant = FloatUniform(1.0f);
