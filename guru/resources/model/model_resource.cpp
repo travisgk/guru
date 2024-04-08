@@ -50,35 +50,6 @@ static void count_meshes(size_t &n_meshes, aiNode *node) {
 		count_meshes(n_meshes, node->mChildren[i]);
 }
 
-void ModelResource::get_mesh_indices_by_path(
-	std::vector<size_t> &mesh_indices,
-	const std::filesystem::path &search_local_path
-) const {
-	for (size_t i = 0; i < _meshes.size(); ++i) {
-		const auto &mat_path = _materials[_meshes[i].material_index()]->path();
-		std::string local_path = (
-			mat_path.stem().string() + mat_path.extension().string()
-		);
-		
-		if (search_local_path == local_path)
-			mesh_indices.push_back(i);
-	}
-}
-
-size_t ModelResource::get_material_index_by_path(
-	const std::filesystem::path &search_local_path
-) const {
-	for (size_t i = 0; i < _materials.size(); ++i) {
-		const auto &mat_path = _materials[i]->path();
-		std::string local_path = (
-			mat_path.stem().string() + mat_path.extension().string()
-		);
-		if (search_local_path == local_path)
-			return i;
-	}
-	return _materials.size();
-}
-
 void ModelResource::load(const std::filesystem::path &path) {
 	if (not std::filesystem::exists(path)) {
 		std::cerr << path << " could not be found." << std::endl;
@@ -130,6 +101,8 @@ void ModelResource::load(const std::filesystem::path &path) {
 	}
 }
 
+// returns the index of the Material in the given <materials> vector
+// whose diffuse texture path matches the given <diffuse_path>.
 static size_t find_material_index(
 	const std::filesystem::path &diffuse_path,
 	const std::vector<std::shared_ptr<Material>> &materials
@@ -252,6 +225,35 @@ void ModelResource::_process_node(size_t &n_meshes, aiNode *node, const aiScene 
 		_process_node(n_meshes, node->mChildren[i], scene);
 }
 
+void ModelResource::get_mesh_indices_by_path(
+	std::vector<size_t> &mesh_indices,
+	const std::filesystem::path &search_local_path
+) const {
+	for (size_t i = 0; i < _meshes.size(); ++i) {
+		const auto &mat_path = _materials[_meshes[i].material_index()]->path();
+		std::string local_path = (
+			mat_path.stem().string() + mat_path.extension().string()
+			);
+
+		if (search_local_path == local_path)
+			mesh_indices.push_back(i);
+	}
+}
+
+size_t ModelResource::get_material_index_by_path(
+	const std::filesystem::path &search_local_path
+) const {
+	for (size_t i = 0; i < _materials.size(); ++i) {
+		const auto &mat_path = _materials[i]->path();
+		std::string local_path = (
+			mat_path.stem().string() + mat_path.extension().string()
+			);
+		if (search_local_path == local_path)
+			return i;
+	}
+	return _materials.size();
+}
+
 void ModelResource::set_face_cull_option(const GLenum& cull_option) {
 	switch (cull_option) {
 	case GL_FRONT:
@@ -268,7 +270,7 @@ void ModelResource::draw_transparent_meshes(
 	const std::vector<Mesh::Override> &mesh_overrides
 ) {
 	_draw_mesh_by_indices(
-		material_overrides, mesh_overrides, _transparent_mesh_indices
+		material_overrides, mesh_overrides, _transparent_mesh_indices, false
 	);
 }
 
@@ -277,15 +279,22 @@ void ModelResource::draw_opaque_meshes(
 	const std::vector<Mesh::Override> &mesh_overrides
 ) {
 	_draw_mesh_by_indices(
-		material_overrides, mesh_overrides, _opaque_mesh_indices
+		material_overrides, mesh_overrides, _opaque_mesh_indices, true
 	);
 }
 
 void ModelResource::_draw_mesh_by_indices(
 	const std::vector<Material::Override> &material_overrides,
 	const std::vector<Mesh::Override> &mesh_overrides,
-	const std::vector<size_t> &mesh_indices
+	const std::vector<size_t> &mesh_indices,
+	const bool use_face_culling
 ) {
+	if (use_face_culling and _face_cull_option != GL_NONE) {
+		glEnable(GL_CULL_FACE);
+		glCullFace(_face_cull_option);
+	} else {
+		glDisable(GL_CULL_FACE);
+	}
 
 	// backs up the default Material shared pointers.
 	std::vector<Material::Override> backup_materials;

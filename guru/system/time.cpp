@@ -1,5 +1,4 @@
 #include "time.hpp"
-#include "settings.hpp"
 #include <iostream>
 #if defined(_WIN32) 
 #include <chrono>

@@ -162,6 +162,7 @@
     <ClCompile Include="guru\resources\texture\color_texture.cpp" />
     <ClCompile Include="guru\resources\texture\load_texture.cpp" />
     <ClCompile Include="guru\resources\texture\texture_list.cpp" />
+    <ClCompile Include="guru\shader\light_shader.cpp" />
     <ClCompile Include="guru\shader\model_shader.cpp" />
     <ClCompile Include="guru\shader\screen_shader.cpp" />
     <ClCompile Include="guru\shader\shader.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="guru\resources\texture\stb_image.h" />
     <ClInclude Include="guru\resources\texture\texture_info.hpp" />
     <ClInclude Include="guru\resources\texture\texture_list.hpp" />
+    <ClInclude Include="guru\shader\light_shader.hpp" />
     <ClInclude Include="guru\shader\model_shader.hpp" />
     <ClInclude Include="guru\shader\screen_shader.hpp" />
     <ClInclude Include="guru\shader\shader.hpp" />

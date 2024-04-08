@@ -55,9 +55,9 @@ protected:
 	inline LightAttenuationFactors() {}
 
 public:
-	inline const FloatUniform &constant_factor() const { return _constant; }
-	inline const FloatUniform &linear_factor() const { return _linear; }
-	inline const FloatUniform &quadratic_factor() const { return _quadratic; }
+	inline const FloatUniform &constant() const { return _constant; }
+	inline const FloatUniform &linear() const { return _linear; }
+	inline const FloatUniform &quadratic() const { return _quadratic; }
 };
 } // blank namespace
 

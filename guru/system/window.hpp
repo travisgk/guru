@@ -15,12 +15,6 @@
 #include <glm/vec2.hpp>
 
 namespace gu {
-// initializes GLFW. this must be called before creating a Window.
-bool init_GLFW();
-
-// initializes glad. this must be called after creating a Window.
-bool init_glad();
-
 class Window {
 private:
 	std::string _name;

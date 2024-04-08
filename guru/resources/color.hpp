@@ -8,6 +8,7 @@
 
 #pragma once
 #include <string>
+#include <glm/vec3.hpp>
 
 namespace gu {
 class Color {
@@ -24,6 +25,7 @@ public:
 		const float &alpha = 1.0
 	);
 
+	inline glm::vec3 rgb() const { return glm::vec3(_r, _g, _b); }
 	inline const float &r() const { return _r; }
 	inline const float &g() const { return _g; }
 	inline const float &b() const { return _b; }

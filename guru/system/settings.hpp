@@ -2,17 +2,22 @@
  * settings.hpp
  * ---
  * this file defines the Settings struct, which holds all of Guru's settings.
+ * macros can be defined here to compile Guru to particular specifications.
  * 
  * ---
- * compiler flags for Guru are:
- * - #define GURU_DISABLE_TANGENT_SPACE
+ * macros for Guru are:
+ * #define GURU_DISABLE_TANGENT_SPACE
  *    disables the implementation of tangents and bitangents in Vertices.
+ *    Mesh, ModelResource
  * 
- * - #define GURU_AUTO_UPDATE_MATH_OBJECTS 
- *    changing attributes of an object of the "mathematics" module
- *    will run <update()> automatically.
+ * #define GURU_AUTO_UPDATE_MATH_OBJECTS 
+ *    causes the changing attributes of an object
+ *    of the "mathematics" module will run <update()> automatically.
+ *
+ * #define GURU_PRINT_RESOURCE_DEBUG_MESSAGES
+ *    enables the ResourceList class 
+ *    and all its children to print out messages for debugging.
  * 
- * - #define GURU_DISABLE_ANTIALIASING
  */
 
 #pragma once
@@ -42,4 +47,4 @@ public:
 	inline static void set_vsync(bool activated) { _vsync = activated; }
 	static void set_fps_limit(uint16_t limit);
 };
-}
+} // namespace gu

@@ -53,7 +53,9 @@ void Material::load_textures(const std::filesystem::path *paths) {
 	_map_loaded[0] = true;
 
 	// loads each texture map.
-	std::string file_stem_str = paths[0].stem().string();
+	std::string file_stem_str = (
+		paths[0].parent_path().string() / paths[0].stem()
+	).string();
 	std::string file_extension_str = paths[0].extension().string();
 	for (int i = 1; i < N_MAP_TYPES; ++i) {
 		if (not paths[i].empty() and std::filesystem::exists(paths[i])) {

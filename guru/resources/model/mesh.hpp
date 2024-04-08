@@ -15,6 +15,7 @@
 #include <glm/vec3.hpp>
 #include <assimp/scene.h>
 #include "../material/material.hpp"
+#include "../../system/settings.hpp"
 
 namespace {
 struct Vertex {

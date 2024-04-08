@@ -27,11 +27,4 @@ void Point::set_z(const double &z) {
 	_position.z = z;
 	_set_position_as_modified();
 }
-
-void Point::_set_position_as_modified() {
-	_position_is_new = true;
-	#if defined(GURU_AUTO_UPDATE_MATH_OBJECTS)
-	update();
-	#endif
-}
 }

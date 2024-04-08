@@ -1,23 +1,22 @@
 /**
  * resource_list.hpp
  * ---
-* this file defines the <ResourceList> template class, which will maintain a list
-* of a particular kind of Resource loaded into Guru. it will also maintain how
-* many sources are making use of each Resource, and will delete the Resource
-* from memory only when there are no more sources are making use of it.
-* 
-* GURU_PRINT_RESOURCE_DEBUG_MESSAGES is a compiler flag which
-* will enable this class and its children to print out messages for debugging.
-*/
+ * this file defines the <ResourceList> template class, which will maintain a list
+ * of a particular kind of Resource loaded into Guru. it will also maintain how
+ * many sources are making use of each Resource, and will delete the Resource
+ * from memory only when there are no more sources are making use of it.
+ * 
+ */
 
 #pragma once
-#if defined(GURU_PRINT_RESOURCE_DEBUG_MESSAGES)
-#include <iostream>
-#endif
 #include <filesystem>
 #include <functional>
 #include <unordered_map>
 #include <vector>
+#include "../system/settings.hpp"
+#if defined(GURU_PRINT_RESOURCE_DEBUG_MESSAGES)
+#include <iostream>
+#endif
 
 namespace gu {
 namespace res {

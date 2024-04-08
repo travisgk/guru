@@ -48,6 +48,8 @@ public:
 
 protected:
 	// this is called by any method that modifies the position.
-	virtual void _set_position_as_modified();
+	inline virtual void _set_position_as_modified() {
+		_position_is_new = true;
+	}
 };
 }

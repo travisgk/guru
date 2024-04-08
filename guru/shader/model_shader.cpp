@@ -3,10 +3,11 @@
 
 namespace gu {
 void ModelShader::_config_uniform_IDs() {
-	// finds IDs of uniform variables in the SkyboxShader.
+	// finds IDs of uniform variables in the ModelShader.
 	glLinkProgram(_program_ID);
 	_uni_PVM_mat_4fv_ID = glGetUniformLocation(_program_ID, "_PVM_mat");
 	
+	// gets the locations of the texture IDs.
 	GLint uni_map_texture_1i_IDs[Material::MAP_TYPE::ENUM_MAX]{};
 	for (uint8_t i = 0; i < Material::MAP_TYPE::ENUM_MAX; ++i) {
 		std::string var_str = '_' + Material::MAP_TYPE_STRS[i] + "_texture_ID";

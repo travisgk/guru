@@ -39,7 +39,7 @@ bool init_GLFW() {
 		GLFW_CONTEXT_VERSION_MINOR, gu::Settings::OPENGL_VERSION_MINOR
 	);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
+	glfwWindowHint(GLFW_SAMPLES, 4); // adds a bit more MSAA on top
 	return true;
 }
 
@@ -50,6 +50,7 @@ bool init_glad() {
 	}
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
+	glEnable(GL_MULTISAMPLE);
 	return true;
 }
 
