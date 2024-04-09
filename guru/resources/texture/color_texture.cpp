@@ -78,7 +78,7 @@ std::shared_ptr<TextureInfo> create_radial_gradient(
 
 			// sets the Color based on the relative distance.
 			float scale = distance / MAX_DISTANCE;
-			Color inter = center.interpolate(edge, scale);
+			Color inter = Color::interpolate(center, edge, scale);
 			const int PIXEL = (y * W + x) * 4;
 			data[PIXEL + 0] = inter.unsigned_char_r();
 			data[PIXEL + 1] = inter.unsigned_char_g();

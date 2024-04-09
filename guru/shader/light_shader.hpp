@@ -29,6 +29,10 @@ protected:
 	inline AttenuationIDs() {}
 };
 
+struct DirLightIDs : public LightColorIDs {
+	GLint direction_ID = -1;
+};
+
 struct PointLightIDs : public LightColorIDs, public AttenuationIDs {
 	GLint position_ID = -1;
 };
@@ -37,16 +41,15 @@ struct PointLightIDs : public LightColorIDs, public AttenuationIDs {
 namespace gu {
 class LightShader : public ModelShader {
 protected:
+	const size_t N_DIR_LIGHTS = 1;
 	const size_t N_POINT_LIGHTS = 1;
 
 	GLint _uni_model_mat_4fv_ID = -1; // model matrix
 	GLint _uni_view_pos_3fv_ID = -1; // view position
 
+	std::vector<DirLightIDs> _uni_dir_light_IDs;
 	std::vector<PointLightIDs> _uni_point_light_IDs;
-
-	GLint _uni_point_light_pos_ID = -1; // point light positions array
-	GLint _uni_point_lights_ID = -1; // point light specs array
-
+	
 	// sets the class's contained uniform IDs by searching for them in the code.
 	virtual void _config_uniform_IDs() override;
 
@@ -61,6 +64,24 @@ public:
 	// this will be the "uniform vec3 _view_pos" in the vertex shader.
 	inline void set_view_pos(const glm::vec3 &vec) const {
 		glUniform3fv(_uni_view_pos_3fv_ID, 1, &vec[0]);
+	}
+
+	inline void set_dir_light_dir(
+		const GLsizei &index, const glm::vec3 &vec
+	) const {
+		glUniform3fv(_uni_dir_light_IDs[index].direction_ID, 1, &vec[0]);
+	}
+
+	inline void set_dir_light_diffuse(
+		const GLsizei &index, const glm::vec3 &vec
+	) const {
+		glUniform3fv(_uni_dir_light_IDs[index].diffuse_ID, 1, &vec[0]);
+	}
+
+	inline void set_dir_light_specular(
+		const GLsizei &index, const glm::vec3 &vec
+	) const {
+		glUniform3fv(_uni_dir_light_IDs[index].specular_ID, 1, &vec[0]);
 	}
 
 	inline void set_point_light_pos(

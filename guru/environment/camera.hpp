@@ -18,6 +18,7 @@ protected:
 	glm::mat4 _proj_mat = glm::mat4(1.0); // projection matrix
 	bool _proj_mat_needs_update = true; // update condition
 	glm::mat4 _projview_mat = glm::mat4(1.0); // projection * view matrix
+	glm::mat4 _skybox_mat = glm::mat4(1.0); // projview without position
 	glm::vec4 _render_section = glm::vec4(0.0, 0.0, 1.0, 1.0);
 	GLint _render_x = 0; // glViewport X
 	GLint _render_y = 0; // glViewport Y
@@ -41,6 +42,10 @@ public:
 
 	// returns the projection * view matrix.
 	inline const glm::mat4 &get_projview() const { return _projview_mat; }
+
+	// returns the projection * view matrix, 
+	// with the view having the Camera's position stripped.
+	inline const glm::mat4 &get_skybox_mat() const { return _skybox_mat; }
 
 	// returns the Camera's field of view in radians.
 	inline const float &get_field_of_view() const { return _fov; }

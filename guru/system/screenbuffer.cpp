@@ -2,7 +2,7 @@
 #include <iostream>
 
 #if defined(_WIN32)
-static const GLenum INTERNAL_FORMAT = GL_RGBA;
+static const GLenum INTERNAL_FORMAT = GL_RGB;
 #elif defined(__linux__)
 static const GLenum INTERNAL_FORMAT = GL_RGB16F;
 #endif 
@@ -91,7 +91,7 @@ bool Screenbuffer::create(const int &width, const int &height) {
 		_width, 
 		_height, 
 		0, 
-		GL_RGB, 
+		GL_RGB, // uncertain
 		GL_UNSIGNED_BYTE, 
 		nullptr
 	);
@@ -124,10 +124,13 @@ void Screenbuffer::bind_and_clear(const gu::Color &clear_color) {
 	// clears Window in preparation.
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glClearColor(RAW_COLOR.r(), RAW_COLOR.g(), RAW_COLOR.b(), RAW_COLOR.a());
-	glClear(GL_COLOR_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
+	glClear(
+		  GL_COLOR_BUFFER_BIT 
+		| GL_DEPTH_BUFFER_BIT
+		| GL_STENCIL_BUFFER_BIT
+	);
 	
-	// draws the Screenbuffer.
+	// binds the Screenbuffer.
 	glBindFramebuffer(GL_FRAMEBUFFER, _image_buffer_ID);
 	glClearColor(
 		clear_color.r(), clear_color.g(), clear_color.b(), clear_color.a()
@@ -138,7 +141,6 @@ void Screenbuffer::bind_and_clear(const gu::Color &clear_color) {
 		| GL_STENCIL_BUFFER_BIT 
 	);
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
 }
 
 void Screenbuffer::_delete_resources() {

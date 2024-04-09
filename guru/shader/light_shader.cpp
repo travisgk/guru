@@ -10,6 +10,22 @@ void LightShader::_config_uniform_IDs() {
 	_uni_model_mat_4fv_ID = glGetUniformLocation(_program_ID, "_model_mat");
 	_uni_view_pos_3fv_ID = glGetUniformLocation(_program_ID, "_view_pos");
 	
+	_uni_dir_light_IDs.resize(N_DIR_LIGHTS);
+	for (size_t i = 0; i < N_DIR_LIGHTS; ++i) {
+		_uni_dir_light_IDs[i].direction_ID = glGetUniformLocation(
+			_program_ID,
+			("_dir_light_dirs[" + std::to_string(i) + ']').c_str()
+		);
+		_uni_dir_light_IDs[i].diffuse_ID = glGetUniformLocation(
+			_program_ID,
+			("_dir_lights[" + std::to_string(i) + "].diffuse").c_str()
+		);
+		_uni_dir_light_IDs[i].specular_ID = glGetUniformLocation(
+			_program_ID,
+			("_dir_lights[" + std::to_string(i) + "].specular").c_str()
+		);
+	}
+
 	_uni_point_light_IDs.resize(N_POINT_LIGHTS);
 	for (size_t i = 0; i < N_POINT_LIGHTS; ++i) {
 		_uni_point_light_IDs[i].position_ID = glGetUniformLocation(

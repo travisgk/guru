@@ -2,7 +2,7 @@
 
 namespace gu {
 void Transformation::set_scaling(const float &absolute_scale) {
-	_scaling = glm::vec3(absolute_scale, absolute_scale, absolute_scale);
+	_scaling = glm::vec3(absolute_scale);
 	_scaling_is_new = true;
 	#if defined(GURU_AUTO_UPDATE_MATH_OBJECTS)
 	update();

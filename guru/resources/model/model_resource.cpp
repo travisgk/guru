@@ -149,6 +149,7 @@ static size_t load_material(
 	std::filesystem::path paths[Material::N_MAP_TYPES];
 	paths[0] = diffuse_path;
 	aiString ai_image_names[Material::N_MAP_TYPES];
+
 	#if not defined(GURU_DISABLE_TANGENT_SPACE)
 	ai_material->GetTexture(
 		aiTextureType_NORMALS,
@@ -157,18 +158,6 @@ static size_t load_material(
 	);
 	#endif
 
-	ai_material->GetTexture(
-		aiTextureType_SPECULAR,
-		0,
-		&ai_image_names[Material::MAP_TYPE::SPECULAR]
-	);
-
-	ai_material->GetTexture(
-		aiTextureType_SHININESS,
-		0,
-		&ai_image_names[Material::MAP_TYPE::ROUGHNESS]
-	);
-
 	#if not defined(GURU_DISABLE_TANGENT_SPACE)
 	ai_material->GetTexture(
 		aiTextureType_DISPLACEMENT,
@@ -176,6 +165,24 @@ static size_t load_material(
 		&ai_image_names[Material::MAP_TYPE::DISPLACEMENT]
 	);
 	#endif
+
+	ai_material->GetTexture(
+		aiTextureType_DIFFUSE_ROUGHNESS,
+		0,
+		&ai_image_names[Material::MAP_TYPE::ROUGHNESS]
+	);
+
+	ai_material->GetTexture(
+		aiTextureType_AMBIENT_OCCLUSION,
+		0,
+		&ai_image_names[Material::MAP_TYPE::AMBIENT_OCCLUSION]
+	);
+
+	ai_material->GetTexture(
+		aiTextureType_METALNESS,
+		0,
+		&ai_image_names[Material::MAP_TYPE::METALLIC]
+	);
 
 	ai_material->GetTexture(
 		aiTextureType_EMISSIVE,

@@ -22,9 +22,14 @@ public:
 		const float &red, 
 		const float &green, 
 		const float &blue, 
-		const float &alpha = 1.0
+		const float &alpha = 1.0f
 	);
 
+	inline Color(const glm::vec3 &rgb, const float &alpha = 1.0f) {
+		Color(rgb[0], rgb[1], rgb[2], alpha);
+	}
+
+	inline bool needs_GL_update() const { return _is_new; }
 	inline glm::vec3 rgb() const { return glm::vec3(_r, _g, _b); }
 	inline const float &r() const { return _r; }
 	inline const float &g() const { return _g; }
@@ -46,15 +51,34 @@ public:
 		return static_cast<unsigned char>(255.0f * _a);
 	}
 
-	// returns a Color that is a transition between <this> Color
-	// and the given Color <c>, where <scale> indicates
-	// how far the returned Color will be transitioned from <this> to <c>.
-	Color interpolate(const Color &c, const float &scale) const;
+	inline void set_GL_updated() { _is_new = false; }
 
-	// returns a string of the RGBA channels ranging from 0.0 to 1.0.
+	void set(
+		const float &red,
+		const float &green,
+		const float &blue,
+		const float &alpha = 1.0
+	);
+
+	// returns a Color that is a transition between <color_a>
+	// and <color_b>, where <scale> indicates
+	// how far the returned Color will be transitioned from <this> to <c>.
+	static Color interpolate(
+		const Color &color_a, const Color &color_b, const float &scale
+	);
+
+	// returns a vector with three channels:
+	// hue [0, 360), saturation [0, 1], value [0, 1].
+	static glm::vec3 to_HSV(const Color &color);
+
+	// returns a Color that's created from a given vector
+	// representing hue, saturation, and value.
+	static Color from_HSV(const glm::vec3 &hsv);
+
+	// returns a string of the RGBA channels ranging [0, 1].
 	std::string to_str() const;
 
-	// returns a string of the RGBA channels ranging from 0 to 255.
+	// returns a string of the RGBA channels ranging [0, 255].
 	std::string to_str_255() const;
 };
 }

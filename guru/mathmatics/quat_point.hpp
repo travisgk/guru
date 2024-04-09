@@ -27,5 +27,20 @@ public:
 	inline void move_forward(const float &factor) {
 		move(_forward, factor);
 	}
+
+	// sets the orientation to look at the given point
+	// with the rotation following an absolute Y-axis.
+	inline void look_at(const glm::dvec3 &position) {
+		//_quat = glm::quat_cast(glm::lookAt(_position, position, Y_AXIS));
+		_quat = glm::quatLookAt(glm::normalize(_position - position), Y_AXIS);
+		_set_orientation_as_modified();
+	}
+
+	// sets the orientation to look at the given point, with the rotation 
+	// using the object's relative up direction as its Y-axis.
+	inline void billboard_at(const glm::dvec3 &position) {
+		_quat = glm::quatLookAt(glm::normalize(position - _position), _up);
+		_set_orientation_as_modified();
+	}
 };
 } // namespace gu

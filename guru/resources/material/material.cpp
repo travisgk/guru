@@ -5,20 +5,22 @@
 
 namespace gu {
 const Color Material::DEFAULT_COLORS[N_MAP_TYPES] = {
-	Color(0.5f, 0.5f, 0.5f), 
-	Color(0.5f, 0.5f, 1.0f), 
-	Color(0.0f, 0.0f, 0.0f), 
-	Color(0.0f, 0.0f, 0.0f),
-	Color(0.5f, 0.5f, 0.5f),
-	Color(0.0f, 0.0f, 0.0f)
+	Color(0.5f, 0.5f, 0.5f), // diffuse
+	Color(0.5f, 0.5f, 1.0f), // normal 
+	Color(0.5f, 0.5f, 0.5f), // displacement
+	Color(1.0f, 1.0f, 1.0f), // roughness
+	Color(0.0f, 0.0f, 0.0f), // ambient occlusion
+	Color(0.0f, 0.0f, 0.0f), // metallic
+	Color(0.0f, 0.0f, 0.0f)  // emissive
 };
 
 const std::string Material::MAP_TYPE_STRS[MAP_TYPE::ENUM_MAX] = {
 	"diffuse",
 	"normal",
-	"specular",
-	"roughness",
 	"displacement",
+	"roughness",
+	"ao",
+	"metallic",
 	"emissive",
 	"skybox"
 };

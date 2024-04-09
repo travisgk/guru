@@ -13,7 +13,7 @@ namespace gu {
 class Transformation : public QuatPoint {
 protected:
 	glm::mat4 _model_mat = glm::mat4(1.0);
-	glm::vec3 _scaling = glm::vec3(1.0, 1.0, 1.0);
+	glm::vec3 _scaling = glm::vec3(1.0);
 	bool _scaling_is_new = true;
 
 public:

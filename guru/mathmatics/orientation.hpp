@@ -38,6 +38,10 @@ public:
 	// returns the quaternion representing the rotation.
 	inline const glm::dquat &get_quat() const { return _quat; }
 
+	// returns a 3D vector which represents 
+	// the direction of the rotation quaternion.
+	glm::vec3 direction_vec() const;
+
 	inline const glm::dvec3 &right() const { return _right; }
 	inline const glm::dvec3 &up() const { return _up; }
 	inline const glm::dvec3 &forward() const { return _forward; }
@@ -62,6 +66,9 @@ public:
 			1.0 - 2.0 * (_quat.y * _quat.y + _quat.z * _quat.z)
 		);
 	}
+
+	// sets the rotation using a given direction vector.
+	void orient(const glm::vec3 &direction);
 
 	// sets the rotation using pitch, yaw, and roll in radians.
 	void orient(const double &pitch, const double &yaw, const double &roll);

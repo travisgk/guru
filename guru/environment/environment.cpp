@@ -32,14 +32,13 @@ bool init_GLFW() {
 		std::cerr << "GLFW failed to initialize.\n";
 		return false;
 	}
-	glfwWindowHint(
-		GLFW_CONTEXT_VERSION_MAJOR, gu::Settings::OPENGL_VERSION_MAJOR
-	);
-	glfwWindowHint(
-		GLFW_CONTEXT_VERSION_MINOR, gu::Settings::OPENGL_VERSION_MINOR
-	);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Settings::OPENGL_VERSION_MAJOR);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Settings::OPENGL_VERSION_MINOR);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_SAMPLES, 4); // adds a bit more MSAA on top
+
+	// adds a bit more MSAA on top
+	if (Settings::N_GLFW_SAMPLES > 0)
+		glfwWindowHint(GLFW_SAMPLES, Settings::N_GLFW_SAMPLES);
 	return true;
 }
 
@@ -49,8 +48,8 @@ bool init_glad() {
 		return false;
 	}
 	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
 	glEnable(GL_MULTISAMPLE);
+	glDepthFunc(GL_LESS);
 	return true;
 }
 
@@ -86,7 +85,7 @@ void env::reset(Window &window) {
 	_create_screen_display();
 	_create_skybox();
 	create_camera();
-
+	
 	int width, height;
 	glfwGetWindowSize(_window->get_GLFWwindow(), &width, &height);
 	_screenbuffer_size_callback(_window->get_GLFWwindow(), width, height);
@@ -216,11 +215,9 @@ void env::activate_MSAA(uint8_t n_multisamples) {
 	);
 }
 
-void env::draw_skybox(
-	const glm::mat4 &camera_projview_mat, GLuint cubemap_ID
-) {
+void env::draw_skybox(const glm::mat4 &cam_skybox_mat, GLuint cubemap_ID) {
 	_skybox_shader.use();
-	_skybox_shader.set_PV_mat_4fv(camera_projview_mat);
+	_skybox_shader.set_PV_mat_4fv(cam_skybox_mat);
 	glActiveTexture(GL_TEXTURE0 + Material::MAP_TYPE::SKYBOX);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap_ID);
 	glDisable(GL_CULL_FACE);
@@ -240,17 +237,11 @@ void env::update_delta_and_poll_events() {
 // clears the default buffer and 
 // then binds the <_screenbuffer> so that its image buffer is being drawn to.
 void env::clear_window_and_screenbuffer() {
-	
-
 	if (_screenbuffer.is_used()) {
-		_window->clear();
 		_screenbuffer.bind_and_clear(_clear_color);
 	} else {
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		_window->clear();
 	}
-	
-	glfwSwapInterval(gu::Settings::using_vsync());
 }
 
 // processes the <_screenbuffer> for an output frame image (texture),
@@ -262,11 +253,15 @@ void env::display_frame() {
 	
 	if (_screenbuffer.is_used()) {
 		_blit_frame_to_buffer();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		glClear(GL_COLOR_BUFFER_BIT);
+		glDisable(GL_DEPTH_TEST);
+
+		_screen_shader.use();
 		glBindVertexArray(_screen_display_VAO_ID);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, _screenbuffer.screen_ID());
 		glDrawArrays(GL_TRIANGLES, 0, 6);
-		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 	glfwSwapBuffers(_window->get_GLFWwindow());
@@ -292,7 +287,6 @@ void env::_update_everything() {
 }
 
 void env::_blit_frame_to_buffer() {
-	_screen_shader.use();
 	glDisable(GL_CULL_FACE);
 	glPolygonMode(GL_BACK, GL_FILL);
 	
@@ -301,9 +295,5 @@ void env::_blit_frame_to_buffer() {
 	const GLsizei &w = _screenbuffer.width();
 	const GLsizei &h = _screenbuffer.height();
 	glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_COLOR_BUFFER_BIT, GL_NEAREST);
-
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, 0);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0);
-	glDisable(GL_DEPTH_TEST);
 }
 } // namespace gu

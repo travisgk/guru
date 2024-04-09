@@ -63,10 +63,6 @@ Mesh::~Mesh() {
 	glDeleteBuffers(1, &_ebo_ID);
 }
 
-//std::filesystem::path Mesh::material_path() const {
-//	return _material ? _material->path() : "";
-//}
-
 void Mesh::load(
 	aiMesh *ai_mesh, 
 	const aiScene *scene, 

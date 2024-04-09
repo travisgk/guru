@@ -145,13 +145,13 @@ public:
 			const std::shared_ptr<Material> &material
 		) : material_index(material_index), material(material) {}
 	};
-
 	enum MAP_TYPE {
 		DIFFUSE = 0, 
 		NORMAL, 
-		SPECULAR, 
+		DISPLACEMENT,
 		ROUGHNESS, 
-		DISPLACEMENT, 
+		AMBIENT_OCCLUSION,
+		METALLIC,
 		EMISSIVE, 
 		SKYBOX, 
 		ENUM_MAX
@@ -161,7 +161,7 @@ public:
 	static const std::string MAP_TYPE_STRS[MAP_TYPE::ENUM_MAX];
 
 	// number of loaded map types.
-	static const uint8_t N_MAP_TYPES = 6;
+	static const uint8_t N_MAP_TYPES = 7;
 
 private:
 	static const Color DEFAULT_COLORS[N_MAP_TYPES]; // when no image is found

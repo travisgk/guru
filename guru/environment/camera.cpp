@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <glad/gl.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <iostream>
 
 namespace gu {
 // ctor. the function <_update_relative_directions()> 
@@ -54,10 +55,13 @@ void Camera::framebuffer_size_callback(int width, int height) {
 // the view matrix, the projection matrix, and/or the projview matrix.
 void Camera::update() {
 	_update_relative_directions();
+	// std::cout << _right[0] << '\t' << _right[1] << '\t' << _right[2] << std::endl; // debug
 	bool projview_needs_update = false;
+	bool skybox_mat_needs_update = false;
 	if (_orientation_is_new or _position_is_new) {
 		_view_mat = glm::lookAt(_position, _position + _forward, _up);
-		projview_needs_update = _orientation_is_new;
+		projview_needs_update = true;
+		skybox_mat_needs_update = _orientation_is_new;
 		_orientation_is_new = false;
 		_position_is_new = false;
 	}
@@ -84,8 +88,11 @@ void Camera::update() {
 		projview_needs_update = true;
 	}
 
-	if (projview_needs_update)
-		_projview_mat = _proj_mat * glm::mat4(glm::mat3(_view_mat));
+	if (projview_needs_update) {
+		_projview_mat = _proj_mat * _view_mat;
+		if (skybox_mat_needs_update)
+			_skybox_mat = _proj_mat * glm::mat4(glm::mat3(_view_mat));
+	}
 }
 
 void Camera::_set_ortho_projection(bool orthographic) {

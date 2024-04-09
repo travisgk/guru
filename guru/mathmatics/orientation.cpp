@@ -6,6 +6,21 @@ const glm::dvec3 Orientation::X_AXIS = glm::dvec3(1.0, 0.0, 0.0);
 const glm::dvec3 Orientation::Y_AXIS = glm::dvec3(0.0, 1.0, 0.0);
 const glm::dvec3 Orientation::Z_AXIS = glm::dvec3(0.0, 0.0, 1.0);
 
+glm::vec3 Orientation::direction_vec() const {
+	glm::dvec3 initial_dir = glm::dvec3(0.0, 0.0, 1.0);
+	glm::dvec3 rotated_dir = glm::rotate(_quat, initial_dir);
+	return static_cast<glm::vec3>(rotated_dir);
+}
+
+void Orientation::orient(const glm::vec3 &direction) {
+	glm::vec3 initial_dir = glm::dvec3(0.0, 0.0, 1.0);
+	glm::vec3 rot_axis = glm::normalize(glm::cross(initial_dir, direction));
+	float dot_product = glm::dot(initial_dir, direction);
+	float rot_angle = glm::acos(dot_product);
+	_quat = glm::angleAxis(rot_angle, rot_axis);
+	_set_orientation_as_modified();
+}
+
 void Orientation::orient(
 	const double &pitch, const double &yaw, const double &roll
 ) {
@@ -35,6 +50,7 @@ void Orientation::update() {
 void Orientation::_update_relative_directions() {
 	if (not _orientation_is_new)
 		return;
+
 	_forward.x = 2.0 * (_quat.x * _quat.z + _quat.w * _quat.y);
 	_forward.y = 2.0 * (_quat.y * _quat.z - _quat.w * _quat.x);
 	_forward.z = 1.0 - (_quat.x * _quat.x + _quat.y * _quat.y) * 2.0;

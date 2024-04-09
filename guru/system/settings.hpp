@@ -23,12 +23,15 @@
 #pragma once
 #include <stdint.h>
 #include <string>
+#include <glad/gl.h>
+#include <glfw/glfw3.h>
 
 namespace gu {
 struct Settings {
 public:
 	static const uint8_t OPENGL_VERSION_MAJOR = 4;
 	static const uint8_t OPENGL_VERSION_MINOR = 6;
+	static const uint8_t N_GLFW_SAMPLES = 4;
 
 private:
 	static bool _vsync; // true if vertical synchronization is used
@@ -44,7 +47,10 @@ public:
 	inline static const int64_t &get_fps_pause() {
 		return _fps_pause_microseconds; 
 	}
-	inline static void set_vsync(bool activated) { _vsync = activated; }
+	inline static void set_vsync(bool activated) { 
+		_vsync = activated; 
+		glfwSwapInterval(_vsync);
+	}
 	static void set_fps_limit(uint16_t limit);
 };
 } // namespace gu

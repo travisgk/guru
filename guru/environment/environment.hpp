@@ -97,9 +97,7 @@ public:
 
 	// draws a skybox, given a Camera's projview matrix
 	// and an OpenGL cubemap ID.
-	static void draw_skybox(
-		const glm::mat4 &camera_projview_mat, GLuint cubemap_ID
-	);
+	static void draw_skybox(const glm::mat4 &cam_skybox_mat, GLuint cubemap_ID);
 
 	// updates the delta time and polls the Window for events.
 	static void update_delta_and_poll_events();
