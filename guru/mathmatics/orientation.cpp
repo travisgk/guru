@@ -7,17 +7,14 @@ const glm::dvec3 Orientation::Y_AXIS = glm::dvec3(0.0, 1.0, 0.0);
 const glm::dvec3 Orientation::Z_AXIS = glm::dvec3(0.0, 0.0, 1.0);
 
 glm::vec3 Orientation::direction_vec() const {
-	glm::dvec3 initial_dir = glm::dvec3(0.0, 0.0, 1.0);
-	glm::dvec3 rotated_dir = glm::rotate(_quat, initial_dir);
+	glm::dvec3 forward = Z_AXIS;
+	glm::dvec3 rotated_dir = glm::normalize(_quat * forward);
 	return static_cast<glm::vec3>(rotated_dir);
 }
 
-void Orientation::orient(const glm::vec3 &direction) {
-	glm::vec3 initial_dir = glm::dvec3(0.0, 0.0, 1.0);
-	glm::vec3 rot_axis = glm::normalize(glm::cross(initial_dir, direction));
-	float dot_product = glm::dot(initial_dir, direction);
-	float rot_angle = glm::acos(dot_product);
-	_quat = glm::angleAxis(rot_angle, rot_axis);
+void Orientation::orient(const glm::dvec3 &direction) {
+	glm::dvec3 normalized = glm::normalize(direction);
+	_quat = glm::rotation(Z_AXIS, normalized);
 	_set_orientation_as_modified();
 }
 
@@ -31,7 +28,7 @@ void Orientation::orient(
 
 void Orientation::rotate(const glm::dvec3 &axis, const float &factor) {
 	_quat = glm::angleAxis(
-		factor * Delta::get(), axis
+		factor * Delta::get(), glm::normalize(axis)
 	) * _quat;
 	_set_orientation_as_modified();
 }

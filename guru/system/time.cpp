@@ -1,12 +1,11 @@
 #include "time.hpp"
-#include <iostream>
+#include <iostream> // debug
 #if defined(_WIN32) 
-#include <chrono>
-#include <thread>
+#include <windows.h>
 #elif defined(__linux__)
-#include <time.h>
+#include <unistd.h>
 #endif
-#include <glfw/glfw3.h>
+#include "settings.hpp"
 
 namespace gu {
 double Delta::_delta = 0.0;
@@ -14,34 +13,64 @@ double Delta::_fps = 0.0;
 double Delta::_last_time = 0.0;
 double Delta::_current_time = 0.0;
 
+static void sleep_ms(const double &ms) {
+	#if defined(_WIN32) 
+	Sleep(static_cast<uint32_t>(ms));
+	#elif defined(__linux__)
+	usleep(static_cast<uint32_t>(ms * 1000));
+	#endif
+}
+
 void Delta::update() {
+	static const double MIN_OFFSET = 0.002;
+	static const double MAX_OFFSET = 0.005;
 	_last_time = _current_time;
 	_current_time = glfwGetTime();
 	_delta = _current_time - _last_time;
-	_fps = 1.0 / _delta;
-}
 
-void Delta::maintain_fps() {
-	if (Settings::get_fps_limit() <= 0 or Settings::using_vsync())
-		return;
-	
-	int64_t process_time_microseconds = static_cast<int64_t>(
-		(glfwGetTime() - _current_time) * 1000000.0
-	);
-
-	if (process_time_microseconds < Settings::get_fps_pause()) {
-		#if defined(_WIN32) 
-		int64_t result = (
-			Settings::get_fps_pause() - process_time_microseconds * 12
-		);
-		std::this_thread::sleep_for(std::chrono::microseconds(result));
-		#elif defined(__linux__)
-		const timespec time_spec = {
-			.tv_sec=static_cast<uint32_t>(result / 1000000.0),
-			.tv_nsec=(result % 1000000) * 1000
+	if (Settings::using_vsync()) {
+		if (Settings::fps_limit() == 0) {
+			if (_delta > Settings::vsync_frame_duration() + MAX_OFFSET) {
+				_delta = Settings::vsync_frame_duration();
+			} else {
+				// vsync without fps limit.
+				// prevents microstutter in rendering.
+				while (_delta < Settings::vsync_frame_duration() - MIN_OFFSET) {
+					sleep_ms(1);
+					_current_time = glfwGetTime();
+					_delta = _current_time - _last_time;
+				}
+			}
+		} else {
+			const double &max_duration = (
+				  Settings::vsync_frame_duration() 
+				> Settings::fps_limit_duration() 
+				? Settings::vsync_frame_duration() 
+				: Settings::fps_limit_duration()
+			);
+			if (_delta > max_duration + MAX_OFFSET) {
+				_delta = max_duration;
+			} else {
+				// vsync with fps limit.
+				while (_delta < max_duration - MIN_OFFSET) {
+					sleep_ms(1);
+					_current_time = glfwGetTime();
+					_delta = _current_time - _last_time;
+				} 
+			}
 		}
-		nanosleep(&time_spec, nullptr);
-		#endif
+	} else if (Settings::fps_limit() > 0) {
+		if(_delta > Settings::fps_limit_duration() + MAX_OFFSET) {
+			_delta = Settings::fps_limit_duration();
+		} else {
+			// fps limit without vsync.
+			while (_delta < Settings::fps_limit_duration() - MIN_OFFSET) {
+				sleep_ms(Settings::fps_limit_duration() / 2);
+				_current_time = glfwGetTime();
+				_delta = _current_time - _last_time;
+			}
+		}
 	}
+	_fps = 1.0 / _delta;
 }
 } // namespace gu

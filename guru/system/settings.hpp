@@ -35,22 +35,42 @@ public:
 
 private:
 	static bool _vsync; // true if vertical synchronization is used
+	static double _vsync_frame_duration; // duration (seconds) by monitor Hz
 	static uint16_t _fps_limit; // used if <vsync> is false and is more than 0
-	static int64_t _fps_pause_microseconds; // manual sleep duration per frame
+	static double _fps_limit_duration; // duration (seconds) by fps limit
 	
 	// instances of this struct cannot be created.
 	Settings() = delete;
 
 public:
 	inline static bool using_vsync() { return _vsync; }
-	inline static uint16_t get_fps_limit() { return _fps_limit; }
-	inline static const int64_t &get_fps_pause() {
-		return _fps_pause_microseconds; 
+
+	// returns the minimum duration that a frame should last under vsync.
+	// this is used to prevent microstutters in the rendering.
+	inline static const double &vsync_frame_duration() { 
+		return _vsync_frame_duration; 
 	}
-	inline static void set_vsync(bool activated) { 
-		_vsync = activated; 
-		glfwSwapInterval(_vsync);
+
+	// returns the minimum duration that a frame should last
+	// under the current set framerate limit.
+	inline static uint16_t fps_limit() { return _fps_limit; }
+	inline static const double &fps_limit_duration() {
+		return _fps_limit_duration;
 	}
+
+	inline static void set_monitor_refresh_rate(const int &refresh_rate_hz) {
+		_vsync_frame_duration = 1.0 / refresh_rate_hz;
+	}
+	
+	// sets the vsync setting. 
+	// 0 will turn off all vsync.
+	inline static void set_swap_interval(const int &swap_interval) { 
+		glfwSwapInterval(swap_interval);
+		_vsync = swap_interval != 0;
+	}
+
+	// imposes a framerate limit on the program.
+	// 0 will remove any framerate limit and turn off vsync.
 	static void set_fps_limit(uint16_t limit);
 };
 } // namespace gu

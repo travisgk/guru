@@ -99,8 +99,8 @@ public:
 	// and an OpenGL cubemap ID.
 	static void draw_skybox(const glm::mat4 &cam_skybox_mat, GLuint cubemap_ID);
 
-	// updates the delta time and polls the Window for events.
-	static void update_delta_and_poll_events();
+	// polls the Window for events and updates the delta time.
+	static void poll_events_and_update_delta();
 
 	// sets up the Window and Screenbuffer for drawing.
 	static void clear_window_and_screenbuffer();

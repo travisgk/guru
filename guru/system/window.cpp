@@ -49,6 +49,7 @@ void Window::make_fullscreen(int mode_num) {
 			return;
 		} else if (mode_num < count) {
 			const GLFWvidmode &mode = modes[mode_num];
+			gu::Settings::set_monitor_refresh_rate(mode.refreshRate);
 			glfwSetWindowMonitor(
 				_window, 
 				monitor, 
@@ -62,6 +63,7 @@ void Window::make_fullscreen(int mode_num) {
 		}
 	}
 	GLFWvidmode const *mode = glfwGetVideoMode(monitor);
+	gu::Settings::set_monitor_refresh_rate(mode->refreshRate);
 	glfwSetWindowMonitor(
 		_window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate
 	);
@@ -88,6 +90,7 @@ void Window::_get_monitor_center(int &x, int &y) const {
 	if (monitor) {
 		GLFWvidmode const *mode = glfwGetVideoMode(monitor);
 		if (mode) {
+			gu::Settings::set_monitor_refresh_rate(mode->refreshRate);
 			int monitor_x, monitor_y;
 			glfwGetMonitorPos(monitor, &monitor_x, &monitor_y);
 			x = static_cast<int>(

@@ -7,7 +7,6 @@
  */
 
 #pragma once
-#include "settings.hpp"
 
 namespace gu {
 struct Delta {
@@ -26,10 +25,5 @@ public:
 
 	// calculates the delta time and the fps.
 	static void update();
-
-	// makes the program manually pause to match <gu::Settings::get_fps_limit()>.
-	// this only executes if <gu::Settings::use_vsync()> is false
-	// and if <gu::Settings::get_fps_limit()> is above 0.
-	static void maintain_fps();
 };
 }

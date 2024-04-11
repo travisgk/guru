@@ -228,10 +228,9 @@ void env::draw_skybox(const glm::mat4 &cam_skybox_mat, GLuint cubemap_ID) {
 	glBindVertexArray(0);
 }
 
-void env::update_delta_and_poll_events() {
-	gu::Delta::maintain_fps();
-	gu::Delta::update();
+void env::poll_events_and_update_delta() {
 	glfwPollEvents();
+	gu::Delta::update();
 }
 
 // clears the default buffer and 
@@ -263,7 +262,6 @@ void env::display_frame() {
 		glBindTexture(GL_TEXTURE_2D, _screenbuffer.screen_ID());
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
-
 	glfwSwapBuffers(_window->get_GLFWwindow());
 }
 

@@ -68,7 +68,7 @@ public:
 	}
 
 	// sets the rotation using a given direction vector.
-	void orient(const glm::vec3 &direction);
+	void orient(const glm::dvec3 &direction);
 
 	// sets the rotation using pitch, yaw, and roll in radians.
 	void orient(const double &pitch, const double &yaw, const double &roll);

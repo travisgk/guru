@@ -46,6 +46,7 @@ protected:
 
 	GLint _uni_model_mat_4fv_ID = -1; // model matrix
 	GLint _uni_view_pos_3fv_ID = -1; // view position
+	GLint _uni_ambient_color_3fv_ID = -1;
 
 	std::vector<DirLightIDs> _uni_dir_light_IDs;
 	std::vector<PointLightIDs> _uni_point_light_IDs;
@@ -64,6 +65,10 @@ public:
 	// this will be the "uniform vec3 _view_pos" in the vertex shader.
 	inline void set_view_pos(const glm::vec3 &vec) const {
 		glUniform3fv(_uni_view_pos_3fv_ID, 1, &vec[0]);
+	}
+
+	inline void set_ambient_color(const glm::vec3 &vec) const {
+		glUniform3fv(_uni_ambient_color_3fv_ID, 1, &vec[0]);
 	}
 
 	inline void set_dir_light_dir(
