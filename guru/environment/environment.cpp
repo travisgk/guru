@@ -1,7 +1,13 @@
+#if defined(_WIN32)
+#include <Windows.h>
+#include <dwmapi.h>
+#pragma comment(lib, "dwmapi.lib")
+#endif
 #include "environment.hpp"
 #include "../system/settings.hpp"
 #include "../environment/model.hpp"
 #include <iostream>
+
 
 namespace gu {
 Window *env::_window;
@@ -262,6 +268,10 @@ void env::display_frame() {
 		glBindTexture(GL_TEXTURE_2D, _screenbuffer.screen_ID());
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
+
+	#if defined(_WIN32)
+	DwmFlush(); // prevents microstutter
+	#endif
 	glfwSwapBuffers(_window->get_GLFWwindow());
 }
 

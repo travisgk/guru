@@ -22,7 +22,7 @@ static void sleep_ms(const double &ms) {
 }
 
 void Delta::update() {
-	static const double MIN_OFFSET = 0.002;
+	static const double MIN_OFFSET = 0.005;
 	static const double MAX_OFFSET = 0.005;
 	_last_time = _current_time;
 	_current_time = glfwGetTime();
@@ -49,7 +49,7 @@ void Delta::update() {
 				: Settings::fps_limit_duration()
 			);
 			if (_delta > max_duration + MAX_OFFSET) {
-				_delta = max_duration;
+				_delta = max_duration + +MAX_OFFSET;
 			} else {
 				// vsync with fps limit.
 				while (_delta < max_duration - MIN_OFFSET) {
@@ -71,6 +71,7 @@ void Delta::update() {
 			}
 		}
 	}
+
 	_fps = 1.0 / _delta;
 }
 } // namespace gu

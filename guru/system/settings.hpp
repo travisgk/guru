@@ -18,13 +18,17 @@
  *    enables the ResourceList class 
  *    and all its children to print out messages for debugging.
  * 
+ * # define GURU_USE_LEFT_HANDED_COORDINATES
+ *    changes Guru to use Left-Handed coordinates.
  */
 
 #pragma once
+#define GURU_USE_LEFT_HANDED_COORDINATES
 #include <stdint.h>
 #include <string>
 #include <glad/gl.h>
 #include <glfw/glfw3.h>
+#include <iostream> // debug
 
 namespace gu {
 struct Settings {
@@ -60,6 +64,7 @@ public:
 
 	inline static void set_monitor_refresh_rate(const int &refresh_rate_hz) {
 		_vsync_frame_duration = 1.0 / refresh_rate_hz;
+		std::cout << refresh_rate_hz << " Hz" << std::endl; // debug
 	}
 	
 	// sets the vsync setting. 

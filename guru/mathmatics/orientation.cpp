@@ -1,5 +1,6 @@
 #include "orientation.hpp"
 #include "../system/time.hpp"
+#include "../system/settings.hpp"
 
 namespace gu {
 const glm::dvec3 Orientation::X_AXIS = glm::dvec3(1.0, 0.0, 0.0);
@@ -58,12 +59,21 @@ void Orientation::_update_relative_directions() {
 	_up.z = 2.0 * (_quat.y * _quat.z + _quat.w * _quat.x);
 	_up = glm::normalize(_up);
 
+	#if defined(GURU_USE_LEFT_HANDED_COORDINATES)
+	_right.x = (
+		1.0 - (_quat.y * _quat.y + _quat.z * _quat.z) * 2.0
+	);
+	_right.y = 2.0 * (_quat.x * _quat.y + _quat.w * _quat.z);
+	_right.z = 2.0 * (_quat.x * _quat.z - _quat.w * _quat.y);
+	_right = glm::normalize(_right);
+	#else
 	_right.x = -1.0 * (
 		1.0 - (_quat.y * _quat.y + _quat.z * _quat.z) * 2.0
 	);
 	_right.y = -2.0 * (_quat.x * _quat.y + _quat.w * _quat.z);
 	_right.z = -2.0 * (_quat.x * _quat.z - _quat.w * _quat.y);
 	_right = glm::normalize(_right);
+	#endif
 
 	if (CALC_REL_DIRS_WILL_UPDATE)
 		_orientation_is_new = false;
