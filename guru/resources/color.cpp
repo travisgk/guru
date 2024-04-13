@@ -23,7 +23,6 @@ void Color::set(
 	_g = green;
 	_b = blue;
 	_a = alpha;
-	_is_new = true;
 }
 
 Color Color::interpolate(

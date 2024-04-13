@@ -1,6 +1,7 @@
 #version 330 core
 #define N_DIR_LIGHTS 1
 #define N_POINT_LIGHTS 1
+#define N_SPOT_LIGHTS 1
 
 struct DirLight {
 	vec3 diffuse;
@@ -15,6 +16,16 @@ struct PointLight {
 	float quadratic;
 };
 
+struct SpotLight {
+	vec3 diffuse;
+	vec3 specular;
+	float constant;
+	float linear;
+	float quadratic;
+	float inner_cutoff;
+	float outer_cutoff;
+};
+
 in Shared {
 	vec2 tex_coords;
 	vec3 tangent_view_pos;
@@ -23,6 +34,8 @@ in Shared {
 	vec3 tangent_dir_light_raw_dirs[N_DIR_LIGHTS];
 	vec3 tangent_point_light_pos[N_POINT_LIGHTS];
 	vec3 tangent_point_light_raw_dirs[N_POINT_LIGHTS];
+	vec3 tangent_spot_light_pos[N_SPOT_LIGHTS];
+	vec3 tangent_spot_light_raw_dirs[N_SPOT_LIGHTS];
 } fs_in;
 
 out vec4 FragColor;
@@ -34,6 +47,7 @@ uniform sampler2D _metallic_texture_ID;
 uniform sampler2D _roughness_texture_ID;
 uniform DirLight _dir_lights[N_DIR_LIGHTS];
 uniform PointLight _point_lights[N_POINT_LIGHTS];
+uniform SpotLight _spot_lights[N_SPOT_LIGHTS];
 
 void main() {
 	vec3 normal = texture(_normal_texture_ID, fs_in.tex_coords).rgb;

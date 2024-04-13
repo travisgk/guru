@@ -21,6 +21,7 @@ private:
 	double _current_time = 0;
 	double _last_time = 0;
 	glm::ivec2 _prev_size;
+	bool _window_destroyed = false;
 	GLFWwindow *_window;
 
 public:
@@ -30,10 +31,16 @@ public:
 	// dtor. destroys the GLFWwindow properly.
 	~Window();
 	
+	void destroy() {
+		if (not _window_destroyed)
+			return;
+		glfwDestroyWindow(_window);
+		_window_destroyed = true;
+	}
+
 	// deletes copy ctors to prevent access to the deleted GLFWwindow.
 	Window(const Window&) = delete;
 	Window &operator= (const Window&) = delete;
-
 private:
 	// creates a GLFWwindow and places it in the center of the monitor.
 	void _init(int width, int height);

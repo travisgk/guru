@@ -21,7 +21,7 @@ protected:
 public:
 	// sets the projection-view-model matrix in the ModelShader.
 	// this will be the "uniform mat4 _PVM_mat" in the vertex shader.
-	inline void set_PVM_mat(const glm::mat4 &mat) {
+	inline void set_PVM_mat(const glm::mat4 &mat) const {
 		glUniformMatrix4fv(_uni_PVM_mat_4fv_ID, 1, GL_FALSE, &mat[0][0]);
 	}
 };

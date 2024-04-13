@@ -7,12 +7,6 @@ const glm::dvec3 Orientation::X_AXIS = glm::dvec3(1.0, 0.0, 0.0);
 const glm::dvec3 Orientation::Y_AXIS = glm::dvec3(0.0, 1.0, 0.0);
 const glm::dvec3 Orientation::Z_AXIS = glm::dvec3(0.0, 0.0, 1.0);
 
-glm::vec3 Orientation::direction_vec() const {
-	glm::dvec3 forward = Z_AXIS;
-	glm::dvec3 rotated_dir = glm::normalize(_quat * forward);
-	return static_cast<glm::vec3>(rotated_dir);
-}
-
 void Orientation::orient(const glm::dvec3 &direction) {
 	glm::dvec3 normalized = glm::normalize(direction);
 	_quat = glm::rotation(Z_AXIS, normalized);

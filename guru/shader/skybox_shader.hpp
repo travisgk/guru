@@ -21,7 +21,7 @@ protected:
 public:
 	// sets the projection-view matrix in the SkyboxShader.
 	// this will be the "uniform mat4 _PV_mat" in the vertex shader.
-	inline void set_PV_mat_4fv(const glm::mat4 &mat) {
+	inline void set_PV_mat_4fv(const glm::mat4 &mat) const {
 		glUniformMatrix4fv(_uni_PV_mat_4fv_ID, 1, GL_FALSE, &mat[0][0]);
 	}
 };

@@ -14,7 +14,6 @@ namespace gu {
 class Color {
 protected:
 	float _r, _g, _b, _a;
-	bool _is_new = true;
 
 public:
 	// ctor. sets channel values.
@@ -29,7 +28,6 @@ public:
 		Color(rgb[0], rgb[1], rgb[2], alpha);
 	}
 
-	inline bool needs_GL_update() const { return _is_new; }
 	inline glm::vec3 rgb() const { return glm::vec3(_r, _g, _b); }
 	inline const float &r() const { return _r; }
 	inline const float &g() const { return _g; }
@@ -51,9 +49,7 @@ public:
 		return static_cast<unsigned char>(255.0f * _a);
 	}
 
-	inline void set_GL_updated() { _is_new = false; }
-
-	void set(
+	virtual void set(
 		const float &red,
 		const float &green,
 		const float &blue,

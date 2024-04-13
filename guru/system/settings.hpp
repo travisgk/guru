@@ -18,7 +18,7 @@
  *    enables the ResourceList class 
  *    and all its children to print out messages for debugging.
  * 
- * # define GURU_USE_LEFT_HANDED_COORDINATES
+ * #define GURU_USE_LEFT_HANDED_COORDINATES
  *    changes Guru to use Left-Handed coordinates.
  */
 

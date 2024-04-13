@@ -20,7 +20,7 @@ public:
 	~Shader();
 
 public:
-	inline void use() { glUseProgram(_program_ID); }
+	inline void use() const { glUseProgram(_program_ID); }
 
 	// returns true if the shader program was successfully built.
 	virtual bool build_from_files(

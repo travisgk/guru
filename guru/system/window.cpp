@@ -10,7 +10,7 @@ Window::Window(int width, int height, std::string name) : _name(name) {
 }
 
 Window::~Window() { 
-	glfwDestroyWindow(_window); 
+	destroy();
 }
 
 void Window::_init(int width, int height) {

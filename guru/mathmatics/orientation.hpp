@@ -37,11 +37,6 @@ public:
 
 	// returns the quaternion representing the rotation.
 	inline const glm::dquat &get_quat() const { return _quat; }
-
-	// returns a 3D vector which represents 
-	// the direction of the rotation quaternion.
-	glm::vec3 direction_vec() const;
-
 	inline const glm::dvec3 &right() const { return _right; }
 	inline const glm::dvec3 &up() const { return _up; }
 	inline const glm::dvec3 &forward() const { return _forward; }
