@@ -1,6 +1,5 @@
 #include "light_shader.hpp"
 #include "../resources/material/material.hpp"
-#include <iostream> // debug
 
 static GLint get_array_index_ID(
 	const GLuint &program_ID,

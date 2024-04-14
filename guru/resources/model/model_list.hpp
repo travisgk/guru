@@ -22,6 +22,13 @@ public:
 private:
 	// no other instances of this class can be created.
 	inline ModelResourceList() : ResourceList("ModelResource") {}
+
+public:
+	// returns a created a shared pointer entry for a new ModelResource
+	// that has its data loaded from the given path.
+	std::shared_ptr<ModelResource> create_and_load(
+		const std::filesystem::path &model_path
+	);
 };
 }
 }

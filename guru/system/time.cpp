@@ -1,5 +1,4 @@
 #include "time.hpp"
-#include <iostream> // debug
 #if defined(_WIN32) 
 #include <windows.h>
 #elif defined(__linux__)

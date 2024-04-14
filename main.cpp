@@ -1,28 +1,9 @@
-#define GLFW_INCLUDE_NONE
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
-#define GURU_AUTO_UPDATE_MATH_OBJECTS
-#include <algorithm>
-#include <iostream>
 #include "guru/environment/environment.hpp"
-#include "guru/environment/lights.hpp"
-#include "guru/resources/model/model_resource.hpp"
-#include "guru/resources/material/material_list.hpp"
-#include "guru/shader/light_shader.hpp"
-#include <iomanip> // debug
 
-const unsigned int WIDTH = 800;
-const unsigned int HEIGHT = 600;
-
-int main() {
-	gu::init_GLFW();
-	gu::Window window(WIDTH, HEIGHT, "Guru");
-	gu::init_glad();
-
-	window.make_fullscreen();
+static void create_and_run_scene(gu::Window &window) {
 	gu::env::init(window);
 	gu::env::activate_MSAA(32);
-	
+
 	// sets up lights and Camera.
 	gu::Camera &cam = gu::env::camera();
 	cam.place(0.0, 0.0, -230.0);
@@ -30,18 +11,21 @@ int main() {
 
 	gu::DirLight dir_light;
 	dir_light.orient(glm::vec3(-1.0, 0.0, 0.0));
-	dir_light.diffuse().set(2.0, 2.0, 2.0);
+	dir_light.diffuse().set(1.0f, 1.0f, 1.0f);
 	dir_light.update();
 
 	gu::PointLight point_light;
 	point_light.place(0.0, 0.0, 0.0);
-	point_light.diffuse().set(0.0f, 0.0f, 0.0f);
-	point_light.specular().set(0.0f, 0.0f, 0.0f);
+	point_light.diffuse().set(2.0f, 0.0f, 1.0f);
+	point_light.linear().set(0.027f);
+	point_light.quadratic().set(0.0028f);
 
-	// loads models.
-	gu::ModelResource *sphere = new gu::ModelResource("res/sphere/earth.obj");
-	gu::ModelResource *arrow = new gu::ModelResource("res/arrow/smooth_arrow.obj");
+	gu::SpotLight spot_light;
 	
+	// loads models.
+	auto sphere = gu::model_res_list.create_and_load("res/sphere/earth.obj");
+	auto arrow = gu::model_res_list.create_and_load("res/arrow/smooth_arrow.obj");
+
 	// sets up transformation for arrow following DirLight.
 	gu::Transformation arrow_transformation = gu::Transformation();
 	arrow_transformation.set_scaling(1.5f);
@@ -65,18 +49,22 @@ int main() {
 	};
 
 	// sets up the transformations for the axis arrows.
-	gu::Transformation axes_transformations[3];
+	gu::Transformation axes_tfs[3];
 	for (uint8_t i = 0; i < 3; ++i) {
 		glm::vec3 pos = glm::vec3(0.0f);
 		pos[i] = 3.0f;
-		axes_transformations[i].place(pos);
-		
+		axes_tfs[i].place(pos);
+
 		glm::vec3 dir = glm::vec3(0.0f);
 		dir[i] = 1.0f;
-		axes_transformations[i].orient(dir);
-		axes_transformations[i].set_scaling(2.0f);
-		axes_transformations[i].update();
+		axes_tfs[i].orient(dir);
+		axes_tfs[i].set_scaling(2.0f);
+		axes_tfs[i].update();
 	}
+
+	// orients arrow to point in the direction of the DirLight.
+	arrow_transformation.orient(dir_light.get_quat());
+	arrow_transformation.update();
 
 	// sets up the transformation for the spheres.
 	static const size_t N_TRANSFORMATIONS = 57;
@@ -88,50 +76,39 @@ int main() {
 		transformations.back().update();
 	}
 
-	gu::SkyboxShader skybox_shader;
-	
 	// creates LightShader and sets constant light values.
 	gu::LightShader light_shader;
 	light_shader.build_from_files(
-		"guru/shader/default_glsl/light_shader.v_shader", 
+		"guru/shader/default_glsl/light_shader.v_shader",
 		"guru/shader/default_glsl/light_shader.f_shader"
 	);
-	
 	light_shader.use();
 	light_shader.set_ambient_color(glm::vec3(0.18, 0.18, 0.2));
-
-	// orients arrow to point in the direction of the DirLight.
-	arrow_transformation.orient(dir_light.get_quat());
-	arrow_transformation.update();
 
 	// loads the skybox cubemap.
 	GLuint cubemap_ID = gu::res::load_cube_map(
 		"res/skybox/fishpond", ".jpg"
 	);
 
-	double start_time = glfwGetTime();
-	uint64_t frame_num = 0;
-
 	while (not window.should_close()) {
-		double frame_start_time = glfwGetTime();
 		gu::env::poll_events_and_update_delta();
-		
+
 		// places every sphere at some position to create a spiral.
-		double glfw_time = frame_start_time * 0.1;
+		double glfw_time = glfwGetTime();
 		for (size_t i = 0; i < N_TRANSFORMATIONS; ++i) {
 			static const double PROGRESS = 20.0;
 			static const double SPIRAL = 0.5;
 			static const int START_OFFSET = 18;
 			transformations[i].set_x(
-				  cos(glfw_time + PROGRESS * (1.0 - 0.01 * (i + 1))) 
-				* SPIRAL 
-				* (1.0 + 0.01 * (i + START_OFFSET)) 
+				cos(glfw_time * 0.1 + PROGRESS * (1.0 - 0.01 * (i + 1)))
+				* SPIRAL
+				* (1.0 + 0.01 * (i + START_OFFSET))
 				* (i + START_OFFSET)
 			);
 			transformations[i].set_y(
-				  sin(glfw_time + PROGRESS * (1.0 - 0.01 * (i + 1))) 
-				* SPIRAL 
-				* (1.0 + 0.01 * (i + START_OFFSET)) 
+				sin(glfw_time * 0.1 + PROGRESS * (1.0 - 0.01 * (i + 1)))
+				* SPIRAL
+				* (1.0 + 0.01 * (i + START_OFFSET))
 				* (i + START_OFFSET)
 			);
 			transformations[i].add_yaw(-0.1f - 0.002f * (i + 1));
@@ -139,13 +116,12 @@ int main() {
 		}
 
 		for (uint8_t i = 0; i < 3; ++i) {
-			axes_transformations[i].move_forward(static_cast<float>(sin(frame_start_time) * 1.0f));
-			axes_transformations[i].update();
+			axes_tfs[i].move_forward(static_cast<float>(sin(glfw_time) * 1.0f));
+			axes_tfs[i].update();
 		}
 
 		// orbits Camera around (0, 0, 0).
 		for (int i = 0; i < gu::env::n_cameras(); ++i) {
-			gu::Camera &cam = gu::env::camera(i);
 			cam.move_right(15.0);
 			cam.update();
 			cam.look_at(glm::vec3(0.0f));
@@ -157,17 +133,18 @@ int main() {
 		light_shader.use();
 		light_shader.update_GL_dir_light(0, dir_light);
 		light_shader.update_GL_point_light(0, point_light);
+		spot_light.place(gu::env::camera().position());
+		spot_light.orient(gu::env::camera().get_quat());
 		for (int i = 0; i < gu::env::n_cameras(); ++i) {
 			gu::Camera &cam = gu::env::camera(i);
 			light_shader.set_view_pos(cam.position());
 			glm::mat4 PVM;
-			
+
 			// draws arrow that indicates the DirLight's direction.
 			PVM = cam.get_projview() * arrow_transformation.get_model_matrix();
 			light_shader.set_PVM_mat(PVM);
 			light_shader.set_model_mat(arrow_transformation.get_model_matrix());
-			arrow->draw_opaque_meshes();
-			arrow->draw_transparent_meshes();
+			arrow->draw_meshes();
 
 			// draws every sphere.
 			for (size_t j = 0; j < N_TRANSFORMATIONS; ++j) {
@@ -175,39 +152,31 @@ int main() {
 				PVM = cam.get_projview() * model;
 				light_shader.set_PVM_mat(PVM);
 				light_shader.set_model_mat(model);
-				sphere->draw_opaque_meshes();
-				sphere->draw_transparent_meshes();
+				sphere->draw_meshes();
 			}
 
 			// draws the axis arrows.
 			for (uint8_t j = 0; j < 3; ++j) {
-				PVM = cam.get_projview() * axes_transformations[j].get_model_matrix();
+				PVM = cam.get_projview() * axes_tfs[j].get_model_matrix();
 				light_shader.set_PVM_mat(PVM);
-				light_shader.set_model_mat(axes_transformations[j].get_model_matrix());
-				arrow->draw_opaque_meshes(arrow_overrides[j]);
-				arrow->draw_transparent_meshes(arrow_overrides[j]);
+				light_shader.set_model_mat(axes_tfs[j].get_model_matrix());
+				arrow->draw_meshes(arrow_overrides[j]);
 			}
 
 			gu::env::draw_skybox(cam.get_skybox_mat(), cubemap_ID);
 		}
 		gu::env::display_frame();
-		
-		// measures frame duration for irregularities.
-		double frame_time = glfwGetTime() - frame_start_time;
-		if (frame_time < gu::Settings::vsync_frame_duration() * 0.75) {
-			std::cout << "blink frame. " << frame_num << "\tframe time: " << frame_time << std::endl;
-			//skip_next_frame = true;
-		}
-		
-		if (frame_time > gu::Settings::vsync_frame_duration() * 1.5) {
-			std::cout << "slug frame. " << frame_num << "\tframe time: " << frame_time << std::endl;
-		}
-		++frame_num;
 	}
+}
+
+int main() {
+	gu::init_GLFW();
+	gu::Window window(800, 600, "Guru");
+	gu::init_glad();
+	window.make_fullscreen();
 	
-	std::cout << glfwGetTime() - start_time << " seconds\tframe: " << frame_num << std::endl;
-	delete sphere;
-	delete arrow;
+	create_and_run_scene(window);
+	
 	window.destroy();
 	gu::terminate();
 	return 0;

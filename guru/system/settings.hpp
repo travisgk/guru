@@ -23,12 +23,13 @@
  */
 
 #pragma once
-#define GURU_USE_LEFT_HANDED_COORDINATES
+#define GLFW_INCLUDE_NONE
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <stdint.h>
 #include <string>
 #include <glad/gl.h>
 #include <glfw/glfw3.h>
-#include <iostream> // debug
 
 namespace gu {
 struct Settings {
@@ -64,7 +65,6 @@ public:
 
 	inline static void set_monitor_refresh_rate(const int &refresh_rate_hz) {
 		_vsync_frame_duration = 1.0 / refresh_rate_hz;
-		std::cout << refresh_rate_hz << " Hz" << std::endl; // debug
 	}
 	
 	// sets the vsync setting. 

@@ -14,10 +14,11 @@
 #include "../resources/model/model_list.hpp"
 #include "../resources/texture/load_texture.hpp"
 #include "../resources/texture/texture_list.hpp"
-#include "../system/screenbuffer.hpp"
-#include "../system/window.hpp"
+#include "../shader/light_shader.hpp"
 #include "../shader/screen_shader.hpp"
 #include "../shader/skybox_shader.hpp"
+#include "../system/screenbuffer.hpp"
+#include "../system/window.hpp"
 
 namespace gu {
 static auto &model_res_list = gu::res::ModelResourceList::model_res_list;

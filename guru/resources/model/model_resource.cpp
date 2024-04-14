@@ -272,6 +272,14 @@ void ModelResource::set_face_cull_option(const GLenum& cull_option) {
 	}
 }
 
+void ModelResource::draw_meshes(
+	const std::vector<Material::Override> &material_overrides,
+	const std::vector<Mesh::Override> &mesh_overrides
+) {
+	draw_transparent_meshes(material_overrides, mesh_overrides);
+	draw_opaque_meshes(material_overrides, mesh_overrides);
+}
+
 void ModelResource::draw_transparent_meshes(
 	const std::vector<Material::Override> &material_overrides,
 	const std::vector<Mesh::Override> &mesh_overrides

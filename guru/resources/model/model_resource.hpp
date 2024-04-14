@@ -70,6 +70,16 @@ public:
 	// sets the face culling option to GL_FRONT, GL_BACK, or GL_NONE.
 	void set_face_cull_option(const GLenum &cull_option);
 
+	// draws all the meshes of the ModelResource.
+	void draw_meshes(
+		const std::vector<Material::Override> &material_overrides = (
+			std::vector<Material::Override>()
+		),
+		const std::vector<Mesh::Override> &mesh_overrides = (
+			std::vector<Mesh::Override>()
+		)
+	);
+
 	// draws the transparent meshes of the ModelResource.
 	// ---
 	// <material_overrides> can be given
