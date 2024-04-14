@@ -19,7 +19,7 @@ int main() {
 	gu::Window window(WIDTH, HEIGHT, "Guru");
 	gu::init_glad();
 
-	//window.make_fullscreen();
+	window.make_fullscreen();
 	gu::env::init(window);
 	gu::env::activate_MSAA(32);
 	
@@ -47,15 +47,21 @@ int main() {
 	arrow_transformation.set_scaling(1.5f);
 	arrow_transformation.update();
 
-	// sets the material overrides for the axis arrows.
+	// creates the material overrides for the axis arrows.
 	auto x_ax_material = gu::material_list.create_and_load("res/arrow/arrow_orange.png");
 	auto y_ax_material = gu::material_list.create_and_load("res/arrow/arrow_green.png");
 	auto z_ax_material = gu::material_list.create_and_load("res/arrow/arrow_blue.png");
 	size_t arrow_mat_index = arrow->get_material_index_by_path("arrow.png");
 	const std::vector<gu::Material::Override> arrow_overrides[3] = {
-		std::vector<gu::Material::Override>({gu::Material::Override(arrow_mat_index, x_ax_material)}),
-		std::vector<gu::Material::Override>({gu::Material::Override(arrow_mat_index, y_ax_material)}),
-		std::vector<gu::Material::Override>({gu::Material::Override(arrow_mat_index, z_ax_material)}),
+		std::vector<gu::Material::Override>(
+			{gu::Material::Override(arrow_mat_index, x_ax_material)}
+		),
+		std::vector<gu::Material::Override>(
+			{gu::Material::Override(arrow_mat_index, y_ax_material)}
+		),
+		std::vector<gu::Material::Override>(
+			{gu::Material::Override(arrow_mat_index, z_ax_material)}
+		)
 	};
 
 	// sets up the transformations for the axis arrows.
@@ -93,15 +99,6 @@ int main() {
 	
 	light_shader.use();
 	light_shader.set_ambient_color(glm::vec3(0.18, 0.18, 0.2));
-	light_shader.set_dir_light_diffuse(0, dir_light.diffuse().rgb());
-	light_shader.set_dir_light_specular(0, dir_light.specular().rgb());
-	
-	light_shader.set_point_light_pos(0, point_light.position());
-	light_shader.set_point_light_diffuse(0, point_light.diffuse().rgb());
-	light_shader.set_point_light_specular(0, point_light.specular().rgb());
-	light_shader.set_point_light_constant(0, point_light.constant().value());
-	light_shader.set_point_light_linear(0, point_light.linear().value());
-	light_shader.set_point_light_quadratic(0, point_light.quadratic().value());
 
 	// orients arrow to point in the direction of the DirLight.
 	arrow_transformation.orient(dir_light.get_quat());
@@ -115,17 +112,8 @@ int main() {
 	double start_time = glfwGetTime();
 	uint64_t frame_num = 0;
 
-	bool skip_next_frame = false;
 	while (not window.should_close()) {
 		double frame_start_time = glfwGetTime();
-		//if (skip_next_frame) {
-		//	skip_next_frame = false;
-			//gu::env::display_frame();
-			//double frame_time = glfwGetTime() - frame_start_time;
-			//std::cout << "redisplay frame.\tframe time: " << frame_time << std::endl;
-		//	continue;
-		//}
-			
 		gu::env::poll_events_and_update_delta();
 		
 		// places every sphere at some position to create a spiral.
@@ -134,8 +122,18 @@ int main() {
 			static const double PROGRESS = 20.0;
 			static const double SPIRAL = 0.5;
 			static const int START_OFFSET = 18;
-			transformations[i].set_x(cos(glfw_time + PROGRESS * (1.0 - 0.01 * (i + 1))) * SPIRAL * (1.0 + 0.01 * (i + START_OFFSET)) * (i + START_OFFSET));
-			transformations[i].set_y(sin(glfw_time + PROGRESS * (1.0 - 0.01 * (i + 1))) * SPIRAL * (1.0 + 0.01 * (i + START_OFFSET)) * (i + START_OFFSET));
+			transformations[i].set_x(
+				  cos(glfw_time + PROGRESS * (1.0 - 0.01 * (i + 1))) 
+				* SPIRAL 
+				* (1.0 + 0.01 * (i + START_OFFSET)) 
+				* (i + START_OFFSET)
+			);
+			transformations[i].set_y(
+				  sin(glfw_time + PROGRESS * (1.0 - 0.01 * (i + 1))) 
+				* SPIRAL 
+				* (1.0 + 0.01 * (i + START_OFFSET)) 
+				* (i + START_OFFSET)
+			);
 			transformations[i].add_yaw(-0.1f - 0.002f * (i + 1));
 			transformations[i].update();
 		}
@@ -157,7 +155,8 @@ int main() {
 		// prepares for render.
 		gu::env::clear_window_and_screenbuffer();
 		light_shader.use();
-		light_shader.set_dir_light_dir(0, dir_light.forward());
+		light_shader.update_GL_dir_light(0, dir_light);
+		light_shader.update_GL_point_light(0, point_light);
 		for (int i = 0; i < gu::env::n_cameras(); ++i) {
 			gu::Camera &cam = gu::env::camera(i);
 			light_shader.set_view_pos(cam.position());

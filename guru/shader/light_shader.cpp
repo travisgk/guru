@@ -2,58 +2,6 @@
 #include "../resources/material/material.hpp"
 #include <iostream> // debug
 
-template <typename I, typename T>
-static void update_GL_light_position(const I &IDs, T &light) {
-	if (light.position_needs_GL_update()) {
-		const glm::vec3 &pos = static_cast<glm::vec3>(light.position());
-		glUniform3fv(IDs.position_ID, 1, &pos[0]);
-		light.set_position_as_GL_updated();
-	}
-}
-
-template <typename I, typename T>
-static void update_GL_light_direction(const I &IDs, T &light) {
-	if (light.direction_needs_GL_update()) {
-		const glm::vec3 &dir = static_cast<glm::vec3>(light.forward());
-		glUniform3fv(IDs.direction_ID, 1, &dir[0]);
-		light.set_direction_as_GL_updated();
-	}
-}
-
-template <typename I, typename T>
-static void update_GL_light_colors(const I &IDs, T &light) {
-	if (light.diffuse().needs_GL_update()) {
-		glUniform3fv(IDs.diffuse_ID, 1, &light.diffuse().rgb()[0]);
-		light.diffuse().set_as_GL_updated();
-	}
-
-	if (light.specular().needs_GL_update()) {
-		glUniform3fv(IDs.specular_ID, 1, &light.specular().rgb()[0]);
-		light.specular().set_as_GL_updated();
-	}
-}
-
-template <typename I, typename T>
-static void update_GL_attenuation(const I &IDs, T &light) {
-	if (not light.attenuation_was_changed())
-		return;
-
-	if (light.constant().needs_GL_update()) {
-		glUniform1f(IDs.constant_ID, light.constant().value());
-		light.constant().set_as_GL_updated();
-	}
-
-	if (light.linear().needs_GL_update()) {
-		glUniform1f(IDs.linear_ID, light.linear().value());
-		light.linear().set_as_GL_updated();
-	}
-
-	if (light.quadratic().needs_GL_update()) {
-		glUniform1f(IDs.quadratic_ID, light.quadratic().value());
-		light.quadratic().set_as_GL_updated();
-	}
-}
-
 static GLint get_array_index_ID(
 	const GLuint &program_ID,
 	const std::string &arr_name,
@@ -113,6 +61,60 @@ static void set_light_atten_IDs(
 	IDs_struct.constant_ID = get_array_index_ID(program_ID, arr_name, i, S[0]);
 	IDs_struct.linear_ID = get_array_index_ID(program_ID, arr_name, i, S[1]);
 	IDs_struct.quadratic_ID = get_array_index_ID(program_ID, arr_name, i, S[2]);
+}
+
+template <typename I, typename T>
+static void update_GL_light_position(const I &IDs, T &light) {
+	if (light.position_needs_GL_update()) {
+		const glm::vec3 &pos = static_cast<glm::vec3>(light.position());
+		glUniform3fv(IDs.position_ID, 1, &pos[0]);
+		light.set_as_entirely_GL_updated();
+	}
+}
+
+template <typename I, typename T>
+static void update_GL_light_direction(const I &IDs, T &light) {
+	if (light.direction_needs_GL_update()) {
+		const glm::vec3 &dir = static_cast<glm::vec3>(light.forward());
+		glUniform3fv(IDs.direction_ID, 1, &dir[0]);
+		light.set_direction_as_GL_updated();
+	}
+}
+
+template <typename I, typename T>
+static void update_GL_light_colors(const I &IDs, T &light) {
+	if (light.diffuse().needs_GL_update()) {
+		glUniform3fv(IDs.diffuse_ID, 1, &light.diffuse().rgb()[0]);
+		light.diffuse().set_as_GL_updated();
+	}
+
+	if (light.specular().needs_GL_update()) {
+		glUniform3fv(IDs.specular_ID, 1, &light.specular().rgb()[0]);
+		light.specular().set_as_GL_updated();
+	}
+}
+
+template <typename I, typename T>
+static void update_GL_attenuation(const I &IDs, T &light) {
+	if (not light.attenuation_needs_GL_update())
+		return;
+
+	if (light.constant().needs_GL_update()) {
+		glUniform1f(IDs.constant_ID, light.constant().value());
+		light.constant().set_as_GL_updated();
+	}
+
+	if (light.linear().needs_GL_update()) {
+		glUniform1f(IDs.linear_ID, light.linear().value());
+		light.linear().set_as_GL_updated();
+	}
+
+	if (light.quadratic().needs_GL_update()) {
+		glUniform1f(IDs.quadratic_ID, light.quadratic().value());
+		light.quadratic().set_as_GL_updated();
+	}
+
+	light.set_attenuation_as_GL_updated();
 }
 
 namespace gu {
@@ -176,7 +178,10 @@ void LightShader::_config_uniform_IDs() {
 void LightShader::update_GL_dir_light(
 	const GLsizei &index, DirLight &dir_light
 ) {
-	if (index >= _uni_dir_light_IDs.size())
+	if (
+		index >= _uni_dir_light_IDs.size()
+		and not dir_light.needs_any_GL_update()
+	)
 		return;
 
 	update_GL_light_direction(_uni_dir_light_IDs[index], dir_light);
@@ -186,18 +191,25 @@ void LightShader::update_GL_dir_light(
 void LightShader::update_GL_point_light(
 	const GLsizei &index, PointLight &point_light
 ) {
-	if (index >= _uni_point_light_IDs.size())
+	if (
+		index >= _uni_point_light_IDs.size()
+		and not point_light.needs_any_GL_update()
+	)
 		return;
 
 	update_GL_light_position(_uni_point_light_IDs[index], point_light);
 	update_GL_light_colors(_uni_point_light_IDs[index], point_light);
 	update_GL_attenuation(_uni_point_light_IDs[index], point_light);
+	point_light.set_as_entirely_GL_updated();
 }
 
 void LightShader::update_GL_spot_light(
 	const GLsizei &index, SpotLight &spot_light
 ) {
-	if (index >= _uni_spot_light_IDs.size())
+	if (
+		index >= _uni_spot_light_IDs.size() 
+		and not spot_light.needs_any_GL_update()
+	)
 		return;
 
 	update_GL_light_position(_uni_spot_light_IDs[index], spot_light);
@@ -214,5 +226,6 @@ void LightShader::update_GL_spot_light(
 		(index, spot_light.outer_cutoff().value());
 		spot_light.outer_cutoff().set_as_GL_updated();
 	}
+	spot_light.set_as_entirely_GL_updated();
 }
 } // namespace gu
