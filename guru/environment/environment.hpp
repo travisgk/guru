@@ -10,6 +10,7 @@
 #pragma once
 #include "camera.hpp"
 #include "../mathmatics/transformation.hpp"
+#include "../resources/animation/animation.hpp"
 #include "../resources/material/material_list.hpp"
 #include "../resources/model/model_list.hpp"
 #include "../resources/texture/load_texture.hpp"

@@ -67,6 +67,12 @@
     <Filter Include="Source Files\guru\resources\model">
       <UniqueIdentifier>{48cda7f9-fb4c-46c6-acc1-a32ba78a1233}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\guru\resources\animation">
+      <UniqueIdentifier>{b85d3916-c546-4e05-9d40-9d0b8fd567e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\guru\resources\animation">
+      <UniqueIdentifier>{98df615a-4def-427c-b7e2-7ce94420ce4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -149,6 +155,12 @@
     </ClCompile>
     <ClCompile Include="guru\shader\light_shader.cpp">
       <Filter>Source Files\guru\shader</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\resources\animation\animation.cpp">
+      <Filter>Source Files\guru\resources\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="guru\resources\animation\bone.cpp">
+      <Filter>Source Files\guru\resources\animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -238,6 +250,18 @@
     </ClInclude>
     <ClInclude Include="guru\shader\light_shader.hpp">
       <Filter>Header Files\guru\shader</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\resources\animation\animation.hpp">
+      <Filter>Header Files\guru\resources\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\resources\model\assimp_to_glm.hpp">
+      <Filter>Header Files\guru\resources\model</Filter>
+    </ClInclude>
+    <ClInclude Include="example_animation.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="example_earth.hpp">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

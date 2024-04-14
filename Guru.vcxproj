@@ -153,6 +153,8 @@
     <ClCompile Include="guru\mathmatics\orientation.cpp" />
     <ClCompile Include="guru\mathmatics\point.cpp" />
     <ClCompile Include="guru\mathmatics\transformation.cpp" />
+    <ClCompile Include="guru\resources\animation\animation.cpp" />
+    <ClCompile Include="guru\resources\animation\bone.cpp" />
     <ClCompile Include="guru\resources\color.cpp" />
     <ClCompile Include="guru\resources\material\material.cpp" />
     <ClCompile Include="guru\resources\material\material_list.cpp" />
@@ -174,6 +176,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="example_animation.hpp" />
+    <ClInclude Include="example_earth.hpp" />
     <ClInclude Include="guru\environment\camera.hpp" />
     <ClInclude Include="guru\environment\environment.hpp" />
     <ClInclude Include="guru\environment\lights.hpp" />
@@ -182,9 +186,11 @@
     <ClInclude Include="guru\mathmatics\point.hpp" />
     <ClInclude Include="guru\mathmatics\quat_point.hpp" />
     <ClInclude Include="guru\mathmatics\transformation.hpp" />
+    <ClInclude Include="guru\resources\animation\animation.hpp" />
     <ClInclude Include="guru\resources\color.hpp" />
     <ClInclude Include="guru\resources\material\material.hpp" />
     <ClInclude Include="guru\resources\material\material_list.hpp" />
+    <ClInclude Include="guru\resources\model\assimp_to_glm.hpp" />
     <ClInclude Include="guru\resources\model\mesh.hpp" />
     <ClInclude Include="guru\resources\model\model_list.hpp" />
     <ClInclude Include="guru\resources\model\model_resource.hpp" />

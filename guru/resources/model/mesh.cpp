@@ -1,28 +1,48 @@
 #include "mesh.hpp"
 #include <cctype>
 #include <iostream>
+#include "assimp_to_glm.hpp"
 #include "../material/material_list.hpp"
 
 static auto &material_list = gu::res::MaterialList::material_list;
 
 namespace gu {
-// sets the given vec2 by reference from the given aiVector3D.
-static void set_vec2(glm::vec2 &vec, const aiVector3D &value) {
-	vec.x = value.x;
-	vec.y = value.y;
-}
-
-// sets the given vec3 by reference from the given aiVector3D.
-static void set_vec3(glm::vec3 &vec, const aiVector3D &value) {
-	vec.x = value.x;
-	vec.y = value.y;
-	vec.z = value.z;
+static void extract_bone_weights_for_verts(
+	std::map<std::string, Mesh::BoneInfo> &bone_info_map,
+	std::vector<Vertex> &vertices,
+	aiMesh *ai_mesh,
+	const aiScene *scene
+) {
+	for (size_t bone_index = 0; bone_index < ai_mesh->mNumBones; ++bone_index) {
+		int bone_ID = -1;
+		std::string bone_name = ai_mesh->mBones[bone_index]->mName.C_Str();
+		if (bone_info_map.find(bone_name) == bone_info_map.end()) {
+			Mesh::BoneInfo info;
+			bone_ID = static_cast<int>(bone_info_map.size());
+			info.id = bone_ID;
+			set_mat4(info.offset, ai_mesh->mBones[bone_index]->mOffsetMatrix);
+			bone_info_map[bone_name] = info;
+		} else {
+			bone_ID = bone_info_map[bone_name].id;
+		}
+		assert(bone_ID != -1);
+		
+		auto weights = ai_mesh->mBones[bone_index]->mWeights;
+		int n_weights = ai_mesh->mBones[bone_index]->mNumWeights;
+		for (int weight_index = 0; weight_index < n_weights; ++weight_index) {
+			const int &vertex_ID = weights[weight_index].mVertexId;
+			const float &weight = weights[weight_index].mWeight;
+			assert(vertex_ID <= vertices.size());
+			vertices[vertex_ID].set_bone_data(bone_ID, weight);
+		}
+	}
 }
 
 // static function which loads the data contained in <ai_mesh> 
 // to the given <vertices> and <indices> vectors,
 // and it sets the given <material> shared pointer by reference.
 static void load_mesh(
+	std::map<std::string, Mesh::BoneInfo> &bone_info_map,
 	std::vector<Vertex> &vertices,
 	std::vector<uint32_t> &indices,
 	aiMesh *ai_mesh,
@@ -49,6 +69,9 @@ static void load_mesh(
 		#endif
 	}
 
+	// loads rigging information.
+	extract_bone_weights_for_verts(bone_info_map, vertices, ai_mesh, scene);
+
 	// loads indices.
 	for (uint32_t i = 0; i < ai_mesh->mNumFaces; ++i) {
 		aiFace& face = ai_mesh->mFaces[i];
@@ -64,18 +87,21 @@ Mesh::~Mesh() {
 }
 
 void Mesh::load(
+	std::map<std::string, Mesh::BoneInfo> &bone_map,
 	aiMesh *ai_mesh, 
 	const aiScene *scene, 
 	const std::filesystem::path &model_directory,
 	const size_t &material_index
 ) {
+	_name = ai_mesh->mName.C_Str();
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
 	load_mesh(
+		bone_map,
 		vertices, 
 		indices, 
-		ai_mesh, 
-		scene, 
+		ai_mesh,
+		scene,
 		model_directory
 	);
 	_n_indices = static_cast<GLsizei>(indices.size());
@@ -124,6 +150,22 @@ void Mesh::_send_to_videocard(
 	glEnableVertexAttribArray(4);
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), ptr);
 	#endif
+
+	ptr = (void*)offsetof(Vertex, bone_IDs);
+	glEnableVertexAttribArray(5);
+	glVertexAttribIPointer(
+		5, Settings::MAX_BONE_INFLUENCES, GL_INT, sizeof(Vertex), ptr
+	);
+
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(
+		6, 
+		Settings::MAX_BONE_INFLUENCES, 
+		GL_FLOAT, 
+		GL_FALSE, 
+		sizeof(Vertex), 
+		(void *)offsetof(Vertex, weights)
+	);
 
 	glBindVertexArray(0);
 }

@@ -33,17 +33,15 @@ void Transformation::_update_model_matrix() {
 		_model_mat[3][i] = static_cast<float>(_position[i]);
 
 	// rotates.
-	const glm::dmat4 &rot_mat = glm::toMat4(_quat);
+	const glm::dmat4 rot_mat = glm::toMat4(_quat);
 	for (uint8_t i = 0; i < 3; ++i)
 		for (uint8_t j = 0; j < 3; ++j)
 			_model_mat[i][j] = static_cast<float>(rot_mat[i][j]);
 
 	// scales.
-	for (uint8_t i = 0; i < 3; ++i) {
-		for (uint8_t j = 0; j < 3; ++j) {
+	for (uint8_t i = 0; i < 3; ++i)
+		for (uint8_t j = 0; j < 3; ++j)
 			_model_mat[i][j] = _model_mat[i][j] * _scaling[j];
-		}
-	}
 
 	// updates relative directions.
 	if (_orientation_is_new) {
@@ -63,15 +61,5 @@ void Transformation::_update_model_matrix() {
 	_orientation_is_new = false;
 	_position_is_new = false;
 	_scaling_is_new = false;
-
-	/*_model_mat = glm::mat4(1.0);
-	for (uint8_t i = 0; i < 3; ++i)
-		_model_mat[3][i] = static_cast<float>(_position[i]);
-
-	_model_mat = _model_mat * static_cast<glm::mat4>(glm::toMat4(_quat));
-	_model_mat = glm::scale(_model_mat, _scaling);
-	_orientation_is_new = false;
-	_position_is_new = false;
-	_scaling_is_new = false;*/
 }
-}
+} // namespace gu

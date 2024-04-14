@@ -202,7 +202,7 @@ static size_t load_material(
 }
 
 void ModelResource::_process_node(size_t &n_meshes, aiNode *node, const aiScene *scene) {
-	std::filesystem::path directory = _path.parent_path();
+	std::filesystem::path dir = _path.parent_path();
 
 	// loads the contained meshes to the <_meshes> vector.
 	for (uint32_t i = 0; i < node->mNumMeshes; ++i) {
@@ -210,17 +210,17 @@ void ModelResource::_process_node(size_t &n_meshes, aiNode *node, const aiScene 
 		aiMaterial *const ai_mat = scene->mMaterials[ai_mesh->mMaterialIndex];
 
 		// loads material.
-		size_t material_index = load_material(
+		size_t mat_index = load_material(
 			_materials,
 			scene->mMaterials[ai_mesh->mMaterialIndex],
-			directory
+			dir
 		);
 
 		// loads the Mesh's geometry and gives it its <_material_index>,
 		// then the Mesh's index is organized.
 		_meshes.emplace_back();
-		_meshes[n_meshes].load(ai_mesh, scene, directory, material_index);
-		if (not _materials[material_index]->is_transparent())
+		_meshes[n_meshes].load(_bone_ID_map, ai_mesh, scene, dir, mat_index);
+		if (not _materials[mat_index]->is_transparent())
 			_transparent_mesh_indices.push_back(n_meshes);
 		else
 			_opaque_mesh_indices.push_back(n_meshes);
@@ -232,6 +232,15 @@ void ModelResource::_process_node(size_t &n_meshes, aiNode *node, const aiScene 
 		_process_node(n_meshes, node->mChildren[i], scene);
 }
 
+void ModelResource::get_mesh_indices_by_name(
+	std::vector<size_t> &mesh_indices, const std::string &search_name
+) const {
+	for (size_t i = 0; i < _meshes.size(); ++i) {
+		if (search_name == _meshes[i].name())
+			mesh_indices.push_back(i);
+	}
+}
+
 void ModelResource::get_mesh_indices_by_path(
 	std::vector<size_t> &mesh_indices,
 	const std::filesystem::path &search_local_path
@@ -240,25 +249,35 @@ void ModelResource::get_mesh_indices_by_path(
 		const auto &mat_path = _materials[_meshes[i].material_index()]->path();
 		std::string local_path = (
 			mat_path.stem().string() + mat_path.extension().string()
-			);
+		);
 
 		if (search_local_path == local_path)
 			mesh_indices.push_back(i);
 	}
 }
 
-size_t ModelResource::get_material_index_by_path(
+int32_t ModelResource::get_material_index_by_mesh_name(
+	const std::string &name
+) const {
+	for (size_t i = 0; i < _meshes.size(); ++i) {
+		if (name == _meshes[i].name())
+			return static_cast<int32_t>(_meshes[i].material_index());
+	}
+	return -1;
+}
+
+int32_t ModelResource::get_material_index_by_path(
 	const std::filesystem::path &search_local_path
 ) const {
 	for (size_t i = 0; i < _materials.size(); ++i) {
 		const auto &mat_path = _materials[i]->path();
 		std::string local_path = (
 			mat_path.stem().string() + mat_path.extension().string()
-			);
+		);
 		if (search_local_path == local_path)
-			return i;
+			return static_cast<int32_t>(i);
 	}
-	return _materials.size();
+	return -1;
 }
 
 void ModelResource::set_face_cull_option(const GLenum& cull_option) {

@@ -17,6 +17,8 @@ protected:
 	std::vector<std::shared_ptr<Material>> _materials; // materials
 	std::vector<size_t> _transparent_mesh_indices;
 	std::vector<size_t> _opaque_mesh_indices;
+	std::map<std::string, Mesh::BoneInfo> _bone_ID_map; // UNCERTAIN: make unordered_map?
+
 	GLenum _face_cull_option = GL_BACK;
 	std::filesystem::path _path; // path to the loaded 3D model
 	bool _uses_map[Material::N_MAP_TYPES]; // [i] is true if Mesh loaded map
@@ -53,6 +55,19 @@ public:
 	// returns the file path to the 3D object file.
 	inline const std::filesystem::path &path() const { return _path; }
 
+	// returns true if the ModelResource has rigged bones.
+	inline bool has_bones() const { return _bone_ID_map.size() > 0; }
+
+	std::map<std::string, Mesh::BoneInfo> &bone_ID_map() {
+		return _bone_ID_map;
+	}
+
+	// takes the given <mesh_indices> vector and pushes back 
+	// the indices of the Meshes with the matching name. 
+	void get_mesh_indices_by_name(
+		std::vector<size_t> &mesh_indices, const std::string &search_name
+	) const;
+
 	// takes the given <mesh_indices> vector and pushes back 
 	// the indices of the Meshes whose Materials 
 	// have their local diffuse path set to <search_local_path>.
@@ -62,8 +77,14 @@ public:
 	) const;
 
 	// returns the index of the Material in the object's list of Materials
+	// that is used by a Mesh with the given name.
+	// if no matching Mesh is found, then -1 is returned.
+	int32_t get_material_index_by_mesh_name(const std::string &name) const;
+
+	// returns the index of the Material in the object's list of Materials
 	// whose local diffuse path matches the <search_local_path>.
-	size_t get_material_index_by_path(
+	// if no matching Mesh is found, then -1 is returned.
+	int32_t get_material_index_by_path(
 		const std::filesystem::path &search_local_path
 	) const;
 
