@@ -123,6 +123,7 @@ void LightShader::_config_uniform_IDs() {
 	_uni_PVM_mat_4fv_ID = glGetUniformLocation(_program_ID, "_PVM_mat");
 	_uni_model_mat_4fv_ID = glGetUniformLocation(_program_ID, "_model_mat");
 	_uni_view_pos_3fv_ID = glGetUniformLocation(_program_ID, "_view_pos");
+	_set_bone_mat_uniform_IDs();
 	_uni_ambient_color_3fv_ID = glGetUniformLocation(_program_ID, "_ambient_color");
 
 	_uni_dir_light_IDs.resize(N_DIR_LIGHTS);
@@ -132,7 +133,6 @@ void LightShader::_config_uniform_IDs() {
 		set_light_color_IDs(IDs, _program_ID, "_dir_lights", i);
 	}
 	
-
 	_uni_point_light_IDs.resize(N_POINT_LIGHTS);
 	for (size_t i = 0; i < N_POINT_LIGHTS; ++i) {
 		PointLightIDs &IDs = _uni_point_light_IDs[i];

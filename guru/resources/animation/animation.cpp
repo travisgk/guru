@@ -26,28 +26,23 @@ Animation::Animation(const std::filesystem::path &animation_path, ModelResource 
 	_duration = ai_animation->mDuration;
 	_n_ticks_per_second = ai_animation->mTicksPerSecond;
 	//aiMatrix4x4 global_transformation = scene->mRootNode->mTransformation; // don't know why this is in reference source
-	//global_transformation = global_transformation.Inverse();
+	//global_transformation = global_transformation.Inverse(); // leaving it here in case it solves some issue
 	_read_hierarchy_data(_root_node, scene->mRootNode);
 	_read_missing_bones(ai_animation, model_res);
 }
 
 Animation::Bone *Animation::find_bone(const std::string &name) {
-	auto iter = std::find_if(
-		_bones.begin(), 
-		_bones.end(),
-		[&](const Bone &bone) {
-			return bone.name() == name;
-		}
-	);
-	if (iter == _bones.end())
-		return nullptr;
-	return &(*iter);
+	for (auto &bone : _bones)
+		if (bone.name() == name)
+			return &bone;
+
+	return nullptr;
 }
 
 void Animation::_read_hierarchy_data(AssimpNodeData &node, const aiNode *src) {
 	assert(src);
 	node.name = src->mName.data;
-	set_mat4(node.transformation, src->mTransformation);
+	set_mat4(node.transform_mat, src->mTransformation);
 	node.n_children = src->mNumChildren;
 
 	for (size_t i = 0; i < src->mNumChildren; ++i) {

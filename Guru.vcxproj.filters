@@ -162,6 +162,9 @@
     <ClCompile Include="guru\resources\animation\bone.cpp">
       <Filter>Source Files\guru\resources\animation</Filter>
     </ClCompile>
+    <ClCompile Include="guru\resources\animation\animator.cpp">
+      <Filter>Source Files\guru\resources\animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="guru\system\time.hpp">
@@ -251,6 +254,9 @@
     <ClInclude Include="guru\shader\light_shader.hpp">
       <Filter>Header Files\guru\shader</Filter>
     </ClInclude>
+    <ClInclude Include="example_earth.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
     <ClInclude Include="guru\resources\animation\animation.hpp">
       <Filter>Header Files\guru\resources\animation</Filter>
     </ClInclude>
@@ -260,8 +266,11 @@
     <ClInclude Include="example_animation.hpp">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="example_earth.hpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="guru\resources\animation\bone.hpp">
+      <Filter>Header Files\guru\resources\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="guru\resources\animation\animator.hpp">
+      <Filter>Header Files\guru\resources\animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

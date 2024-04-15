@@ -1,4 +1,5 @@
 #include "guru/environment/environment.hpp"
+#include <iostream>
 
 static void create_and_run_scene(gu::Window &window) {
 	gu::env::init(window);
@@ -24,8 +25,9 @@ static void create_and_run_scene(gu::Window &window) {
 
 	// loads models.
 	auto pants = gu::model_res_list.create_and_load("res/pants/pants.dae");
-
 	gu::Animation animation = gu::Animation("res/pants/pants_animation.dae", *pants);
+	gu::Animator animator;
+	animator.set_animation(animation);
 
 	auto arrow = gu::model_res_list.create_and_load("res/arrow/smooth_arrow.obj");
 
@@ -35,7 +37,7 @@ static void create_and_run_scene(gu::Window &window) {
 	auto z_ax_material = gu::material_list.create_and_load("res/arrow/arrow_blue.png");
 	int32_t arrow_mat_index = arrow->get_material_index_by_path("arrow.png");
 	std::vector<gu::Material::Override> arrow_overrides[3];
-	
+
 	if (arrow_mat_index >= 0) {
 		arrow_overrides[0] = { gu::Material::Override(arrow_mat_index, x_ax_material) };
 		arrow_overrides[1] = { gu::Material::Override(arrow_mat_index, y_ax_material) };
@@ -58,7 +60,7 @@ static void create_and_run_scene(gu::Window &window) {
 
 	// sets up the transformation for the pants.
 	gu::Transformation tf;
-	tf.set_scaling(10.0f);
+	tf.set_scaling(3.0f);
 	tf.update();
 
 	// creates LightShader and sets constant light values.
@@ -77,6 +79,11 @@ static void create_and_run_scene(gu::Window &window) {
 
 	while (not window.should_close()) {
 		gu::env::poll_events_and_update_delta();
+		animator.update_animation();
+		
+		const std::vector<glm::mat4> &bone_mats = animator.final_bone_matrices();
+		for (const auto &bone_mat : bone_mats)
+			std::cout << bone_mat[0][0] << '\t' << bone_mat[0][1] << '\t' << bone_mat[0][2] << '\t' << bone_mat[0][3] << std::endl;
 
 		// places every sphere at some position to create a spiral.
 		double glfw_time = glfwGetTime();

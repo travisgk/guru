@@ -14,9 +14,14 @@ namespace gu {
 class ModelShader : public Shader {
 protected:
 	GLint _uni_PVM_mat_4fv_ID = -1; // projection-view-model matrix
+	std::vector<GLint> _uni_bone_mat_4fv_IDs; // animation bone matrices
+	bool _uses_animation = false;
 
 	// sets the class's contained uniform IDs by searching for them in the code.
 	virtual void _config_uniform_IDs() override;
+
+	// sets the uniform IDs for each element of "bone_mats" in the ModelShader.
+	void _set_bone_mat_uniform_IDs();
 
 public:
 	// sets the projection-view-model matrix in the ModelShader.

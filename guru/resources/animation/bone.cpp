@@ -1,4 +1,4 @@
-#include "animation.hpp"
+#include "bone.hpp"
 #include <iostream>
 #include <assimp/anim.h>
 #include <assimp/Importer.hpp>
@@ -10,7 +10,7 @@ Animation::Bone::Bone(
 	const std::string &name, int bone_ID, const aiNodeAnim *channel
 ) : _name(name),
     _bone_ID(bone_ID),
-    _bone_transform(1.0f)
+    _transform_mat(1.0f)
 {
 	_n_position_keyframes = channel->mNumPositionKeys;
 	for (size_t i = 0; i < _n_position_keyframes; ++i) {
@@ -45,18 +45,18 @@ void Animation::Bone::update_matrix(const double &animation_time) {
 	glm::quat orientation = _interpolated_orientation(animation_time);
 	glm::vec3 scaling = _interpolated_scaling(animation_time);
 
-	_bone_transform = glm::mat4(1.0);
+	_transform_mat = glm::mat4(1.0);
 	for (uint8_t i = 0; i < 3; ++i)
-		_bone_transform[3][i] = position[i];
+		_transform_mat[3][i] = position[i];
 
 	glm::mat4 rot_mat = glm::toMat4(orientation);
 	for (uint8_t i = 0; i < 3; ++i)
 		for (uint8_t j = 0; j < 3; ++j)
-			_bone_transform[i][j] = rot_mat[i][j];
+			_transform_mat[i][j] = rot_mat[i][j];
 
 	for (uint8_t i = 0; i < 3; ++i)
 		for (uint8_t j = 0; j < 3; ++j)
-			_bone_transform[i][j] = _bone_transform[i][j] * scaling[j];
+			_transform_mat[i][j] = _transform_mat[i][j] * scaling[j];
 }
 
 static double calc_progress_factor(
