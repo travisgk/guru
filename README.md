@@ -4,6 +4,9 @@ A simple framework for building 3D scenes in OpenGL.
 <br>
 ## Examples
 Coming soon!
+<br>
+<br>
+
 ## Libraries
 Guru makes use of the following libraries:
 - [GL](https://www.opengl.org/) (OpenGL, v4.6) - for rendering 2D and 3D vector graphics.
@@ -85,6 +88,7 @@ Command Line-> Additional Options:
 <br>
 <br>
 
-## Problems to Solve and other Implementations
-- Animations do not work properly. It seems like some issue with the axes disagreeing between the ModelResource and the Animation.
+## Future Implementations
 - SpotLight implementation in the default shader code.
+- Shadow mapping.
+- Bloom FX.
