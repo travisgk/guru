@@ -1,7 +1,9 @@
-# guru
+# guru (v0.1)
 A simple framework for building 3D scenes in OpenGL.
 <br>
 <br>
+## Examples
+Coming soon!
 ## Libraries
 Guru makes use of the following libraries:
 - [GL](https://www.opengl.org/) (OpenGL, v4.6) - for rendering 2D and 3D vector graphics.
@@ -72,11 +74,17 @@ Input-> Additional Dependencies:
 - opengl32.lib
 - glfw3.lib
 - assimp-vc143-mtd.lib
-
-Command Line-> Additional Options:
-- `/NODEFAULTLIB:MSVCRT /NODEFAULTLIB:LIBCMT /ignore:4099`
-
-unneeded (?):
+Possibly needed for your own build?
 - user32.lib
 - gdi32.lib
 - shell32.lib
+
+
+Command Line-> Additional Options:
+- `/NODEFAULTLIB:MSVCRT /NODEFAULTLIB:LIBCMT /ignore:4099`
+<br>
+<br>
+
+## Problems to Solve and other Implementations
+- Animations do not work properly. It seems like some issue with the axes disagreeing between the ModelResource and the Animation.
+- SpotLight implementation in the default shader code.
