@@ -94,3 +94,4 @@ Command Line-> Additional Options:
 - SpotLight implementation in the default shader code.
 - Shadow mapping.
 - Bloom FX.
+- Mac OS support.
