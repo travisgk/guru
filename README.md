@@ -1,5 +1,6 @@
 # guru (v0.1)
-A simple framework for building 3D scenes in OpenGL.
+A simple OpenGL engine written in C++ for building and rendering 3D scenes.
+This was created to explore the fundamentals of 3D graphics.
 <br>
 <br>
 ## Examples
