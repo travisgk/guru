@@ -7,6 +7,7 @@ void ModelShader::_config_uniform_IDs() {
 	// finds IDs of uniform variables in the ModelShader.
 	glLinkProgram(_program_ID);
 	_uni_PVM_mat_4fv_ID = glGetUniformLocation(_program_ID, "_PVM_mat");
+	_uni_PV_mat_4fv_ID = glGetUniformLocation(_program_ID, "_PV_mat");
 	_set_bone_mat_uniform_IDs();
 	
 	// gets the locations of the texture IDs.
@@ -36,10 +37,19 @@ void ModelShader::_set_bone_mat_uniform_IDs() {
 	_uses_animation = true;
 	_uni_bone_mat_4fv_IDs.reserve(Settings::MAX_BONES);
 	for (size_t i = 0; i < Settings::MAX_BONES; ++i) {
-		_uni_bone_mat_4fv_IDs[i] = glGetUniformLocation(
-			_program_ID,
-			("_bone_mats" + '[' + std::to_string(i) + ']').c_str()
+		std::string search_str = std::string("_bone_mats[") + std::to_string(i) + std::string("]");
+		_uni_bone_mat_4fv_IDs.push_back(
+			glGetUniformLocation(_program_ID, search_str.c_str())
 		);
 	}
 }
+
+void ModelShader::update_GL_bones(
+	const std::vector<glm::mat4> &bone_mats
+) const {
+	for (size_t i = 0; i < Settings::MAX_BONES; ++i) {
+		_set_bone_mat(i, bone_mats[i]);
+	}	
+}
+
 } // namespace gu

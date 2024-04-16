@@ -24,7 +24,7 @@ static void create_and_run_scene(gu::Window &window) {
 	gu::SpotLight spot_light;
 
 	// loads models.
-	auto pants = gu::model_res_list.create_and_load("res/pants/pants.dae");
+	auto pants = gu::model_res_list.create_and_load("res/pants/pants_animation.dae");
 	gu::Animation animation = gu::Animation("res/pants/pants_animation.dae", *pants);
 	gu::Animator animator;
 	animator.set_animation(animation);
@@ -35,7 +35,7 @@ static void create_and_run_scene(gu::Window &window) {
 	auto x_ax_material = gu::material_list.create_and_load("res/arrow/arrow_orange.png");
 	auto y_ax_material = gu::material_list.create_and_load("res/arrow/arrow_green.png");
 	auto z_ax_material = gu::material_list.create_and_load("res/arrow/arrow_blue.png");
-	int32_t arrow_mat_index = arrow->get_material_index_by_path("arrow.png");
+	int32_t arrow_mat_index = arrow->find_material_index_by_path("arrow.png");
 	std::vector<gu::Material::Override> arrow_overrides[3];
 
 	if (arrow_mat_index >= 0) {
@@ -54,20 +54,20 @@ static void create_and_run_scene(gu::Window &window) {
 		glm::vec3 dir = glm::vec3(0.0f);
 		dir[i] = 1.0f;
 		axes_tfs[i].orient(dir);
-		axes_tfs[i].set_scaling(2.0f);
+		axes_tfs[i].set_scaling(0.01f);
 		axes_tfs[i].update();
 	}
 
 	// sets up the transformation for the pants.
 	gu::Transformation tf;
-	tf.set_scaling(3.0f);
-	tf.update();
+	//tf.set_scaling(1.0f);
+	//tf.update();
 
 	// creates LightShader and sets constant light values.
 	gu::LightShader light_shader;
 	light_shader.build_from_files(
-		"guru/shader/default_glsl/light_shader.v_shader",
-		"guru/shader/default_glsl/light_shader.f_shader"
+		"guru/shader/default_glsl/anim_light_shader.v_shader",
+		"guru/shader/default_glsl/anim_light_shader.f_shader"
 	);
 	light_shader.use();
 	light_shader.set_ambient_color(glm::vec3(0.18, 0.18, 0.2));
@@ -80,10 +80,9 @@ static void create_and_run_scene(gu::Window &window) {
 	while (not window.should_close()) {
 		gu::env::poll_events_and_update_delta();
 		animator.update_animation();
+		animator.print_rig_hierarchy();
 		
 		const std::vector<glm::mat4> &bone_mats = animator.final_bone_matrices();
-		for (const auto &bone_mat : bone_mats)
-			std::cout << bone_mat[0][0] << '\t' << bone_mat[0][1] << '\t' << bone_mat[0][2] << '\t' << bone_mat[0][3] << std::endl;
 
 		// places every sphere at some position to create a spiral.
 		double glfw_time = glfwGetTime();
@@ -104,6 +103,7 @@ static void create_and_run_scene(gu::Window &window) {
 		// prepares for render.
 		gu::env::clear_window_and_screenbuffer();
 		light_shader.use();
+		light_shader.update_GL_bones(bone_mats);
 		light_shader.update_GL_dir_light(0, dir_light);
 		light_shader.update_GL_point_light(0, point_light);
 		spot_light.place(gu::env::camera().position());
@@ -113,10 +113,11 @@ static void create_and_run_scene(gu::Window &window) {
 			light_shader.set_view_pos(cam.position());
 			glm::mat4 PVM;
 
-			// draws every sphere.
+			// draws pants.
 			glm::mat4 model = tf.get_model_matrix();
 			PVM = cam.get_projview() * model;
 			light_shader.set_PVM_mat(PVM);
+			light_shader.set_PV_mat(cam.get_projview());
 			light_shader.set_model_mat(model);
 			pants->draw_meshes();
 
@@ -132,4 +133,7 @@ static void create_and_run_scene(gu::Window &window) {
 		}
 		gu::env::display_frame();
 	}
+
+	gu::model_res_list.delete_entry("res/pants/pants_animation.dae");
+	gu::model_res_list.delete_entry("res/arrow/smooth_arrow.obj");
 }

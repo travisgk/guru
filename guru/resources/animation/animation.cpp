@@ -6,12 +6,14 @@
 #include "../model/assimp_to_glm.hpp"
 
 namespace gu {
-Animation::Animation(const std::filesystem::path &animation_path, ModelResource &model_res) {
+Animation::Animation(
+	const std::filesystem::path &animation_path, ModelResource &model_res
+) {
 	Assimp::Importer importer;
 	const aiScene *scene = importer.ReadFile(
 		animation_path.string(), aiProcess_Triangulate
 	);
-	if (not scene) {
+	if (not scene or not scene->mRootNode) {
 		std::cerr << animation_path << " could not be loaded." << std::endl;
 		return;
 	}
@@ -22,13 +24,16 @@ Animation::Animation(const std::filesystem::path &animation_path, ModelResource 
 			<< std::endl;
 		return;
 	}
+
 	auto &ai_animation = scene->mAnimations[0];
 	_duration = ai_animation->mDuration;
-	_n_ticks_per_second = ai_animation->mTicksPerSecond;
-	//aiMatrix4x4 global_transformation = scene->mRootNode->mTransformation; // don't know why this is in reference source
-	//global_transformation = global_transformation.Inverse(); // leaving it here in case it solves some issue
+	_ticks_per_second = ai_animation->mTicksPerSecond;
+	aiMatrix4x4 global_transformation = scene->mRootNode->mTransformation;
+	global_transformation = global_transformation.Inverse();
+	set_mat4(_global_inverse_transform, global_transformation);
+
 	_read_hierarchy_data(_root_node, scene->mRootNode);
-	_read_missing_bones(ai_animation, model_res);
+	_create_bones(ai_animation, model_res);
 }
 
 Animation::Bone *Animation::find_bone(const std::string &name) {
@@ -42,7 +47,9 @@ Animation::Bone *Animation::find_bone(const std::string &name) {
 void Animation::_read_hierarchy_data(AssimpNodeData &node, const aiNode *src) {
 	assert(src);
 	node.name = src->mName.data;
-	set_mat4(node.transform_mat, src->mTransformation);
+	glm::mat4 rel_transform_mat;
+	set_mat4(rel_transform_mat, src->mTransformation);
+	node.rel_transform_mat = rel_transform_mat;
 	node.n_children = src->mNumChildren;
 
 	for (size_t i = 0; i < src->mNumChildren; ++i) {
@@ -52,25 +59,28 @@ void Animation::_read_hierarchy_data(AssimpNodeData &node, const aiNode *src) {
 	}
 }
 
-void Animation::_read_missing_bones(
+void Animation::_create_bones(
 	const aiAnimation *ai_animation, ModelResource &model
 ) {
 	const size_t &n_channels = ai_animation->mNumChannels;
-	auto &bone_ID_map = model.bone_ID_map();
-	int n_bones = static_cast<int>(bone_ID_map.size());
+	auto &name_to_rig_info = model.name_to_rig_info();
+	int n_bones = static_cast<int>(model.name_to_rig_info().size());
 
 	for (size_t i = 0; i < n_channels; ++i) {
 		const auto &channel = ai_animation->mChannels[i];
 		std::string bone_name = channel->mNodeName.data;
 
-		if (bone_ID_map.find(bone_name) == bone_ID_map.end()) {
-			bone_ID_map[bone_name].id = n_bones;
+		if (name_to_rig_info.find(bone_name) == name_to_rig_info.end()) {
+			name_to_rig_info[bone_name].bone_ID = n_bones;
 			++n_bones;
 		}
 		_bones.push_back(
-			Bone(bone_name, bone_ID_map[bone_name].id, channel)
+			Bone(bone_name, name_to_rig_info[bone_name].bone_ID, channel)
 		);
 	}
-	_bone_ID_map = bone_ID_map;
+
+	// this Animation makes its own copy 
+	// of the rigging map from the ModelResource.
+	_name_to_rig_info = name_to_rig_info;
 }
 } // namespace gu

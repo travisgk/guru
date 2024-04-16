@@ -18,33 +18,38 @@ public:
 	class Bone; // forward declaration of Bone class.
 
 	struct AssimpNodeData {
-		glm::mat4 transform_mat = glm::mat4(1.0); // UNCERTAIN: only used as a fallback? maybe unnecessary
+		glm::mat4 rel_transform_mat = glm::mat4(1.0); // relative to parent
 		std::string name;
 		size_t n_children = 0;
 		std::vector<AssimpNodeData> children;
 	};
+
+	double _duration = 0.0;
+	double _ticks_per_second = 0.0;
+	AssimpNodeData _root_node;
+	glm::mat4 _global_inverse_transform = glm::mat4(1.0f);
+	std::vector<Bone> _bones;
+	std::map<std::string, Mesh::RigInfo> _name_to_rig_info; // ModelResource copy
 	
 	Animation(const std::filesystem::path &animation_path, ModelResource &model_res);
 
 	Bone *find_bone(const std::string& name);
 
 	inline const double &duration() const { return _duration; }
-	inline const double &n_ticks_per_second() const { return _n_ticks_per_second; }
+	inline const double &n_ticks_per_second() const { return _ticks_per_second; }
 	inline const AssimpNodeData &get_root_node() const { return _root_node; }
-	inline std::map<std::string, Mesh::BoneInfo> &get_bone_ID_map() {
-		return _bone_ID_map;
+	inline std::map<std::string, Mesh::RigInfo> &name_to_rig_info() {
+		return _name_to_rig_info;
+	}
+
+	inline const glm::mat4 &get_global_inverse_transform() const { 
+		return _global_inverse_transform; 
 	}
 
 private:
 	void _read_hierarchy_data(AssimpNodeData &node, const aiNode *src);
 
-	void _read_missing_bones(const aiAnimation *ai_animation, ModelResource &model);
-
-	double _duration = 0.0;
-	double _n_ticks_per_second = 0.0;
-	std::vector<Bone> _bones;
-	AssimpNodeData _root_node;
-	std::map<std::string, Mesh::BoneInfo> _bone_ID_map; // ModelResource copy
+	void _create_bones(const aiAnimation *ai_animation, ModelResource &model);
 };
 } // namespace gu
 

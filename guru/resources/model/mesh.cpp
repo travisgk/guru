@@ -1,48 +1,55 @@
 #include "mesh.hpp"
 #include <cctype>
-#include <iostream>
 #include "assimp_to_glm.hpp"
 #include "../material/material_list.hpp"
 
 static auto &material_list = gu::res::MaterialList::material_list;
 
-namespace gu {
-static void extract_bone_weights_for_verts(
-	std::map<std::string, Mesh::BoneInfo> &bone_info_map,
+// loads rigging information like bone IDs and weights to the given
+// <name_to_rig_info> and <vertices>.
+static void load_rigging_information(
+	std::map<std::string, gu::Mesh::RigInfo> &name_to_rig_info,
 	std::vector<Vertex> &vertices,
 	aiMesh *ai_mesh,
 	const aiScene *scene
 ) {
 	for (size_t bone_index = 0; bone_index < ai_mesh->mNumBones; ++bone_index) {
-		int bone_ID = -1;
-		std::string bone_name = ai_mesh->mBones[bone_index]->mName.C_Str();
-		if (bone_info_map.find(bone_name) == bone_info_map.end()) {
-			Mesh::BoneInfo info;
-			bone_ID = static_cast<int>(bone_info_map.size());
-			info.id = bone_ID;
-			set_mat4(info.offset, ai_mesh->mBones[bone_index]->mOffsetMatrix);
-			bone_info_map[bone_name] = info;
+		int rig_ID = -1;
+		const std::string &name = ai_mesh->mBones[bone_index]->mName.C_Str();
+
+		// loads the bone ID for each named rigging component.
+		if (name_to_rig_info.find(name) == name_to_rig_info.end()) {
+			// <name> is not in the rigging info map.
+			gu::Mesh::RigInfo info;
+			rig_ID = static_cast<int>(name_to_rig_info.size());
+			info.bone_ID = rig_ID;
+			set_mat4(
+				info.local_space_to_bone,
+				ai_mesh->mBones[bone_index]->mOffsetMatrix
+			);
+			name_to_rig_info[name] = info;
 		} else {
-			bone_ID = bone_info_map[bone_name].id;
+			rig_ID = name_to_rig_info[name].bone_ID;
 		}
-		assert(bone_ID != -1);
-		
-		auto weights = ai_mesh->mBones[bone_index]->mWeights;
-		int n_weights = ai_mesh->mBones[bone_index]->mNumWeights;
-		for (int weight_index = 0; weight_index < n_weights; ++weight_index) {
+		assert(rig_ID != -1);
+
+		const auto &weights = ai_mesh->mBones[bone_index]->mWeights;
+		const size_t &n_weights = ai_mesh->mBones[bone_index]->mNumWeights;
+		for (size_t weight_index = 0; weight_index < n_weights; ++weight_index) {
 			const int &vertex_ID = weights[weight_index].mVertexId;
 			const float &weight = weights[weight_index].mWeight;
 			assert(vertex_ID <= vertices.size());
-			vertices[vertex_ID].set_bone_data(bone_ID, weight);
+			vertices[vertex_ID].set_bone_data(rig_ID, weight);
 		}
 	}
 }
 
+namespace gu {
 // static function which loads the data contained in <ai_mesh> 
 // to the given <vertices> and <indices> vectors,
 // and it sets the given <material> shared pointer by reference.
 static void load_mesh(
-	std::map<std::string, Mesh::BoneInfo> &bone_info_map,
+	std::map<std::string, Mesh::RigInfo> &rig_info_map,
 	std::vector<Vertex> &vertices,
 	std::vector<uint32_t> &indices,
 	aiMesh *ai_mesh,
@@ -69,8 +76,7 @@ static void load_mesh(
 		#endif
 	}
 
-	// loads rigging information.
-	extract_bone_weights_for_verts(bone_info_map, vertices, ai_mesh, scene);
+	load_rigging_information(rig_info_map, vertices, ai_mesh, scene);
 
 	// loads indices.
 	for (uint32_t i = 0; i < ai_mesh->mNumFaces; ++i) {
@@ -87,7 +93,7 @@ Mesh::~Mesh() {
 }
 
 void Mesh::load(
-	std::map<std::string, Mesh::BoneInfo> &bone_map,
+	std::map<std::string, Mesh::RigInfo> &rig_info_map,
 	aiMesh *ai_mesh, 
 	const aiScene *scene, 
 	const std::filesystem::path &model_directory,
@@ -97,7 +103,7 @@ void Mesh::load(
 	std::vector<Vertex> vertices;
 	std::vector<uint32_t> indices;
 	load_mesh(
-		bone_map,
+		rig_info_map,
 		vertices, 
 		indices, 
 		ai_mesh,

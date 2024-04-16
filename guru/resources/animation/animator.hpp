@@ -11,6 +11,11 @@
 
 namespace gu {
 class Animator {
+private:
+	std::vector<glm::mat4> _final_bone_matrices;
+	Animation *_animation;
+	double _current_time;
+
 public:
 	Animator();
 	Animator(Animation &animation);
@@ -33,8 +38,15 @@ private:
 		const glm::mat4 &parent_transform
 	);
 
-	std::vector<glm::mat4> _final_bone_matrices;
-	Animation *_animation;
-	double _current_time;
+
+public:
+	inline void print_rig_hierarchy() {
+		_print_assimp_node_info(_animation->get_root_node());
+	}
+
+private:
+	void _print_assimp_node_info(
+		const Animation::AssimpNodeData &node, uint8_t current_depth = 0
+	);
 };
 } // namespace gu

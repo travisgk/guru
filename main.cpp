@@ -1,4 +1,4 @@
-#include "example_animation.hpp"
+#include "example_earth.hpp"
 
 int main() {
 	gu::init_GLFW();

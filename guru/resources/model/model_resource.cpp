@@ -219,7 +219,7 @@ void ModelResource::_process_node(size_t &n_meshes, aiNode *node, const aiScene 
 		// loads the Mesh's geometry and gives it its <_material_index>,
 		// then the Mesh's index is organized.
 		_meshes.emplace_back();
-		_meshes[n_meshes].load(_bone_ID_map, ai_mesh, scene, dir, mat_index);
+		_meshes[n_meshes].load(_name_to_rig_info, ai_mesh, scene, dir, mat_index);
 		if (not _materials[mat_index]->is_transparent())
 			_transparent_mesh_indices.push_back(n_meshes);
 		else
@@ -232,7 +232,7 @@ void ModelResource::_process_node(size_t &n_meshes, aiNode *node, const aiScene 
 		_process_node(n_meshes, node->mChildren[i], scene);
 }
 
-void ModelResource::get_mesh_indices_by_name(
+void ModelResource::find_mesh_indices_by_name(
 	std::vector<size_t> &mesh_indices, const std::string &search_name
 ) const {
 	for (size_t i = 0; i < _meshes.size(); ++i) {
@@ -241,7 +241,7 @@ void ModelResource::get_mesh_indices_by_name(
 	}
 }
 
-void ModelResource::get_mesh_indices_by_path(
+void ModelResource::find_mesh_indices_by_path(
 	std::vector<size_t> &mesh_indices,
 	const std::filesystem::path &search_local_path
 ) const {
@@ -256,7 +256,7 @@ void ModelResource::get_mesh_indices_by_path(
 	}
 }
 
-int32_t ModelResource::get_material_index_by_mesh_name(
+int32_t ModelResource::find_material_index_by_mesh_name(
 	const std::string &name
 ) const {
 	for (size_t i = 0; i < _meshes.size(); ++i) {
@@ -266,7 +266,7 @@ int32_t ModelResource::get_material_index_by_mesh_name(
 	return -1;
 }
 
-int32_t ModelResource::get_material_index_by_path(
+int32_t ModelResource::find_material_index_by_path(
 	const std::filesystem::path &search_local_path
 ) const {
 	for (size_t i = 0; i < _materials.size(); ++i) {

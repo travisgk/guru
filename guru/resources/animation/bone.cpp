@@ -12,6 +12,7 @@ Animation::Bone::Bone(
     _bone_ID(bone_ID),
     _transform_mat(1.0f)
 {
+	// loads a Bone's PositionKeyframes from the given <*channel>.
 	_n_position_keyframes = channel->mNumPositionKeys;
 	for (size_t i = 0; i < _n_position_keyframes; ++i) {
 		PositionKeyframe position_keyframe;
@@ -21,6 +22,7 @@ Animation::Bone::Bone(
 		_position_keyframes.push_back(position_keyframe);
 	}
 
+	// loads a Bone's OrientationKeyframes from the given <*channel>.
 	_n_orientation_keyframes = channel->mNumRotationKeys;
 	for (size_t i = 0; i < _n_orientation_keyframes; ++i) {
 		OrientationKeyframe orientation_keyframe;
@@ -30,6 +32,7 @@ Animation::Bone::Bone(
 		_orientation_keyframes.push_back(orientation_keyframe);
 	}
 
+	// loads a Bone's ScalingKeyframes from the given <*channel>.
 	_n_scaling_keyframes = channel->mNumScalingKeys;
 	for (size_t i = 0; i < _n_scaling_keyframes; ++i) {
 		ScalingKeyframe scaling_keyframe;
@@ -45,8 +48,12 @@ void Animation::Bone::update_matrix(const double &animation_time) {
 	glm::quat orientation = _interpolated_orientation(animation_time);
 	glm::vec3 scaling = _interpolated_scaling(animation_time);
 
-	_transform_mat = glm::mat4(1.0);
-	for (uint8_t i = 0; i < 3; ++i)
+	_transform_mat = glm::mat4(1.0f);
+	_transform_mat = glm::translate(_transform_mat, position);
+	_transform_mat = _transform_mat * glm::toMat4(orientation);
+	_transform_mat = glm::scale(_transform_mat, scaling);
+	
+	/*for (uint8_t i = 0; i < 3; ++i)
 		_transform_mat[3][i] = position[i];
 
 	glm::mat4 rot_mat = glm::toMat4(orientation);
@@ -56,7 +63,7 @@ void Animation::Bone::update_matrix(const double &animation_time) {
 
 	for (uint8_t i = 0; i < 3; ++i)
 		for (uint8_t j = 0; j < 3; ++j)
-			_transform_mat[i][j] = _transform_mat[i][j] * scaling[j];
+			_transform_mat[i][j] = _transform_mat[i][j] * scaling[j];*/
 }
 
 static double calc_progress_factor(
@@ -73,19 +80,19 @@ glm::vec3 Animation::Bone::_interpolated_position(const double &animation_time) 
 	if (_n_position_keyframes == 1)
 		return _position_keyframes[0].position;
 
-	size_t p0_index = get_keyframe_index(
+	size_t k0_index = find_keyframe_index(
 		_position_keyframes, _n_position_keyframes, animation_time
 	);
-	size_t p1_index = p0_index + 1;
+	size_t k1_index = k0_index + 1;
 	double progress_factor = calc_progress_factor(
-		_position_keyframes[p0_index].time_stamp,
-		_position_keyframes[p1_index].time_stamp,
+		_position_keyframes[k0_index].time_stamp,
+		_position_keyframes[k1_index].time_stamp,
 		animation_time
 	);
 
 	glm::vec3 interpolated_position = glm::mix(
-		_position_keyframes[p0_index].position,
-		_position_keyframes[p1_index].position,
+		_position_keyframes[k0_index].position,
+		_position_keyframes[k1_index].position,
 		progress_factor
 	);
 	return interpolated_position;
@@ -95,7 +102,7 @@ glm::quat Animation::Bone::_interpolated_orientation(const double &animation_tim
 	if (_n_orientation_keyframes == 1)
 		return glm::normalize(_orientation_keyframes[0].orientation);
 
-	size_t k0_index = get_keyframe_index(
+	size_t k0_index = find_keyframe_index(
 		_orientation_keyframes, _n_orientation_keyframes, animation_time
 	);
 	size_t k1_index = k0_index + 1;
@@ -117,7 +124,7 @@ glm::vec3 Animation::Bone::_interpolated_scaling(const double &animation_time) {
 	if (_n_scaling_keyframes == 1)
 		return _scaling_keyframes[0].scaling;
 
-	size_t k0_index = get_keyframe_index(
+	size_t k0_index = find_keyframe_index(
 		_scaling_keyframes, _n_scaling_keyframes, animation_time
 	);
 	size_t k1_index = k0_index + 1;

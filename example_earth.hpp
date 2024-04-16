@@ -36,7 +36,7 @@ static void create_and_run_scene(gu::Window &window) {
 	auto x_ax_material = gu::material_list.create_and_load("res/arrow/arrow_orange.png");
 	auto y_ax_material = gu::material_list.create_and_load("res/arrow/arrow_green.png");
 	auto z_ax_material = gu::material_list.create_and_load("res/arrow/arrow_blue.png");
-	size_t arrow_mat_index = arrow->get_material_index_by_path("arrow.png");
+	size_t arrow_mat_index = arrow->find_material_index_by_path("arrow.png");
 	const std::vector<gu::Material::Override> arrow_overrides[3] = {
 		std::vector<gu::Material::Override>(
 			{gu::Material::Override(arrow_mat_index, x_ax_material)}
@@ -168,4 +168,7 @@ static void create_and_run_scene(gu::Window &window) {
 		}
 		gu::env::display_frame();
 	}
+
+	gu::model_res_list.delete_entry("res/sphere/earth.obj");
+	gu::model_res_list.delete_entry("res/arrow/smooth_arrow.obj");
 }

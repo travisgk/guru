@@ -20,6 +20,13 @@
 #include "../material/material.hpp"
 
 namespace {
+/**
+ * Vertex
+ * ---
+ * this local struct is used to buffer geometric information 
+ * from a file to the video card.
+ * 
+ */
 struct Vertex {
 	glm::vec3 position = glm::vec3(0.0f);
 	glm::vec2 uv = glm::vec2(0.0f);
@@ -31,8 +38,9 @@ struct Vertex {
 	int bone_IDs[gu::Settings::MAX_BONE_INFLUENCES];
 	float weights[gu::Settings::MAX_BONE_INFLUENCES];
 
-	Vertex() { set_bone_data_to_default(); }
+	inline Vertex() { set_bone_data_to_default(); }
 
+	// sets all rigging information in the Vertex to not be used.
 	void set_bone_data_to_default() {
 		for (uint8_t i = 0; i < gu::Settings::MAX_BONE_INFLUENCES; ++i) {
 			bone_IDs[i] = -1;
@@ -40,9 +48,11 @@ struct Vertex {
 		}
 	}
 
+	// sets the next empty rigging information elements of <bone_IDs> and <weights>
+	// to the given <bone_ID> and <weight>.
 	void set_bone_data(int bone_ID, const float &weight) {
 		for (uint8_t i = 0; i < gu::Settings::MAX_BONE_INFLUENCES; ++i) {
-			if (bone_IDs[i] < 0) {
+			if (bone_IDs[i] == -1) {
 				// a bone ID is not yet set for this influence.
 				bone_IDs[i] = bone_ID;
 				weights[i] = weight;
@@ -57,15 +67,18 @@ namespace gu {
 class Mesh {
 public:
 	/**
-	* Mesh::BoneInfo
+	* Mesh::RigInfo
 	* ---
 	* this struct contains information used to organize bones
 	* from a loaded 3D model.
 	* 
 	*/
-	struct BoneInfo {
-		int id; // index in final_bone_matrices
-		glm::mat4 offset; // transforms from model space to bone space
+	struct RigInfo {
+		// index in Animator's <_final_bone_matrices>.
+		int bone_ID = -1;
+
+		// transforms from model space to bone space.
+		glm::mat4 local_space_to_bone = glm::mat4(1.0f);
 	};
 
 	/**
@@ -118,7 +131,7 @@ public:
 	// then creates the VAO, VBO, and EBO, 
 	// and finally sends the data to the videocard.
 	void load(
-		std::map<std::string, Mesh::BoneInfo> &bone_info_map,
+		std::map<std::string, Mesh::RigInfo> &rig_info_map,
 		aiMesh *ai_mesh, 
 		const aiScene *scene, 
 		const std::filesystem::path &model_directory,

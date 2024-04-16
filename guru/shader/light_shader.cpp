@@ -179,7 +179,7 @@ void LightShader::update_GL_dir_light(
 ) {
 	if (
 		index >= _uni_dir_light_IDs.size()
-		and not dir_light.needs_any_GL_update()
+		or not dir_light.needs_any_GL_update()
 	)
 		return;
 
@@ -192,7 +192,7 @@ void LightShader::update_GL_point_light(
 ) {
 	if (
 		index >= _uni_point_light_IDs.size()
-		and not point_light.needs_any_GL_update()
+		or not point_light.needs_any_GL_update()
 	)
 		return;
 
@@ -207,7 +207,7 @@ void LightShader::update_GL_spot_light(
 ) {
 	if (
 		index >= _uni_spot_light_IDs.size() 
-		and not spot_light.needs_any_GL_update()
+		or not spot_light.needs_any_GL_update()
 	)
 		return;
 

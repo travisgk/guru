@@ -1,7 +1,7 @@
 /**
- * animation.hpp
+ * bone.hpp
  * ---
- * this file defines the Animation class.
+ * this file defines the Bone class that's within the Animation class.
  *
  */
 
@@ -49,7 +49,7 @@ public:
 
 private:
 	template <typename T>
-	size_t get_keyframe_index(
+	size_t find_keyframe_index(
 		const std::vector<T> &keyframes,
 		const size_t & n_keyframes,
 		const double &animation_time
@@ -61,6 +61,7 @@ private:
 		assert(0);
 		return 0;
 	}
+
 	glm::vec3 _interpolated_position(const double &animation_time);
 	glm::quat _interpolated_orientation(const double &animation_time);
 	glm::vec3 _interpolated_scaling(const double &animation_time);
