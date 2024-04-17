@@ -68,10 +68,10 @@ private:
 public:
 	// returns a reference to a specified Camera.
 	// a negative <index> will return the most recently created Camera.
-	static Camera &camera(int index = -1);
+	static Camera &get_camera(int index = -1);
 
 	// returns the number of Cameras currently used.
-	inline static size_t n_cameras() { return _cameras.size(); }
+	inline static size_t get_n_cameras() { return _cameras.size(); }
 
 	// returns the index of a newly created Camera in memory.
 	static size_t create_camera();

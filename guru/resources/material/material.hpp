@@ -178,8 +178,8 @@ public:
 	~Material();
 
 	// returns the path to the image used for the diffuse texture.
-	inline const std::filesystem::path &path() const { 
-		return _texture_infos[0]->path(); 
+	inline const std::filesystem::path &get_path() const { 
+		return _texture_infos[0]->get_path(); 
 	}
 
 	// returns true if an image for a particular map type was found and loaded.

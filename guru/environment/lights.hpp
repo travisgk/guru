@@ -50,8 +50,8 @@ protected:
 	// instances of this base class cannot be directly created.
 	inline LightColors() {}
 public:
-	inline LightColor &diffuse() { return _diffuse; }
-	inline LightColor &specular() { return _specular; }
+	inline LightColor &get_diffuse() { return _diffuse; }
+	inline LightColor &get_specular() { return _specular; }
 	inline bool needs_any_GL_update() const { return _is_new; }
 	inline void set_as_entirely_GL_updated() { 
 		_is_new = false; 
@@ -82,7 +82,7 @@ public:
 		  _external_update_indicator(&external_update_indicator),
 		  _light_is_modified_indicator(&light_is_modified_indicator)
 	{}
-	const float &value() const { return _value; }
+	const float &get_value() const { return _value; }
 	bool needs_GL_update() const { return _needs_GL_update; }
 	inline void set(const float &value) {
 		_value = value;
@@ -127,9 +127,9 @@ public:
 	inline void set_attenuation_as_GL_updated() {
 		_attenuation_needs_GL_update = false;
 	}
-	inline FloatUniform &constant() { return _constant; }
-	inline FloatUniform &linear() { return _linear; }
-	inline FloatUniform &quadratic() { return _quadratic; }
+	inline FloatUniform &get_constant() { return _constant; }
+	inline FloatUniform &get_linear() { return _linear; }
+	inline FloatUniform &get_quadratic() { return _quadratic; }
 };
 } // blank namespace
 

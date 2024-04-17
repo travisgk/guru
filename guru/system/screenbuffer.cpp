@@ -123,7 +123,12 @@ bool Screenbuffer::create(const int &width, const int &height) {
 void Screenbuffer::bind_and_clear(const gu::Color &clear_color) {
 	// clears Window in preparation.
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glClearColor(RAW_COLOR.r(), RAW_COLOR.g(), RAW_COLOR.b(), RAW_COLOR.a());
+	glClearColor(
+		RAW_COLOR.get_r(), 
+		RAW_COLOR.get_g(), 
+		RAW_COLOR.get_b(), 
+		RAW_COLOR.get_a()
+	);
 	glClear(
 		  GL_COLOR_BUFFER_BIT 
 		| GL_DEPTH_BUFFER_BIT
@@ -133,7 +138,10 @@ void Screenbuffer::bind_and_clear(const gu::Color &clear_color) {
 	// binds the Screenbuffer.
 	glBindFramebuffer(GL_FRAMEBUFFER, _image_buffer_ID);
 	glClearColor(
-		clear_color.r(), clear_color.g(), clear_color.b(), clear_color.a()
+		clear_color.get_r(), 
+		clear_color.get_g(), 
+		clear_color.get_b(), 
+		clear_color.get_a()
 	);
 	glClear(
 		  GL_COLOR_BUFFER_BIT 

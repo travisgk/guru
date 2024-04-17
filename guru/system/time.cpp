@@ -28,13 +28,13 @@ void Delta::update() {
 	_current_time = glfwGetTime();
 	_delta = _current_time - _last_time;
 	
-	if (Settings::fps_limit() > 0) {
+	if (Settings::get_fps_limit() > 0) {
 		if (Settings::using_vsync()) {
 			const double &max_duration = (
-				Settings::vsync_frame_duration()
-				> Settings::fps_limit_duration()
-				? Settings::vsync_frame_duration()
-				: Settings::fps_limit_duration()
+				Settings::get_vsync_frame_duration()
+				> Settings::get_fps_limit_duration()
+				? Settings::get_vsync_frame_duration()
+				: Settings::get_fps_limit_duration()
 			);
 
 			// vsync with fps limit.
@@ -45,8 +45,8 @@ void Delta::update() {
 			}
 		} else {
 			// fps limit without vsync.
-			while (_delta < Settings::fps_limit_duration() * MIN_FACTOR) {
-				sleep_ms(Settings::fps_limit_duration() / 2);
+			while (_delta < Settings::get_fps_limit_duration() * MIN_FACTOR) {
+				sleep_ms(Settings::get_fps_limit_duration() / 2);
 				_current_time = glfwGetTime();
 				_delta = _current_time - _last_time;
 			}

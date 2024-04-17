@@ -6,20 +6,20 @@ static void create_and_run_scene(gu::Window &window) {
 	gu::env::activate_MSAA(32);
 
 	// sets up lights and Camera.
-	gu::Camera &cam = gu::env::camera();
+	gu::Camera &cam = gu::env::get_camera();
 	cam.place(0.0, 0.0, -230.0);
 	cam.update();
 
 	gu::DirLight dir_light;
 	dir_light.orient(glm::vec3(-1.0, 0.0, 0.0));
-	dir_light.diffuse().set(1.0f, 1.0f, 1.0f);
+	dir_light.get_diffuse().set(1.0f, 1.0f, 1.0f);
 	dir_light.update();
 
 	gu::PointLight point_light;
 	point_light.place(0.0, 0.0, 0.0);
-	point_light.diffuse().set(2.0f, 0.0f, 1.0f);
-	point_light.linear().set(0.027f);
-	point_light.quadratic().set(0.0028f);
+	point_light.get_diffuse().set(2.0f, 0.0f, 1.0f);
+	point_light.get_linear().set(0.027f);
+	point_light.get_quadratic().set(0.0028f);
 
 	gu::SpotLight spot_light;
 	
@@ -122,7 +122,7 @@ static void create_and_run_scene(gu::Window &window) {
 		}
 
 		// orbits Camera around (0, 0, 0).
-		for (int i = 0; i < gu::env::n_cameras(); ++i) {
+		for (int i = 0; i < gu::env::get_n_cameras(); ++i) {
 			cam.move_right(15.0);
 			cam.update();
 			cam.look_at(glm::vec3(0.0f));
@@ -134,11 +134,11 @@ static void create_and_run_scene(gu::Window &window) {
 		light_shader.use();
 		light_shader.update_GL_dir_light(0, dir_light);
 		light_shader.update_GL_point_light(0, point_light);
-		spot_light.place(gu::env::camera().position());
-		spot_light.orient(gu::env::camera().get_quat());
-		for (int i = 0; i < gu::env::n_cameras(); ++i) {
-			gu::Camera &cam = gu::env::camera(i);
-			light_shader.set_view_pos(cam.position());
+		spot_light.place(gu::env::get_camera().get_position());
+		spot_light.orient(gu::env::get_camera().get_quat());
+		for (int i = 0; i < gu::env::get_n_cameras(); ++i) {
+			gu::Camera &cam = gu::env::get_camera(i);
+			light_shader.set_view_pos(cam.get_position());
 			glm::mat4 PVM;
 
 			// draws arrow that indicates the DirLight's direction.

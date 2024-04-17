@@ -24,7 +24,7 @@ private:
 	void _setup_bone_matrices();
 
 public:
-	inline const std::vector<glm::mat4> &final_bone_matrices() const {
+	inline const std::vector<glm::mat4> &get_final_bone_matrices() const {
 		return _final_bone_matrices;
 	}
 	void set_animation(Animation &animation);

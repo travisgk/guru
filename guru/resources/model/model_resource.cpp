@@ -32,7 +32,7 @@ ModelResource::~ModelResource() {
 	// creates a set of all unique Material load paths.
 	std::set<std::filesystem::path> material_paths;
 	for (const auto& material : _materials)
-		material_paths.insert(material->path());
+		material_paths.insert(material->get_path());
 
 	// destroys Meshes, which also destroys their shared pointers to Materials
 	// and now the ModelResource can properly delete the Materials used.
@@ -109,7 +109,7 @@ static size_t find_material_index(
 ) {
 	size_t i = materials.size();
 	for (i = 0; i < materials.size(); ++i)
-		if (materials[i]->path() == diffuse_path)
+		if (materials[i]->get_path() == diffuse_path)
 			break;
 	return i;
 }
@@ -236,7 +236,7 @@ void ModelResource::find_mesh_indices_by_name(
 	std::vector<size_t> &mesh_indices, const std::string &search_name
 ) const {
 	for (size_t i = 0; i < _meshes.size(); ++i) {
-		if (search_name == _meshes[i].name())
+		if (search_name == _meshes[i].get_name())
 			mesh_indices.push_back(i);
 	}
 }
@@ -246,7 +246,8 @@ void ModelResource::find_mesh_indices_by_path(
 	const std::filesystem::path &search_local_path
 ) const {
 	for (size_t i = 0; i < _meshes.size(); ++i) {
-		const auto &mat_path = _materials[_meshes[i].material_index()]->path();
+		const size_t &mat_index = _meshes[i].get_material_index();
+		const auto &mat_path = _materials[mat_index]->get_path();
 		std::string local_path = (
 			mat_path.stem().string() + mat_path.extension().string()
 		);
@@ -260,8 +261,8 @@ int32_t ModelResource::find_material_index_by_mesh_name(
 	const std::string &name
 ) const {
 	for (size_t i = 0; i < _meshes.size(); ++i) {
-		if (name == _meshes[i].name())
-			return static_cast<int32_t>(_meshes[i].material_index());
+		if (name == _meshes[i].get_name())
+			return static_cast<int32_t>(_meshes[i].get_material_index());
 	}
 	return -1;
 }
@@ -270,7 +271,7 @@ int32_t ModelResource::find_material_index_by_path(
 	const std::filesystem::path &search_local_path
 ) const {
 	for (size_t i = 0; i < _materials.size(); ++i) {
-		const auto &mat_path = _materials[i]->path();
+		const auto &mat_path = _materials[i]->get_path();
 		std::string local_path = (
 			mat_path.stem().string() + mat_path.extension().string()
 		);
@@ -357,7 +358,7 @@ void ModelResource::_draw_mesh_by_indices(
 			mesh_material = mesh_overrides[mesh_overrides_index].material;
 			++mesh_overrides_index;
 		} else {
-			mesh_material = _materials[_meshes[i].material_index()];
+			mesh_material = _materials[_meshes[i].get_material_index()];
 		}
 
 		// binds the Material if it hasn't already, then draws the Mesh.

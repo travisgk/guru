@@ -120,11 +120,11 @@ public:
 	~Mesh();
 
 	// returns the name of the Mesh that was provided upon loading.
-	inline const std::string &name() const { return _name; }
+	inline const std::string &get_name() const { return _name; }
 
 	// returns the index of the used Material shared pointer
 	// in the ModelResource instance which contains this Mesh.
-	inline const size_t &material_index() const { return _material_index; }
+	inline const size_t &get_material_index() const { return _material_index; }
 
 	// loads the bone information into the given map,
 	// loads the vertices and indices into local vectors from the given aiMesh,

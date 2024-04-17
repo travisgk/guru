@@ -35,10 +35,10 @@ public:
 
 	Bone *find_bone(const std::string& name);
 
-	inline const double &duration() const { return _duration; }
-	inline const double &n_ticks_per_second() const { return _ticks_per_second; }
+	inline const double &get_duration() const { return _duration; }
+	inline const double &get_ticks_per_second() const { return _ticks_per_second; }
 	inline const AssimpNodeData &get_root_node() const { return _root_node; }
-	inline std::map<std::string, Mesh::RigInfo> &name_to_rig_info() {
+	inline std::map<std::string, Mesh::RigInfo> &get_name_to_rig_info() {
 		return _name_to_rig_info;
 	}
 

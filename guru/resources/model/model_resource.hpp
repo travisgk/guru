@@ -55,7 +55,7 @@ public:
 	}
 
 	// returns the file path to the 3D object file.
-	inline const std::filesystem::path &path() const { return _path; }
+	inline const std::filesystem::path &get_path() const { return _path; }
 
 	// returns true if the ModelResource has rigged bones.
 	inline bool has_rig() const { return _name_to_rig_info.size() > 0; }

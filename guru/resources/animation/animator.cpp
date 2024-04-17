@@ -26,8 +26,8 @@ void Animator::set_animation(Animation &animation) {
 void Animator::update_animation() {
 	if (not _animation)
 		return;
-	_current_time += _animation->n_ticks_per_second() * gu::Delta::get();
-	_current_time = fmod(_current_time, _animation->duration());
+	_current_time += _animation->get_ticks_per_second() * gu::Delta::get();
+	_current_time = fmod(_current_time, _animation->get_duration());
 	_calc_bone_transforms(&_animation->get_root_node(), glm::mat4(1.0f));
 }
 
@@ -47,7 +47,7 @@ void Animator::_calc_bone_transforms(
 
 	global_tf = global_tf * node_tf;
 
-	auto &name_to_rig_info = _animation->name_to_rig_info();
+	auto &name_to_rig_info = _animation->get_name_to_rig_info();
 	if (name_to_rig_info.find(node->name) != name_to_rig_info.end()) {
 		const Mesh::RigInfo &rig_info = name_to_rig_info[node->name];
 		_final_bone_matrices[rig_info.bone_ID] = (
@@ -65,8 +65,8 @@ void Animator::_print_assimp_node_info(
 	for (uint8_t i = 0; i < current_depth; ++i)
 		std::cout << "     ";
 	std::cout << node.name;
-	auto &rig_info = _animation->name_to_rig_info();
-	if (rig_info.find(node.name) != _animation->name_to_rig_info().end()) {
+	auto &rig_info = _animation->get_name_to_rig_info();
+	if (rig_info.find(node.name) != rig_info.end()) {
 		std::cout << "     " << rig_info[node.name].bone_ID << std::endl;
 		for (uint8_t i = 0; i < current_depth; ++i)
 			std::cout << "     ";

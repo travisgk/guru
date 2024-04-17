@@ -54,14 +54,14 @@ public:
 
 	// returns the minimum duration that a frame should last under vsync.
 	// this is used to prevent microstutters in the rendering.
-	inline static const double &vsync_frame_duration() { 
+	inline static const double &get_vsync_frame_duration() { 
 		return _vsync_frame_duration; 
 	}
 
 	// returns the minimum duration that a frame should last
 	// under the current set framerate limit.
-	inline static uint16_t fps_limit() { return _fps_limit; }
-	inline static const double &fps_limit_duration() {
+	inline static uint16_t get_fps_limit() { return _fps_limit; }
+	inline static const double &get_fps_limit_duration() {
 		return _fps_limit_duration;
 	}
 

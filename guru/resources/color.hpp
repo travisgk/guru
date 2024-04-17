@@ -28,24 +28,24 @@ public:
 		Color(rgb[0], rgb[1], rgb[2], alpha);
 	}
 
-	inline glm::vec3 rgb() const { return glm::vec3(_r, _g, _b); }
-	inline const float &r() const { return _r; }
-	inline const float &g() const { return _g; }
-	inline const float &b() const { return _b; }
-	inline const float &a() const { return _a; }
-	inline unsigned char unsigned_char_r() const { 
+	inline glm::vec3 as_rgb() const { return glm::vec3(_r, _g, _b); }
+	inline const float &get_r() const { return _r; }
+	inline const float &get_g() const { return _g; }
+	inline const float &get_b() const { return _b; }
+	inline const float &get_a() const { return _a; }
+	inline unsigned char get_unsigned_char_r() const { 
 		return static_cast<unsigned char>(255.0f * _r); 
 	}
 
-	inline unsigned char unsigned_char_g() const {
+	inline unsigned char get_unsigned_char_g() const {
 		return static_cast<unsigned char>(255.0f * _g);
 	}
 
-	inline unsigned char unsigned_char_b() const {
+	inline unsigned char get_unsigned_char_b() const {
 		return static_cast<unsigned char>(255.0f * _b);
 	}
 
-	inline unsigned char unsigned_char_a() const {
+	inline unsigned char get_unsigned_char_a() const {
 		return static_cast<unsigned char>(255.0f * _a);
 	}
 
@@ -65,7 +65,7 @@ public:
 
 	// returns a vector with three channels:
 	// hue [0, 360), saturation [0, 1], value [0, 1].
-	static glm::vec3 to_HSV(const Color &color);
+	static glm::vec3 to_HSV(const Color &c);
 
 	// returns a Color that's created from a given vector
 	// representing hue, saturation, and value.

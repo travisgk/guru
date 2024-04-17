@@ -37,9 +37,9 @@ public:
 
 	// returns the quaternion representing the rotation.
 	inline const glm::dquat &get_quat() const { return _quat; }
-	inline const glm::dvec3 &right() const { return _right; }
-	inline const glm::dvec3 &up() const { return _up; }
-	inline const glm::dvec3 &forward() const { return _forward; }
+	inline const glm::dvec3 &get_right() const { return _right; }
+	inline const glm::dvec3 &get_up() const { return _up; }
+	inline const glm::dvec3 &get_forward() const { return _forward; }
 
 	// returns the pitch of the rotation quaternion in radians.
 	inline double calc_pitch() const {

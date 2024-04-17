@@ -25,10 +25,10 @@ std::shared_ptr<TextureInfo> create_solid_color(
 
 	// uploads a 1x1 pixel image with the desired color.
 	unsigned char fill[] = {
-		color.unsigned_char_r(),
-		color.unsigned_char_g(),
-		color.unsigned_char_b(),
-		color.unsigned_char_a()
+		color.get_unsigned_char_r(),
+		color.get_unsigned_char_g(),
+		color.get_unsigned_char_b(),
+		color.get_unsigned_char_a()
 	};
 	glTexImage2D(
 		GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, fill
@@ -80,10 +80,10 @@ std::shared_ptr<TextureInfo> create_radial_gradient(
 			float scale = distance / MAX_DISTANCE;
 			Color inter = Color::interpolate(center, edge, scale);
 			const int PIXEL = (y * W + x) * 4;
-			data[PIXEL + 0] = inter.unsigned_char_r();
-			data[PIXEL + 1] = inter.unsigned_char_g();
-			data[PIXEL + 2] = inter.unsigned_char_b();
-			data[PIXEL + 3] = inter.unsigned_char_a();
+			data[PIXEL + 0] = inter.get_unsigned_char_r();
+			data[PIXEL + 1] = inter.get_unsigned_char_g();
+			data[PIXEL + 2] = inter.get_unsigned_char_b();
+			data[PIXEL + 3] = inter.get_unsigned_char_a();
 		}
 	}
 
@@ -146,15 +146,15 @@ unsigned char *create_checkerboard_data(
 		for (int x = 0; x < width; ++x) {
 			const int PIXEL = (y * width + x) * 4;
 			if (y * width + x % 2 == 0) {
-				data[PIXEL + 0] = light.unsigned_char_r();
-				data[PIXEL + 1] = light.unsigned_char_g();
-				data[PIXEL + 2] = light.unsigned_char_b();
-				data[PIXEL + 3] = light.unsigned_char_a();
+				data[PIXEL + 0] = light.get_unsigned_char_r();
+				data[PIXEL + 1] = light.get_unsigned_char_g();
+				data[PIXEL + 2] = light.get_unsigned_char_b();
+				data[PIXEL + 3] = light.get_unsigned_char_a();
 			} else {
-				data[PIXEL + 0] = dark.unsigned_char_r();
-				data[PIXEL + 1] = dark.unsigned_char_g();
-				data[PIXEL + 2] = dark.unsigned_char_b();
-				data[PIXEL + 3] = dark.unsigned_char_a();
+				data[PIXEL + 0] = dark.get_unsigned_char_r();
+				data[PIXEL + 1] = dark.get_unsigned_char_g();
+				data[PIXEL + 2] = dark.get_unsigned_char_b();
+				data[PIXEL + 3] = dark.get_unsigned_char_a();
 			}
 		}
 	}

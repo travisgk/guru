@@ -245,9 +245,6 @@
     <ClInclude Include="guru\shader\model_shader.hpp">
       <Filter>Header Files\guru\shader</Filter>
     </ClInclude>
-    <ClInclude Include="guru\environment\model.hpp">
-      <Filter>Header Files\guru\environment</Filter>
-    </ClInclude>
     <ClInclude Include="guru\environment\lights.hpp">
       <Filter>Header Files\guru\environment</Filter>
     </ClInclude>

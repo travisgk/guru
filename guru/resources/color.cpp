@@ -28,33 +28,33 @@ void Color::set(
 Color Color::interpolate(
 	const Color &color_a, const Color &color_b, const float &scale
 ) {
-	float d_r = color_b.r() - color_a.r();
-	float d_g = color_b.g() - color_a.g();
-	float d_b = color_b.b() - color_a.b();
-	float d_a = color_b.a() - color_a.a();
+	float d_r = color_b.get_r() - color_a.get_r();
+	float d_g = color_b.get_g() - color_a.get_g();
+	float d_b = color_b.get_b() - color_a.get_b();
+	float d_a = color_b.get_a() - color_a.get_a();
 	return Color(
-		color_a.r() + d_r * scale,
-		color_a.g() + d_g * scale,
-		color_a.b() + d_b * scale,
-		color_a.a() + d_a * scale
+		color_a.get_r() + d_r * scale,
+		color_a.get_g() + d_g * scale,
+		color_a.get_b() + d_b * scale,
+		color_a.get_a() + d_a * scale
 	);
 }
 
-glm::vec3 Color::to_HSV(const Color &color) {
-	float max_val = std::max(color.r(), std::max(color.g(), color.b()));
-	float min_val = std::min(color.r(), std::min(color.g(), color.b()));
+glm::vec3 Color::to_HSV(const Color &c) {
+	float max_val = std::max(c.get_r(), std::max(c.get_g(), c.get_b()));
+	float min_val = std::min(c.get_r(), std::min(c.get_g(), c.get_b()));
 	float delta = max_val - min_val;
 	glm::vec3 hsv(0.0f);
 
 	// hue.
 	if (delta < 1e-5f)
 		hsv[0] = 0.0f;
-	else if (max_val == color.r())
-		hsv[0] = 60.0f * (fmod(((color.g() - color.b()) / delta), 6.0f));
-	else if (max_val == color.g())
-		hsv[0] = 60.0f * (((color.b() - color.r()) / delta) + 2.0f);
+	else if (max_val == c.get_r())
+		hsv[0] = 60.0f * (fmod(((c.get_g() - c.get_b()) / delta), 6.0f));
+	else if (max_val == c.get_g())
+		hsv[0] = 60.0f * (((c.get_b() - c.get_r()) / delta) + 2.0f);
 	else
-		hsv[0] = 60.0f * (((color.r() - color.g()) / delta) + 4.0f);
+		hsv[0] = 60.0f * (((c.get_r() - c.get_g()) / delta) + 4.0f);
 
 	// saturation.
 	if (max_val < 1e-5f)

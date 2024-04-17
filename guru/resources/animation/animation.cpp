@@ -38,7 +38,7 @@ Animation::Animation(
 
 Animation::Bone *Animation::find_bone(const std::string &name) {
 	for (auto &bone : _bones)
-		if (bone.name() == name)
+		if (bone.get_name() == name)
 			return &bone;
 
 	return nullptr;

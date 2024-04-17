@@ -21,10 +21,10 @@ protected:
 	bool _position_is_new = true;
 
 public:
-	inline const double &x() const { return _position.x; }
-	inline const double &y() const { return _position.y; }
-	inline const double &z() const { return _position.z; }
-	inline const glm::dvec3 &position() const { return _position; }
+	inline const double &get_x() const { return _position.x; }
+	inline const double &get_y() const { return _position.y; }
+	inline const double &get_z() const { return _position.z; }
+	inline const glm::dvec3 &get_position() const { return _position; }
 	inline void move_x(const float &factor) {
 		set_x(_position.x + factor * Delta::get());
 	}

@@ -5,7 +5,6 @@
 #endif
 #include "environment.hpp"
 #include "../system/settings.hpp"
-#include "../environment/model.hpp"
 #include <iostream>
 
 static const std::filesystem::path DEF_SCREEN_SHADER_V_PATH = (
@@ -188,7 +187,7 @@ void env::_create_skybox() {
 	glBindVertexArray(0);
 }
 
-Camera &env::camera(int index) {
+Camera &env::get_camera(int index) {
 	if (index >= 0)
 		return _cameras.at(index);
 	return _cameras.back();
@@ -266,7 +265,7 @@ void env::display_frame(const ScreenShader &screen_shader) {
 		screen_shader.use();
 		glBindVertexArray(_screen_display_VAO_ID);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, _screenbuffer.screen_ID());
+		glBindTexture(GL_TEXTURE_2D, _screenbuffer.get_screen_ID());
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 	}
 
@@ -286,17 +285,17 @@ void env::_screenbuffer_size_callback(
 		_screenbuffer.create(width, height);
 
 	for (int i = 0; i < _cameras.size(); ++i)
-		camera(i).framebuffer_size_callback(width, height);
+		get_camera(i).framebuffer_size_callback(width, height);
 }
 
 void env::_blit_frame_to_buffer() {
 	glDisable(GL_CULL_FACE);
 	glPolygonMode(GL_BACK, GL_FILL);
 	
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, _screenbuffer.image_ID());
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _screenbuffer.inter_ID());
-	const GLsizei &w = _screenbuffer.width();
-	const GLsizei &h = _screenbuffer.height();
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, _screenbuffer.get_image_ID());
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _screenbuffer.get_inter_ID());
+	const GLsizei &w = _screenbuffer.get_width();
+	const GLsizei &h = _screenbuffer.get_height();
 	glBlitFramebuffer(0, 0, w, h, 0, 0, w, h, GL_COLOR_BUFFER_BIT, GL_NEAREST);
 }
 } // namespace gu

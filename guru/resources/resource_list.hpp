@@ -35,6 +35,7 @@ public:
 		deallocate();
 	}
 
+	// clears every contained item from memory.
 	void deallocate() {
 		for (const auto &pair : _hash_to_pointer)
 			_delete_resource(pair.second);
@@ -65,7 +66,7 @@ public:
 	}
 
 	void add_entry(const std::shared_ptr<T> &res) {
-		size_t hash_num = _hasher(res->path().string());
+		size_t hash_num = _hasher(res->get_path().string());
 		#if defined(GURU_PRINT_RESOURCE_DEBUG_MESSAGES)
 		std::cout 
 			<< CLASS_TYPE << ": adding entry. _hash_to_pointer.size() was: " 
@@ -95,7 +96,7 @@ public:
 	}
 
 	void create_entry(const T &res) {
-		size_t hash_num = _hasher(res.path().string());
+		size_t hash_num = _hasher(res.get_path().string());
 		#if defined(GURU_PRINT_RESOURCE_DEBUG_MESSAGES)
 		std::cout
 			<< CLASS_TYPE << ": creating entry. _hash_to_pointer.size() was: "

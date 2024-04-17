@@ -28,20 +28,20 @@ private:
 public:
 	// dtor. deletes resources.
 	~Screenbuffer();
-	inline const GLsizei &width() const { return _width; }
-	inline const GLsizei &height() const { return _height; }
+	inline const GLsizei &get_width() const { return _width; }
+	inline const GLsizei &get_height() const { return _height; }
 	inline bool is_used() const { return _is_used; }
 
 	// returns the image buffer ID.
-	inline const GLuint &image_ID() const { return _image_buffer_ID; }
+	inline const GLuint &get_image_ID() const { return _image_buffer_ID; }
 
 	// returns the intermediate buffer ID.
-	inline const GLuint &inter_ID() const { 
+	inline const GLuint &get_inter_ID() const { 
 		return _intermediate_buffer_ID; 
 	}
 
 	// returns the screen texture ID.
-	inline const GLuint &screen_ID() const { 
+	inline const GLuint &get_screen_ID() const { 
 		return _screen_texture_ID; 
 	}
 

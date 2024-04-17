@@ -182,7 +182,6 @@
     <ClInclude Include="guru\environment\camera.hpp" />
     <ClInclude Include="guru\environment\environment.hpp" />
     <ClInclude Include="guru\environment\lights.hpp" />
-    <ClInclude Include="guru\environment\model.hpp" />
     <ClInclude Include="guru\mathmatics\orientation.hpp" />
     <ClInclude Include="guru\mathmatics\point.hpp" />
     <ClInclude Include="guru\mathmatics\quat_point.hpp" />

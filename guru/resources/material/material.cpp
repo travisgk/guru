@@ -34,7 +34,7 @@ Material::Material() {
 Material::~Material() {
 	// properly deletes every TextureInfo shared pointer.
 	for (uint8_t i = 0; i < N_MAP_TYPES; ++i) {
-		std::filesystem::path texture_path = _texture_infos[i]->path();
+		std::filesystem::path texture_path = _texture_infos[i]->get_path();
 		_texture_infos[i] = nullptr;
 		res::TextureList::texture_list.delete_entry(texture_path);
 	}

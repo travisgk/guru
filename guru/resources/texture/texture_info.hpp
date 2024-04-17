@@ -26,7 +26,7 @@ public:
 	{}
 
 	// returns the path of the loaded image.
-	inline const std::filesystem::path &path() const { 
+	inline const std::filesystem::path &get_path() const { 
 		return _path; 
 	}
 };

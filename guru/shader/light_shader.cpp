@@ -65,7 +65,7 @@ static void set_light_atten_IDs(
 template <typename I, typename T>
 static void update_GL_light_position(const I &IDs, T &light) {
 	if (light.position_needs_GL_update()) {
-		const glm::vec3 &pos = static_cast<glm::vec3>(light.position());
+		const glm::vec3 &pos = static_cast<glm::vec3>(light.get_position());
 		glUniform3fv(IDs.position_ID, 1, &pos[0]);
 		light.set_as_entirely_GL_updated();
 	}
@@ -74,7 +74,7 @@ static void update_GL_light_position(const I &IDs, T &light) {
 template <typename I, typename T>
 static void update_GL_light_direction(const I &IDs, T &light) {
 	if (light.direction_needs_GL_update()) {
-		const glm::vec3 &dir = static_cast<glm::vec3>(light.forward());
+		const glm::vec3 &dir = static_cast<glm::vec3>(light.get_forward());
 		glUniform3fv(IDs.direction_ID, 1, &dir[0]);
 		light.set_direction_as_GL_updated();
 	}
@@ -82,14 +82,17 @@ static void update_GL_light_direction(const I &IDs, T &light) {
 
 template <typename I, typename T>
 static void update_GL_light_colors(const I &IDs, T &light) {
-	if (light.diffuse().needs_GL_update()) {
-		glUniform3fv(IDs.diffuse_ID, 1, &light.diffuse().rgb()[0]);
-		light.diffuse().set_as_GL_updated();
+	auto &diffuse = light.get_diffuse();
+	auto &specular = light.get_specular();
+	
+	if (diffuse.needs_GL_update()) {
+		glUniform3fv(IDs.diffuse_ID, 1, &diffuse.as_rgb()[0]);
+		diffuse.set_as_GL_updated();
 	}
 
-	if (light.specular().needs_GL_update()) {
-		glUniform3fv(IDs.specular_ID, 1, &light.specular().rgb()[0]);
-		light.specular().set_as_GL_updated();
+	if (specular.needs_GL_update()) {
+		glUniform3fv(IDs.specular_ID, 1, &specular.as_rgb()[0]);
+		specular.set_as_GL_updated();
 	}
 }
 
@@ -98,19 +101,23 @@ static void update_GL_attenuation(const I &IDs, T &light) {
 	if (not light.attenuation_needs_GL_update())
 		return;
 
-	if (light.constant().needs_GL_update()) {
-		glUniform1f(IDs.constant_ID, light.constant().value());
-		light.constant().set_as_GL_updated();
+	auto &constant = light.get_constant();
+	auto &linear = light.get_linear();
+	auto &quadratic = light.get_quadratic();
+
+	if (constant.needs_GL_update()) {
+		glUniform1f(IDs.constant_ID, constant.get_value());
+		constant.set_as_GL_updated();
 	}
 
-	if (light.linear().needs_GL_update()) {
-		glUniform1f(IDs.linear_ID, light.linear().value());
-		light.linear().set_as_GL_updated();
+	if (linear.needs_GL_update()) {
+		glUniform1f(IDs.linear_ID, linear.get_value());
+		linear.set_as_GL_updated();
 	}
 
-	if (light.quadratic().needs_GL_update()) {
-		glUniform1f(IDs.quadratic_ID, light.quadratic().value());
-		light.quadratic().set_as_GL_updated();
+	if (quadratic.needs_GL_update()) {
+		glUniform1f(IDs.quadratic_ID, quadratic.get_value());
+		quadratic.set_as_GL_updated();
 	}
 
 	light.set_attenuation_as_GL_updated();
@@ -217,12 +224,12 @@ void LightShader::update_GL_spot_light(
 	update_GL_attenuation(_uni_spot_light_IDs[index], spot_light);
 
 	if (spot_light.inner_cutoff().needs_GL_update()) {
-		(index, spot_light.inner_cutoff().value());
+		(index, spot_light.inner_cutoff().get_value());
 		spot_light.inner_cutoff().set_as_GL_updated();
 	}
 
 	if (spot_light.outer_cutoff().needs_GL_update()) {
-		(index, spot_light.outer_cutoff().value());
+		(index, spot_light.outer_cutoff().get_value());
 		spot_light.outer_cutoff().set_as_GL_updated();
 	}
 	spot_light.set_as_entirely_GL_updated();

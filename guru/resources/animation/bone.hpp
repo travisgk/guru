@@ -40,8 +40,8 @@ private:
 
 public:
 	Bone(const std::string & name, int bone_ID, const aiNodeAnim * channel);
-	inline const int &bone_ID() const { return _bone_ID; }
-	inline const std::string &name() const { return _name; }
+	inline const int &get_bone_ID() const { return _bone_ID; }
+	inline const std::string &get_name() const { return _name; }
 	inline const glm::mat4 &get_local_transform_mat() const { 
 		return _transform_mat;
 	}
