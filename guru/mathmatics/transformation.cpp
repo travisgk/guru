@@ -19,7 +19,7 @@ void Transformation::_update_model_matrix() {
 	if (not _orientation_is_new and not _scaling_is_new) {
 		if (not _position_is_new)
 			return;
-		
+
 		// only the position was changed.
 		for (uint8_t i = 0; i < 3; ++i)
 			_model_mat[3][i] = static_cast<float>(_position[i]);

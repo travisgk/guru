@@ -3,7 +3,7 @@
  * ---
  * this file defines the LightShader class as a child of the ModelShader class,
  * which is built to display a ModelResource with light calculations.
- * 
+ *
  */
 
 #pragma once
@@ -12,7 +12,7 @@
 #include "../resources/color.hpp"
 #include "../environment/lights.hpp"
 
-// this empty namespace contains local structs used for constructing 
+// this empty namespace contains local structs used for constructing
 // classes that hold GL locations (IDs).
 namespace {
 struct LightColorIDs {
@@ -61,7 +61,7 @@ protected:
 	std::vector<DirLightIDs> _uni_dir_light_IDs; // IDs per each DirLight
 	std::vector<PointLightIDs> _uni_point_light_IDs; // IDs per each PointLight
 	std::vector<SpotLightIDs> _uni_spot_light_IDs; // IDs per each SpotLight
-	
+
 	// sets the class's contained uniform IDs by searching for them in the code.
 	virtual void _config_uniform_IDs() override;
 
@@ -85,7 +85,7 @@ public:
 	void update_GL_dir_light(
 		const GLsizei &index, DirLight &dir_light
 	);
-	
+
 	// sets the uniforms of a specified PointLight at <index> on the video card
 	// with the given <point_light>, whose attributes are marked
 	// with having been modified.

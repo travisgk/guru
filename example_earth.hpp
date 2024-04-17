@@ -22,7 +22,7 @@ static void create_and_run_scene(gu::Window &window) {
 	point_light.get_quadratic().set(0.0028f);
 
 	gu::SpotLight spot_light;
-	
+
 	// loads models.
 	auto sphere = gu::model_res_list.create_and_load("res/sphere/earth.obj");
 	auto arrow = gu::model_res_list.create_and_load("res/arrow/smooth_arrow.obj");

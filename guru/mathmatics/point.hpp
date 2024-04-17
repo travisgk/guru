@@ -7,7 +7,7 @@
  * ---
  * any function taking a <factor> will have that
  * <factor> multiplied by the system's delta time.
- * 
+ *
  */
 
 #pragma once

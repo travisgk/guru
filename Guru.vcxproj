@@ -149,7 +149,6 @@
     <ClCompile Include="guru\environment\camera.cpp" />
     <ClCompile Include="guru\environment\environment.cpp" />
     <ClCompile Include="guru\environment\lights.cpp" />
-    <ClCompile Include="guru\environment\model.cpp" />
     <ClCompile Include="guru\mathmatics\orientation.cpp" />
     <ClCompile Include="guru\mathmatics\point.cpp" />
     <ClCompile Include="guru\mathmatics\transformation.cpp" />

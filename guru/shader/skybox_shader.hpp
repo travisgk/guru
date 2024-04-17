@@ -3,7 +3,7 @@
  * ---
  * this file defines the SkyboxShader class as a child of the Shader class,
  * which is built to display a cubemap texture as a skybox.
- * 
+ *
  */
 
 #pragma once

@@ -5,7 +5,7 @@
  * of its internally-created GLFWwindow.
  *
  * it also includes functions for initializing the used libraries.
- * 
+ *
  */
 
 #pragma once
@@ -27,10 +27,10 @@ private:
 public:
 	// ctor. runs _init(...) to create a GLFWwindow.
 	Window(int width, int height, std::string name);
-	
+
 	// dtor. destroys the GLFWwindow properly.
 	~Window();
-	
+
 	void destroy() {
 		if (not _window_destroyed)
 			return;
@@ -47,17 +47,17 @@ private:
 
 public:
 	inline GLFWwindow *get_GLFWwindow() { return _window; }
-	
-	inline bool should_close() const { 
-		return glfwWindowShouldClose(_window); 
+
+	inline bool should_close() const {
+		return glfwWindowShouldClose(_window);
 	}
 
-	inline void clear() { 
+	inline void clear() {
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); 
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	// makes the GLFWwindow fullscreen. 
+	// makes the GLFWwindow fullscreen.
 	// <mode_num> provides the selection for a particular video mode.
 	// -1 will use the default video mode.
 	void make_fullscreen(int mode_num=-1);
@@ -66,8 +66,8 @@ public:
 	// the window will also be placed in the center of the monitor.
 	void make_windowed();
 
-	// resets the GL viewport. 
-	// this should be called before rendering the frame if a camera 
+	// resets the GL viewport.
+	// this should be called before rendering the frame if a camera
 	// rendering to only a fraction of the window was used prior.
 	void reset_viewport();
 

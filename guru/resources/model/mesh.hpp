@@ -1,7 +1,7 @@
 /**
  * mesh.hpp
  * ---
- * this file defines the Vertex struct and Mesh class, 
+ * this file defines the Vertex struct and Mesh class,
  * with a Mesh being a unit of a Model,
  * which is composed of vertices, indices, and
  * a shared pointer to a Material.
@@ -23,9 +23,9 @@ namespace {
 /**
  * Vertex
  * ---
- * this local struct is used to buffer geometric information 
+ * this local struct is used to buffer geometric information
  * from a file to the video card.
- * 
+ *
  */
 struct Vertex {
 	glm::vec3 position = glm::vec3(0.0f);
@@ -71,7 +71,7 @@ public:
 	* ---
 	* this struct contains information used to organize bones
 	* from a loaded 3D model.
-	* 
+	*
 	*/
 	struct RigInfo {
 		// index in Animator's <_final_bone_matrices>.
@@ -88,10 +88,10 @@ public:
 	* to override the bound Material for a particular <mesh_index>
 	* in the ModelResource's Mesh list and change its default Material
 	* to the given <material>.
-	* 
+	*
 	* this could perhaps be useful for rendering texture-based animation
 	* that uses multiple different Materials.
-	* 
+	*
 	*/
 	struct Override : public Material::Override {
 		size_t mesh_index = 0;
@@ -128,21 +128,21 @@ public:
 
 	// loads the bone information into the given map,
 	// loads the vertices and indices into local vectors from the given aiMesh,
-	// then creates the VAO, VBO, and EBO, 
+	// then creates the VAO, VBO, and EBO,
 	// and finally sends the data to the videocard.
 	void load(
 		std::map<std::string, Mesh::RigInfo> &rig_info_map,
-		aiMesh *ai_mesh, 
-		const aiScene *scene, 
+		aiMesh *ai_mesh,
+		const aiScene *scene,
 		const std::filesystem::path &model_directory,
 		const size_t &material_index
 	);
 
 private:
-	// sets the Mesh's VAO, VBO, and EBO by 
+	// sets the Mesh's VAO, VBO, and EBO by
 	// sending the given <vertices> and <indices> vectors to the videocard.
 	void _send_to_videocard(
-		const std::vector<Vertex>& vertices, 
+		const std::vector<Vertex>& vertices,
 		const std::vector<uint32_t>& indices
 	);
 

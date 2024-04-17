@@ -3,7 +3,7 @@
  * ---
  * this file defines the Shader class for building
  * and interfacing with an OpenGL shader program.
- * 
+ *
  */
 
 #pragma once
@@ -29,18 +29,18 @@ public:
 	);
 
 	// returns true if the shader program was successfully built.
-	// builds the shader program from the given 
-	// vertex shader source code (<v_shader_src>) 
+	// builds the shader program from the given
+	// vertex shader source code (<v_shader_src>)
 	// and the given fragment shader source code (<f_shader_src>).
 	virtual bool build_from_source(
-		const char *v_shader_src, const char *f_shader_src 
+		const char *v_shader_src, const char *f_shader_src
 	);
 
 protected:
 	// this method is run once the Shader is built.
 	inline virtual void _init() { _config_uniform_IDs(); }
 
-	// sets the class's contained uniform IDs 
+	// sets the class's contained uniform IDs
 	// by searching for them in the code.
 	inline virtual void _config_uniform_IDs() {}
 };

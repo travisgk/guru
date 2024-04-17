@@ -1,7 +1,7 @@
 /**
  * assimp_to_glm.hpp
  * ---
- * this file contains functions 
+ * this file contains functions
  * for converting assimp structs into GLM structs.
  *
  */

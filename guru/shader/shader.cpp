@@ -18,7 +18,7 @@ static bool load_text_from_file(
 		return true;
 	}
 	catch (const std::ifstream::failure &e) {
-		std::cerr 
+		std::cerr
 			<< "Could not load text from " << path
 			<< ". Error:" << e.what() << std::endl;
 		return false;
@@ -57,7 +57,7 @@ bool Shader::build_from_files(
 		v_shader_src.c_str(), f_shader_src.c_str()
 	);
 	if (not build_is_successful)
-		std::cerr 
+		std::cerr
 			<< "Program files: " << v_shader_path
 			<< ", " << f_shader_path << std::endl;
 	return build_is_successful;
@@ -72,7 +72,7 @@ bool Shader::build_from_source(
 	// builds the vertex shader.
 	GLuint v_shader = build_shader_part(GL_VERTEX_SHADER, v_shader_src);
 	if (v_shader == 0) {
-		std::cerr 
+		std::cerr
 			<< "The vertex shader part failed to build." 
 			<< std::endl;
 		return false;
@@ -81,7 +81,7 @@ bool Shader::build_from_source(
 	// builds the fragment shader.
 	GLuint f_shader = build_shader_part(GL_FRAGMENT_SHADER, f_shader_src);
 	if (f_shader == 0) {
-		std::cerr 
+		std::cerr
 			<< "The fragment shader part failed to build." 
 			<< std::endl;
 		return false;
@@ -101,7 +101,7 @@ bool Shader::build_from_source(
 	if (not build_is_successful) {
 		GLchar info_log[512];
 		glGetProgramInfoLog(_program_ID, 512, nullptr, info_log);
-		std::cerr 
+		std::cerr
 			<< "The shader program could not be linked:\n"
 			<< info_log << std::endl;
 		return false;

@@ -5,7 +5,7 @@
  * of a particular kind of Resource loaded into Guru. it will also maintain how
  * many sources are making use of each Resource, and will delete the Resource
  * from memory only when there are no more sources are making use of it.
- * 
+ *
  */
 
 #pragma once
@@ -50,14 +50,14 @@ public:
 
 		#if defined(GURU_PRINT_RESOURCE_DEBUG_MESSAGES)
 		if (iter != _hash_to_pointer.end()) {
-			std::cout 
+			std::cout
 				<< path.string() << "(hash_num: " << std::to_string(hash_num)
 				<< ") was found." << std::endl;
 			return iter->second;
 		}
-		std::cout 
-			<< path.string() << "(hash_num: " << std::to_string(hash_num) 
-			<< " was not found in this ResourceList of length " 
+		std::cout
+			<< path.string() << "(hash_num: " << std::to_string(hash_num)
+			<< " was not found in this ResourceList of length "
 			<< std::to_string(_hash_to_pointer.size()) << std::endl;
 		return nullptr;
 		#else
@@ -68,9 +68,9 @@ public:
 	void add_entry(const std::shared_ptr<T> &res) {
 		size_t hash_num = _hasher(res->get_path().string());
 		#if defined(GURU_PRINT_RESOURCE_DEBUG_MESSAGES)
-		std::cout 
-			<< CLASS_TYPE << ": adding entry. _hash_to_pointer.size() was: " 
-			<< std::to_string(_hash_to_pointer.size()) 
+		std::cout
+			<< CLASS_TYPE << ": adding entry. _hash_to_pointer.size() was: "
+			<< std::to_string(_hash_to_pointer.size())
 			<< "\thash_num for " << res->path() << " is: "
 			<< std::to_string(hash_num) << std::endl;
 		#endif
@@ -78,8 +78,8 @@ public:
 		auto iter = _hash_to_pointer.find(hash_num);
 		if (iter != _hash_to_pointer.end()) {
 			#if defined(GURU_PRINT_RESOURCE_DEBUG_MESSAGES)
-			std::cout 
-				<< "hash_num for " << res->path() 
+			std::cout
+				<< "hash_num for " << res->path()
 				<< " is found!" << std::endl;
 			#endif
 			return;
@@ -164,7 +164,7 @@ public:
 		}
 
 		#if defined(GURU_PRINT_RESOURCE_DEBUG_MESSAGES)
-		std::cout 
+		std::cout
 			<< CLASS_TYPE << ": _hash_to_pointer.size() was: "
 			<< std::to_string(_hash_to_pointer.size())
 			<< "\thash_num for " << path << " is: "

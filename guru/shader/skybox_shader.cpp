@@ -11,7 +11,7 @@ void SkyboxShader::_config_uniform_IDs() {
 	);
 	glLinkProgram(0);
 
-	// the skybox texture is expected to be bound to 
+	// the skybox texture is expected to be bound to
 	// the GL_TEXTUREx that corresponds to Material::MAP_TYPE::SKYBOX.
 	use();
 	glUniform1i(uni_skybox_texture_1i_ID, Material::MAP_TYPE::SKYBOX);

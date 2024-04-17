@@ -3,7 +3,7 @@
  * ---
  * this file defines the ModelShader class as a child of the Shader class,
  * which is built to display a ModelResource.
- * 
+ *
  */
 
 #pragma once

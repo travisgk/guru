@@ -31,10 +31,10 @@ public:
 	void update_animation();
 
 private:
-	// calculates the final bone matrices 
+	// calculates the final bone matrices
 	// for every bone in the rigging hierarchy by recursion.
 	void _calc_bone_transforms(
-		const Animation::AssimpNodeData *node, 
+		const Animation::AssimpNodeData *node,
 		const glm::mat4 &parent_transform
 	);
 

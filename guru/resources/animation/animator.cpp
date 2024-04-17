@@ -75,9 +75,9 @@ void Animator::_print_assimp_node_info(
 			for (uint8_t i = 0; i < current_depth; ++i)
 				std::cout << "     ";
 			for (uint8_t c = 0; c < 4; ++c)
-				std::cout 
-					<< std::setw(6) << std::right << std::setprecision(3) 
-					<< std::fixed 
+				std::cout
+					<< std::setw(6) << std::right << std::setprecision(3)
+					<< std::fixed
 					<< rig_info[node.name].local_space_to_bone[c][r]
 					<< '\t';
 			std::cout << std::endl;
@@ -90,10 +90,10 @@ void Animator::_print_assimp_node_info(
 			for (uint8_t i = 0; i < current_depth; ++i)
 				std::cout << "     ";
 			for (uint8_t c = 0; c < 4; ++c)
-				std::cout 
-					<< std::setw(6) << std::right << std::setprecision(3) 
-					<< std::fixed 
-					<< _final_bone_matrices[rig_info[node.name].bone_ID][c][r] 
+				std::cout
+					<< std::setw(6) << std::right << std::setprecision(3)
+					<< std::fixed
+					<< _final_bone_matrices[rig_info[node.name].bone_ID][c][r]
 					<< '\t';
 			std::cout << std::endl;
 		}

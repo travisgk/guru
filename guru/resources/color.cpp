@@ -97,22 +97,22 @@ Color Color::from_HSV(const glm::vec3 &hsv) {
 
 std::string Color::to_str() const {
 	std::ostringstream stream;
-	stream 
+	stream
 		<< '('
-		<< std::fixed << std::setprecision(3) << _r << "," 
-		<< std::fixed << std::setprecision(3) << _g << "," 
-		<< std::fixed << std::setprecision(3) << _b << ","
+		<< std::fixed << std::setprecision(3) << _r << ','
+		<< std::fixed << std::setprecision(3) << _g << ','
+		<< std::fixed << std::setprecision(3) << _b << ','
 		<< std::fixed << std::setprecision(3) << _a << ')';
 	return stream.str();
 }
 
 std::string Color::to_str_255() const {
 	std::ostringstream stream;
-	stream 
+	stream
 		<< '('
-		<< std::to_string(static_cast<uint8_t>(255.0f * _r)) << ","
-		<< std::to_string(static_cast<uint8_t>(255.0f * _g)) << ","
-		<< std::to_string(static_cast<uint8_t>(255.0f * _b)) << ","
+		<< std::to_string(static_cast<uint8_t>(255.0f * _r)) << ','
+		<< std::to_string(static_cast<uint8_t>(255.0f * _g)) << ','
+		<< std::to_string(static_cast<uint8_t>(255.0f * _b)) << ','
 		<< std::to_string(static_cast<uint8_t>(255.0f * _a)) << ')';
 	return stream.str();
 }

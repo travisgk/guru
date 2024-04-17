@@ -22,7 +22,7 @@ ModelResource::ModelResource(
 	_uses_map[0] = true;
 	for (uint8_t i = 1; i < Material::N_MAP_TYPES; ++i)
 		_uses_map[i] = false;
-	
+
 	// sets up 3D model.
 	set_face_cull_option(face_cull_option);
 	load(path);
@@ -61,20 +61,20 @@ void ModelResource::load(const std::filesystem::path &path) {
 	importer.SetPropertyFloat("PP_GSN_MAX_SMOOTHING_ANGLE", 90);
 	const aiScene* scene = importer.ReadFile(
 		path.string(),
-		  aiProcess_Triangulate 
+		  aiProcess_Triangulate
 		| aiProcess_GenSmoothNormals
 		| aiProcess_FlipUVs
 		#if not defined(GURU_DISABLE_TANGENT_SPACE)
 		| aiProcess_CalcTangentSpace
-		#endif	
+		#endif
 	);
 	if (
-		not scene 
-		or scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE 
+		not scene
+		or scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE
 		or not scene->mRootNode
 	) {
-		std::cerr 
-			<< "Error with Model::load:\n" 
+		std::cerr
+			<< "Error with Model::load:\n"
 			<< importer.GetErrorString()
 			<< std::endl;
 		return;

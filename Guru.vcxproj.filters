@@ -147,9 +147,6 @@
     <ClCompile Include="guru\shader\model_shader.cpp">
       <Filter>Source Files\guru\shader</Filter>
     </ClCompile>
-    <ClCompile Include="guru\environment\model.cpp">
-      <Filter>Source Files\guru\environment</Filter>
-    </ClCompile>
     <ClCompile Include="guru\environment\lights.cpp">
       <Filter>Source Files\guru\environment</Filter>
     </ClCompile>

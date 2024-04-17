@@ -5,17 +5,17 @@
 #include "../resources/texture/stb_image.h"
 
 namespace gu {
-Window::Window(int width, int height, std::string name) : _name(name) { 
-	_init(width, height); 
+Window::Window(int width, int height, std::string name) : _name(name) {
+	_init(width, height);
 }
 
-Window::~Window() { 
+Window::~Window() {
 	destroy();
 }
 
 void Window::_init(int width, int height) {
 	_window = glfwCreateWindow(
-		width, height, _name.c_str(), nullptr, nullptr 
+		width, height, _name.c_str(), nullptr, nullptr
 	);
 
 	if (_window == nullptr) {
@@ -40,7 +40,7 @@ void Window::make_fullscreen(int mode_num) {
 	glfwGetWindowSize(_window, &width, &height);
 	_prev_size = glm::vec2(width, height);
 	GLFWmonitor *monitor = glfwGetPrimaryMonitor();
-	
+
 	if (mode_num >= 0) {
 		int count;
 		const GLFWvidmode *modes = glfwGetVideoModes(monitor, &count);
@@ -51,10 +51,10 @@ void Window::make_fullscreen(int mode_num) {
 			const GLFWvidmode &mode = modes[mode_num];
 			gu::Settings::set_monitor_refresh_rate(mode.refreshRate);
 			glfwSetWindowMonitor(
-				_window, 
-				monitor, 
-				0, 
-				0, 
+				_window,
+				monitor,
+				0,
+				0,
 				mode.width,
 				mode.height,
 				mode.refreshRate

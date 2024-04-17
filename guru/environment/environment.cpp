@@ -115,7 +115,7 @@ void env::reset() {
 void env::_create_screen_display() {
 	if (_screen_display_VAO_ID != 0 or _screen_display_VBO_ID != 0)
 		return;
-	
+
 	static const float VERTICES[24] = {
 		// position        texCoords
 		-1.0f,  1.0f,     0.0f, 1.0f,
@@ -125,7 +125,7 @@ void env::_create_screen_display() {
 		 1.0f, -1.0f,     1.0f, 0.0f,
 		 1.0f,  1.0f,     1.0f, 1.0f
 	};
-	
+
 	// creates and binds the VAO and VBO.
 	glGenVertexArrays(1, &_screen_display_VAO_ID);
 	glGenBuffers(1, &_screen_display_VBO_ID);
@@ -167,7 +167,7 @@ void env::_create_skybox() {
 		-1.0f, -1.0f, -1.0f,	-1.0f, -1.0f,  1.0f,	 1.0f, -1.0f, -1.0f,
 		 1.0f, -1.0f, -1.0f,	-1.0f, -1.0f,  1.0f,	 1.0f, -1.0f,  1.0f
 	};
-	
+
 	// creates and binds the VAO and VBO.
 	glGenVertexArrays(1, &_skybox_VAO_ID);
 	glGenBuffers(1, &_skybox_VBO_ID);
@@ -215,8 +215,8 @@ void env::draw_skybox(
 }
 
 void env::draw_skybox(
-	const SkyboxShader &skybox_shader, 
-	const glm::mat4 &cam_skybox_mat, 
+	const SkyboxShader &skybox_shader,
+	const glm::mat4 &cam_skybox_mat,
 	GLuint cubemap_ID
 ) {
 	skybox_shader.use();
@@ -236,7 +236,7 @@ void env::poll_events_and_update_delta() {
 	gu::Delta::update();
 }
 
-// clears the default buffer and 
+// clears the default buffer and
 // then binds the <_screenbuffer> so that its image buffer is being drawn to.
 void env::clear_window_and_screenbuffer() {
 	if (_screenbuffer.is_used())
@@ -251,11 +251,11 @@ void env::display_frame() {
 
 // processes the <_screenbuffer> for an output frame image (texture),
 // draws the Screenbuffer display with the output texture as its bound texture
-// to the Screenbuffer's final screen texture, and then 
+// to the Screenbuffer's final screen texture, and then
 // swaps buffers with the default buffer to display the frame to the Window.
 void env::display_frame(const ScreenShader &screen_shader) {
 	_window->reset_viewport();
-	
+
 	if (_screenbuffer.is_used()) {
 		_blit_frame_to_buffer();
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -280,7 +280,7 @@ void env::_screenbuffer_size_callback(
 ) {
 	if (width <= 0 or height <= 0)
 		return;
-	
+
 	if (_screenbuffer.is_used())
 		_screenbuffer.create(width, height);
 
@@ -291,7 +291,7 @@ void env::_screenbuffer_size_callback(
 void env::_blit_frame_to_buffer() {
 	glDisable(GL_CULL_FACE);
 	glPolygonMode(GL_BACK, GL_FILL);
-	
+
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, _screenbuffer.get_image_ID());
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, _screenbuffer.get_inter_ID());
 	const GLsizei &w = _screenbuffer.get_width();

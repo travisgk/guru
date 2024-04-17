@@ -45,7 +45,7 @@ static void load_rigging_information(
 }
 
 namespace gu {
-// static function which loads the data contained in <ai_mesh> 
+// static function which loads the data contained in <ai_mesh>
 // to the given <vertices> and <indices> vectors,
 // and it sets the given <material> shared pointer by reference.
 static void load_mesh(
@@ -94,8 +94,8 @@ Mesh::~Mesh() {
 
 void Mesh::load(
 	std::map<std::string, Mesh::RigInfo> &rig_info_map,
-	aiMesh *ai_mesh, 
-	const aiScene *scene, 
+	aiMesh *ai_mesh,
+	const aiScene *scene,
 	const std::filesystem::path &model_directory,
 	const size_t &material_index
 ) {
@@ -104,8 +104,8 @@ void Mesh::load(
 	std::vector<uint32_t> indices;
 	load_mesh(
 		rig_info_map,
-		vertices, 
-		indices, 
+		vertices,
+		indices,
 		ai_mesh,
 		scene,
 		model_directory
@@ -116,7 +116,7 @@ void Mesh::load(
 }
 
 void Mesh::_send_to_videocard(
-	const std::vector<Vertex> &vertices, 
+	const std::vector<Vertex> &vertices,
 	const std::vector<uint32_t> &indices
 ) {
 	glGenVertexArrays(1, &_vao_ID);
@@ -165,11 +165,11 @@ void Mesh::_send_to_videocard(
 
 	glEnableVertexAttribArray(6);
 	glVertexAttribPointer(
-		6, 
-		Settings::MAX_BONE_INFLUENCES, 
-		GL_FLOAT, 
-		GL_FALSE, 
-		sizeof(Vertex), 
+		6,
+		Settings::MAX_BONE_INFLUENCES,
+		GL_FLOAT,
+		GL_FALSE,
+		sizeof(Vertex),
 		(void *)offsetof(Vertex, weights)
 	);
 

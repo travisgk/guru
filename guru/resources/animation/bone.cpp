@@ -52,8 +52,10 @@ void Animation::Bone::update_matrix(const double &animation_time) {
 	_transform_mat = glm::translate(_transform_mat, position);
 	_transform_mat = _transform_mat * glm::toMat4(orientation);
 	_transform_mat = glm::scale(_transform_mat, scaling);
-	
-	/*for (uint8_t i = 0; i < 3; ++i)
+
+	/*
+	OPTIMIZATION:
+	for (uint8_t i = 0; i < 3; ++i)
 		_transform_mat[3][i] = position[i];
 
 	glm::mat4 rot_mat = glm::toMat4(orientation);
@@ -63,12 +65,13 @@ void Animation::Bone::update_matrix(const double &animation_time) {
 
 	for (uint8_t i = 0; i < 3; ++i)
 		for (uint8_t j = 0; j < 3; ++j)
-			_transform_mat[i][j] = _transform_mat[i][j] * scaling[j];*/
+			_transform_mat[i][j] = _transform_mat[i][j] * scaling[j];
+	*/
 }
 
 static double calc_progress_factor(
-	const double &prev_time_stamp, 
-	const double &next_time_stamp, 
+	const double &prev_time_stamp,
+	const double &next_time_stamp,
 	const double &animation_time
 ) {
 	double progression = animation_time - prev_time_stamp;

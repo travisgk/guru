@@ -92,8 +92,8 @@ public:
 	inline void add_pitch(const float &factor) { rotate(_right, factor); }
 	inline void add_yaw(const float &factor) { rotate(_up, factor); }
 	inline void add_roll(const float &factor) { rotate(_forward, factor); }
-	
-	// rotates the orientation around the given <axis> 
+
+	// rotates the orientation around the given <axis>
 	// by the given <factor>.
 	void rotate(const glm::dvec3 &axis, const float &factor);
 
@@ -105,12 +105,12 @@ public:
 	// updates the object's matrices.
 	// ---
 	// if the compiler flag GURU_AUTO_UPDATE_MATH_OBJECTS is not used,
-	// then this should be called on every frame, 
+	// then this should be called on every frame,
 	// or whenever the object's attributes were modified.
 	virtual void update();
 
 protected:
-	// updates the 3D vectors for the Orientation's 
+	// updates the 3D vectors for the Orientation's
 	// relative right, up, and forward directions
 	// to match the new internal rotation quaternion.
 	void _update_relative_directions();

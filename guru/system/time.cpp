@@ -1,5 +1,5 @@
 #include "time.hpp"
-#if defined(_WIN32) 
+#if defined(_WIN32)
 #include <windows.h>
 #elif defined(__linux__)
 #include <unistd.h>
@@ -13,7 +13,7 @@ double Delta::_last_time = 0.0;
 double Delta::_current_time = 0.0;
 
 static void sleep_ms(const double &ms) {
-	#if defined(_WIN32) 
+	#if defined(_WIN32)
 	Sleep(static_cast<uint32_t>(ms));
 	#elif defined(__linux__)
 	usleep(static_cast<uint32_t>(ms * 1000));
@@ -27,7 +27,7 @@ void Delta::update() {
 	_last_time = _current_time;
 	_current_time = glfwGetTime();
 	_delta = _current_time - _last_time;
-	
+
 	if (Settings::get_fps_limit() > 0) {
 		if (Settings::using_vsync()) {
 			const double &max_duration = (
@@ -52,7 +52,6 @@ void Delta::update() {
 			}
 		}
 	}
-	
 	_fps = 1.0 / _delta;
 }
 } // namespace gu

@@ -2,9 +2,9 @@
  * texture_list.hpp
  * ---
 * this file defines the <TextureList> class, a child of the ResourceList class,
-* which will maintain a list of all the images loaded into Guru. 
-* it will also maintain how many sources are making use of a texture, 
-* and will delete the texture from memory 
+* which will maintain a list of all the images loaded into Guru.
+* it will also maintain how many sources are making use of a texture,
+* and will delete the texture from memory
 * once no more sources are making use of it.
 *
 */
@@ -28,7 +28,7 @@ protected:
 	// overrides this method in order to properly remove the OpenGL texture.
 	inline virtual void _delete_resource(
 		const std::shared_ptr<TextureInfo> &res_ptr
-	) override { 
+	) override {
 		glDeleteTextures(1, &(res_ptr->texture_ID));
 	}
 };

@@ -1,8 +1,8 @@
 /**
  * camera.hpp
  * ---
- * this file defines the Camera class, whose matrices 
- * are used to transform the rendered objects 
+ * this file defines the Camera class, whose matrices
+ * are used to transform the rendered objects
  * to apply a particular perspective to a scene.
  *
  */
@@ -43,7 +43,7 @@ public:
 	// returns the projection * view matrix.
 	inline const glm::mat4 &get_projview() const { return _projview_mat; }
 
-	// returns the projection * view matrix, 
+	// returns the projection * view matrix,
 	// with the view having the Camera's position stripped.
 	inline const glm::mat4 &get_skybox_mat() const { return _skybox_mat; }
 
@@ -51,20 +51,20 @@ public:
 	inline const float &get_field_of_view() const { return _fov; }
 
 	// sets the projection matrix to use perspective projection.
-	inline void use_perspective_projection() { 
-		_set_ortho_projection(false); 
+	inline void use_perspective_projection() {
+		_set_ortho_projection(false);
 	}
 
 	// sets the projection matrix to use orthographic projection.
-	inline void use_orthographic_projection() { 
-		_set_ortho_projection(true); 
+	inline void use_orthographic_projection() {
+		_set_ortho_projection(true);
 	}
-	
+
 	// sets the GLviewport so that only the window fraction is rendered to.
 	inline void use() {
 		glViewport(_render_x, _render_y, _render_w, _render_h);
 	}
-	
+
 	// sets the fraction of the screen that the Camera will render to.
 	inline void set_render_section(const glm::vec4 &render_section) {
 		_render_section = render_section;
@@ -81,7 +81,7 @@ public:
 	// updates how the Camera will utilize glViewport(...).
 	// this should be called when the Window changes size.
 	void framebuffer_size_callback(int width, int height);
-	
+
 	// updates the Camera's matrices.
 	// if the compiler flag GURU_AUTO_UPDATE_MATH_OBJECTS is not used,
 	// then this should be called on every frame, 

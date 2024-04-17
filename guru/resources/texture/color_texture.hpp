@@ -1,9 +1,9 @@
 /**
  * color_texture.hpp
  * ---
- * this file defines functions used 
+ * this file defines functions used
  * to dynamically create OpenGL textures from given Color parameters.
- * 
+ *
  */
 
 #pragma once
@@ -21,7 +21,7 @@ namespace res {
 std::shared_ptr<TextureInfo> create_solid_color(const gu::Color &color);
 
 // returns a shared pointer to a TextureInfo object that contains
-// the OpenGL ID of a created 2D texture that has 
+// the OpenGL ID of a created 2D texture that has
 // the <center> color in the center and <edge> color along the boarders.
 // if a radial texture with the same parameters has already been created,
 // then the TextureInfo pointer
@@ -31,7 +31,7 @@ std::shared_ptr<TextureInfo> create_radial_gradient(
 );
 
 // returns a shared pointer to a TextureInfo object that contains
-// the OpenGL ID of a created 2D texture that has 
+// the OpenGL ID of a created 2D texture that has
 // a checkerboard pattern of <width> pixels by <height> pixels.
 // if a checkerboard texture with the same parameters has already been created,
 // then the TextureInfo pointer

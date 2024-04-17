@@ -44,7 +44,7 @@ public:
 	void load(const std::filesystem::path& path);
 
 protected:
-	// processes a given node and its contained aiMeshes, with each 
+	// processes a given node and its contained aiMeshes, with each
 	// aiMesh's data being transferred to the object's list of Meshes.
 	void _process_node(size_t &n_meshes, aiNode *node, const aiScene *scene);
 
@@ -64,14 +64,14 @@ public:
 		return _name_to_rig_info;
 	}
 
-	// takes the given <mesh_indices> vector and pushes back 
-	// the indices of the Meshes with the matching name. 
+	// takes the given <mesh_indices> vector and pushes back
+	// the indices of the Meshes with the matching name.
 	void find_mesh_indices_by_name(
 		std::vector<size_t> &mesh_indices, const std::string &search_name
 	) const;
 
-	// takes the given <mesh_indices> vector and pushes back 
-	// the indices of the Meshes whose Materials 
+	// takes the given <mesh_indices> vector and pushes back
+	// the indices of the Meshes whose Materials
 	// have their local diffuse path set to <search_local_path>.
 	void find_mesh_indices_by_path(
 		std::vector<size_t> &mesh_indices,
@@ -147,7 +147,7 @@ protected:
 	// <mesh_overrides> can be given
 	// to change which Material is bound per Mesh.
 	// ---
-	// if <use_face_culling> is true, 
+	// if <use_face_culling> is true,
 	// then the ModelResource's face-culling option will be applied.
 	void _draw_mesh_by_indices(
 		const std::vector<Material::Override> &material_overrides,

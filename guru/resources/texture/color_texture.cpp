@@ -9,7 +9,7 @@ namespace res {
 std::shared_ptr<TextureInfo> create_solid_color(
 	const gu::Color& color
 ) {
-	// returns the existing texture ID 
+	// returns the existing texture ID
 	// if the same configuration has been found.
 	std::string path = "solid:" + color.to_str_255();
 	const std::shared_ptr<TextureInfo> &ptr = texture_list.find_existing(path);
@@ -43,10 +43,10 @@ std::shared_ptr<TextureInfo> create_solid_color(
 std::shared_ptr<TextureInfo> create_radial_gradient(
 	const gu::Color &center, const gu::Color &edge, const int &resolution
 ) {
-	// returns the existing texture ID 
+	// returns the existing texture ID
 	// if the same configuration has been found.
 	std::string path = (
-		  "radial:" + std::to_string(resolution) + "): " 
+		  "radial:" + std::to_string(resolution) + "): "
 		+ center.to_str_255() + ", " + edge.to_str_255()
 	);
 	const std::shared_ptr<TextureInfo> &ptr = texture_list.find_existing(path);
@@ -89,10 +89,10 @@ std::shared_ptr<TextureInfo> create_radial_gradient(
 
 	// uploads the created pixel image.
 	glTexImage2D(
-		GL_TEXTURE_2D, 0, GL_RGBA, W, H, 0, GL_RGBA, GL_UNSIGNED_BYTE, data 
+		GL_TEXTURE_2D, 0, GL_RGBA, W, H, 0, GL_RGBA, GL_UNSIGNED_BYTE, data
 	);
 	delete[] data;
-	
+
 	// adds entry to the global TextureList and returns its shared pointer.
 	TextureInfo new_info = TextureInfo(path, texture_ID);
 	texture_list.create_entry(new_info);
@@ -100,12 +100,12 @@ std::shared_ptr<TextureInfo> create_radial_gradient(
 }
 
 std::shared_ptr<TextureInfo> create_checkerboard(
-	const gu::Color &light, 
+	const gu::Color &light,
 	const gu::Color &dark,
-	const int &W, 
-	const int &H 
+	const int &W,
+	const int &H
 ) {
-	// returns the existing texture ID 
+	// returns the existing texture ID
 	// if the same configuration has been found.
 	std::string path = (
 		  "checker(" + std::to_string(W) + "," + std::to_string(H) + "):"
@@ -128,7 +128,7 @@ std::shared_ptr<TextureInfo> create_checkerboard(
 		GL_TEXTURE_2D, 0, GL_RGBA, W, H, 0, GL_RGBA, GL_UNSIGNED_BYTE, data
 	);
 	delete[] data;
-	
+
 	// adds entry to the global TextureList and returns its shared pointer.
 	TextureInfo new_info = TextureInfo(path, texture_ID);
 	texture_list.create_entry(new_info);

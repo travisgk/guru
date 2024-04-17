@@ -18,9 +18,9 @@ Animation::Animation(
 		return;
 	}
 	if (scene->mNumAnimations == 0) {
-		std::cerr 
-			<< animation_path 
-			<< " does not contain any animations." 
+		std::cerr
+			<< animation_path
+			<< " does not contain any animations."
 			<< std::endl;
 		return;
 	}
@@ -79,7 +79,7 @@ void Animation::_create_bones(
 		);
 	}
 
-	// this Animation makes its own copy 
+	// this Animation makes its own copy
 	// of the rigging map from the ModelResource.
 	_name_to_rig_info = name_to_rig_info;
 }

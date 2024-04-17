@@ -11,7 +11,7 @@
 namespace {
 struct PositionKeyframe {
 	glm::vec3 position = glm::vec3(0.0f);
-	double time_stamp = 0.0;	  
+	double time_stamp = 0.0;
 };
 
 struct OrientationKeyframe {
@@ -42,7 +42,7 @@ public:
 	Bone(const std::string & name, int bone_ID, const aiNodeAnim * channel);
 	inline const int &get_bone_ID() const { return _bone_ID; }
 	inline const std::string &get_name() const { return _name; }
-	inline const glm::mat4 &get_local_transform_mat() const { 
+	inline const glm::mat4 &get_local_transform_mat() const {
 		return _transform_mat;
 	}
 	void update_matrix(const double &animation_time);

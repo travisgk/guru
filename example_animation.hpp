@@ -81,7 +81,7 @@ static void create_and_run_scene(gu::Window &window) {
 		gu::env::poll_events_and_update_delta();
 		animator.update_animation();
 		animator.print_rig_hierarchy();
-		
+
 		const std::vector<glm::mat4> &bone_mats = animator.get_final_bone_matrices();
 
 		// places every sphere at some position to create a spiral.

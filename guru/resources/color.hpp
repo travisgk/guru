@@ -3,7 +3,7 @@
  * ---
  * this file defines the Color struct, an RGB color with an alpha component.
  * these channels range 0.0 to 1.0.
- * 
+ *
  */
 
 #pragma once
@@ -18,9 +18,9 @@ protected:
 public:
 	// ctor. sets channel values.
 	Color(
-		const float &red, 
-		const float &green, 
-		const float &blue, 
+		const float &red,
+		const float &green,
+		const float &blue,
 		const float &alpha = 1.0f
 	);
 
@@ -33,8 +33,8 @@ public:
 	inline const float &get_g() const { return _g; }
 	inline const float &get_b() const { return _b; }
 	inline const float &get_a() const { return _a; }
-	inline unsigned char get_unsigned_char_r() const { 
-		return static_cast<unsigned char>(255.0f * _r); 
+	inline unsigned char get_unsigned_char_r() const {
+		return static_cast<unsigned char>(255.0f * _r);
 	}
 
 	inline unsigned char get_unsigned_char_g() const {

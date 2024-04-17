@@ -20,15 +20,13 @@ public:
 	const GLuint texture_ID;
 
 	// ctor. sets member variables.
-	inline TextureInfo( 
+	inline TextureInfo(
 		const std::filesystem::path &path, const GLuint &texture_ID
-	) : _path(path), texture_ID(texture_ID) 
+	) : _path(path), texture_ID(texture_ID)
 	{}
 
 	// returns the path of the loaded image.
-	inline const std::filesystem::path &get_path() const { 
-		return _path; 
-	}
+	inline const std::filesystem::path &get_path() const { return _path; }
 };
 } // namespace res
 } // namespace gu

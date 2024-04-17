@@ -3,21 +3,21 @@
  * ---
  * this file defines the Settings struct, which holds all of Guru's settings.
  * macros can be defined here to compile Guru to particular specifications.
- * 
+ *
  * ---
  * macros for Guru are:
  * #define GURU_DISABLE_TANGENT_SPACE
  *    disables the implementation of tangents and bitangents in Vertices.
  *    Mesh, ModelResource
- * 
- * #define GURU_AUTO_UPDATE_MATH_OBJECTS 
+ *
+ * #define GURU_AUTO_UPDATE_MATH_OBJECTS
  *    causes the changing attributes of an object
  *    of the "mathematics" module will run <update()> automatically.
  *
  * #define GURU_PRINT_RESOURCE_DEBUG_MESSAGES
- *    enables the ResourceList class 
+ *    enables the ResourceList class
  *    and all its children to print out messages for debugging.
- * 
+ *
  * #define GURU_USE_LEFT_HANDED_COORDINATES
  *    changes Guru to use Left-Handed coordinates.
  */
@@ -45,7 +45,7 @@ private:
 	static double _vsync_frame_duration; // duration (seconds) by monitor Hz
 	static uint16_t _fps_limit; // used if <vsync> is false and is more than 0
 	static double _fps_limit_duration; // duration (seconds) by fps limit
-	
+
 	// instances of this struct cannot be created.
 	Settings() = delete;
 
@@ -54,8 +54,8 @@ public:
 
 	// returns the minimum duration that a frame should last under vsync.
 	// this is used to prevent microstutters in the rendering.
-	inline static const double &get_vsync_frame_duration() { 
-		return _vsync_frame_duration; 
+	inline static const double &get_vsync_frame_duration() {
+		return _vsync_frame_duration;
 	}
 
 	// returns the minimum duration that a frame should last
@@ -68,10 +68,10 @@ public:
 	inline static void set_monitor_refresh_rate(const int &refresh_rate_hz) {
 		_vsync_frame_duration = 1.0 / refresh_rate_hz;
 	}
-	
-	// sets the vsync setting. 
+
+	// sets the vsync setting.
 	// 0 will turn off all vsync.
-	inline static void set_swap_interval(const int &swap_interval) { 
+	inline static void set_swap_interval(const int &swap_interval) {
 		glfwSwapInterval(swap_interval);
 		_vsync = swap_interval != 0;
 	}

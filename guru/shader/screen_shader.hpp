@@ -3,7 +3,7 @@
  * ---
  * this file defines the ScreenShader class as a child of the Shader class,
  * which is built to display the Screenbuffer in the Window.
- * 
+ *
  */
 
 #pragma once

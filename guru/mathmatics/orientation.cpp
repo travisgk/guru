@@ -35,8 +35,8 @@ void Orientation::_set_orientation_as_modified() {
 	#endif
 }
 
-void Orientation::update() { 
-	_update_relative_directions(); 
+void Orientation::update() {
+	_update_relative_directions();
 }
 
 void Orientation::_update_relative_directions() {

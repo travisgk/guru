@@ -14,8 +14,8 @@ LightColor(
 	const float &green,
 	const float &blue,
 	bool light_is_modified_indicator
-) : gu::Color(red, green, blue, 1.0f), 
-    _light_is_modified_indicator(&light_is_modified_indicator) 
+) : gu::Color(red, green, blue, 1.0f),
+    _light_is_modified_indicator(&light_is_modified_indicator)
 {}
 
 virtual void set(
@@ -39,7 +39,7 @@ inline void set_as_GL_updated() { _color_is_new = false; }
  * LightColors
  * ---
  * this class defines the Color properties of a light source.
- * 
+ *
  */
 class LightColors {
 protected:
@@ -53,8 +53,8 @@ public:
 	inline LightColor &get_diffuse() { return _diffuse; }
 	inline LightColor &get_specular() { return _specular; }
 	inline bool needs_any_GL_update() const { return _is_new; }
-	inline void set_as_entirely_GL_updated() { 
-		_is_new = false; 
+	inline void set_as_entirely_GL_updated() {
+		_is_new = false;
 	}
 };
 
@@ -71,14 +71,14 @@ protected:
 	bool _needs_GL_update = true;
 	bool *_external_update_indicator = nullptr;
 	bool *_light_is_modified_indicator = nullptr;
-		
+
 public:
 	inline FloatUniform(
-		const float &value, 
+		const float &value,
 		bool &external_update_indicator,
 		bool &light_is_modified_indicator
-	) 
-		: _value(value), 
+	)
+		: _value(value),
 		  _external_update_indicator(&external_update_indicator),
 		  _light_is_modified_indicator(&light_is_modified_indicator)
 	{}
@@ -90,7 +90,7 @@ public:
 		*_external_update_indicator = true;
 		*_light_is_modified_indicator = true;
 	}
-	inline void set_as_GL_updated() { 
+	inline void set_as_GL_updated() {
 		_needs_GL_update = false;
 	}
 };
@@ -98,7 +98,7 @@ public:
 /**
  * AttenuatedLightColors
  * ---
- * this class defines a LightColors child class 
+ * this class defines a LightColors child class
  * with the factors for light attenuation.
  *
  */
@@ -121,7 +121,7 @@ protected:
 
 public:
 	inline bool attenuation_needs_GL_update() const {
-		return _attenuation_needs_GL_update; 
+		return _attenuation_needs_GL_update;
 	}
 
 	inline void set_attenuation_as_GL_updated() {
@@ -139,7 +139,7 @@ namespace gu {
  * ---
  * this class defines a light source that is purely directional.
  * this could be used to emulate the direction of the sunshine.
- * 
+ *
  */
 class DirLight : public LightColors, public Orientation {
 protected:
@@ -185,9 +185,9 @@ protected:
 /**
  * SpotLight
  * ---
- * this class defines a light source that 
+ * this class defines a light source that
  * projects light from a 3D point in a particular direction.
- * 
+ *
  */
 class SpotLight : public AttenuatedLightColors, public QuatPoint {
 protected:
@@ -202,8 +202,8 @@ protected:
 	bool _position_needs_GL_update = true;
 
 public:
-	inline FloatUniform &inner_cutoff() { return _inner_cutoff; }
-	inline FloatUniform &outer_cutoff() { return _outer_cutoff; }
+	inline FloatUniform &get_inner_cutoff() { return _inner_cutoff; }
+	inline FloatUniform &get_outer_cutoff() { return _outer_cutoff; }
 	inline bool direction_needs_GL_update() const {
 		return _direction_needs_GL_update;
 	}
@@ -212,7 +212,7 @@ public:
 		return _position_needs_GL_update;
 	}
 
-	inline void set_direction_as_GL_updated() { 
+	inline void set_direction_as_GL_updated() {
 		_direction_needs_GL_update = false;
 	}
 

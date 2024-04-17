@@ -5,7 +5,7 @@
 #include "../system/settings.hpp"
 
 namespace gu {
-// ctor. the function <_update_relative_directions()> 
+// ctor. the function <_update_relative_directions()>
 // will not set <_orientation_is_new> to false.
 Camera::Camera(const glm::dvec3& position) : QuatPoint(false) {
 	place(position);
@@ -42,7 +42,7 @@ void Camera::framebuffer_size_callback(int width, int height) {
 	float f_render_h = height * _render_section.w;
 	_render_x = static_cast<GLint>(_render_section.x * f_render_w);
 	_render_y = static_cast<GLint>(
-		(1.0f - _render_section.y - _render_section.w) * f_render_h	
+		(1.0f - _render_section.y - _render_section.w) * f_render_h
 	);
 	_render_w = static_cast<GLsizei>(f_render_w);
 	_render_h = static_cast<GLsizei>(f_render_h);
@@ -72,7 +72,7 @@ void Camera::update() {
 	if (_proj_mat_needs_update) {
 		if (_orthographic) {
 			_proj_mat = glm::ortho(
-				-1.0f / _render_ratio, 
+				-1.0f / _render_ratio,
 				1.0f / _render_ratio,
 				-1.0f * _render_ratio,
 				_render_ratio,

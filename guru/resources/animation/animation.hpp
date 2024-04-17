@@ -30,7 +30,7 @@ public:
 	glm::mat4 _global_inverse_transform = glm::mat4(1.0f);
 	std::vector<Bone> _bones;
 	std::map<std::string, Mesh::RigInfo> _name_to_rig_info; // ModelResource copy
-	
+
 	Animation(const std::filesystem::path &animation_path, ModelResource &model_res);
 
 	Bone *find_bone(const std::string& name);
@@ -42,8 +42,8 @@ public:
 		return _name_to_rig_info;
 	}
 
-	inline const glm::mat4 &get_global_inverse_transform() const { 
-		return _global_inverse_transform; 
+	inline const glm::mat4 &get_global_inverse_transform() const {
+		return _global_inverse_transform;
 	}
 
 private:

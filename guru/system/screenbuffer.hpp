@@ -3,7 +3,7 @@
  * ---
  * this file defines the Screenbuffer class, which is a buffer
  * that the scene is rendered to with quality enhancements (e.g. antialias).
- * 
+ *
  */
 
 #pragma once
@@ -36,20 +36,20 @@ public:
 	inline const GLuint &get_image_ID() const { return _image_buffer_ID; }
 
 	// returns the intermediate buffer ID.
-	inline const GLuint &get_inter_ID() const { 
-		return _intermediate_buffer_ID; 
+	inline const GLuint &get_inter_ID() const {
+		return _intermediate_buffer_ID;
 	}
 
 	// returns the screen texture ID.
-	inline const GLuint &get_screen_ID() const { 
-		return _screen_texture_ID; 
+	inline const GLuint &get_screen_ID() const {
+		return _screen_texture_ID;
 	}
 
 	inline void set_n_samples(uint8_t n_samples) {
 		_is_used = n_samples > 0;
 		_n_samples = std::clamp(
-			n_samples, 
-			static_cast<uint8_t>(1), 
+			n_samples,
+			static_cast<uint8_t>(1),
 			static_cast<uint8_t>(32)
 		);
 	}
@@ -58,7 +58,7 @@ public:
 	// this will destroy any pre-existing resources.
 	bool create(const int &width, const int &height);
 
-	// clears and binds the Screenbuffer 
+	// clears and binds the Screenbuffer
 	// so that its image buffer is being drawn to.
 	void bind_and_clear(
 		const gu::Color &clear_color = gu::Color(0.0, 0.0, 0.0)

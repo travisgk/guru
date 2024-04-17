@@ -16,8 +16,8 @@ static GLint get_array_index_ID(
 // sets the uniform ID for the light direction variable in the shader.
 template <typename T>
 static void set_light_dir_ID(
-	T &IDs_struct, 
-	const GLuint &program_ID, 
+	T &IDs_struct,
+	const GLuint &program_ID,
 	const std::string &arr_name,
 	const size_t &index
 ) {
@@ -27,8 +27,8 @@ static void set_light_dir_ID(
 // sets the uniform ID for the light position variable in the shader.
 template <typename T>
 static void set_light_pos_ID(
-	T &IDs_struct, 
-	const GLuint &program_ID, 
+	T &IDs_struct,
+	const GLuint &program_ID,
 	const std::string &arr_name,
 	const size_t &index
 ) {
@@ -38,8 +38,8 @@ static void set_light_pos_ID(
 // sets the uniform IDs for the light color variables in the shader.
 template <typename T>
 static void set_light_color_IDs(
-	T &IDs_struct, 
-	const GLuint &program_ID, 
+	T &IDs_struct,
+	const GLuint &program_ID,
 	const std::string &arr_name,
 	const size_t &i
 ) {
@@ -51,8 +51,8 @@ static void set_light_color_IDs(
 // sets the uniform IDs for the light attenuation variables in the shader.
 template <typename T>
 static void set_light_atten_IDs(
-	T &IDs_struct, 
-	const GLuint &program_ID, 
+	T &IDs_struct,
+	const GLuint &program_ID,
 	const std::string &arr_name,
 	const size_t &i
 ) {
@@ -84,7 +84,7 @@ template <typename I, typename T>
 static void update_GL_light_colors(const I &IDs, T &light) {
 	auto &diffuse = light.get_diffuse();
 	auto &specular = light.get_specular();
-	
+
 	if (diffuse.needs_GL_update()) {
 		glUniform3fv(IDs.diffuse_ID, 1, &diffuse.as_rgb()[0]);
 		diffuse.set_as_GL_updated();
@@ -139,7 +139,7 @@ void LightShader::_config_uniform_IDs() {
 		set_light_dir_ID(IDs, _program_ID, "_dir_light_dirs", i);
 		set_light_color_IDs(IDs, _program_ID, "_dir_lights", i);
 	}
-	
+
 	_uni_point_light_IDs.resize(N_POINT_LIGHTS);
 	for (size_t i = 0; i < N_POINT_LIGHTS; ++i) {
 		PointLightIDs &IDs = _uni_point_light_IDs[i];
@@ -162,7 +162,7 @@ void LightShader::_config_uniform_IDs() {
 			_program_ID, "_spot_lights", i, ".outer_cutoff"
 		);
 	}
-	
+
 	GLint uni_map_texture_1i_IDs[Material::MAP_TYPE::ENUM_MAX]{};
 	for (uint8_t i = 0; i < Material::MAP_TYPE::ENUM_MAX; ++i) {
 		std::string var_str = '_' + Material::MAP_TYPE_STRS[i] + "_texture_ID";
@@ -171,7 +171,7 @@ void LightShader::_config_uniform_IDs() {
 		);
 	}
 
-	// each texture is expected to be bound to 
+	// each texture is expected to be bound to
 	// the GL_TEXTUREx that corresponds to its Material::MAP_TYPE.
 	glLinkProgram(0);
 	use();
@@ -213,7 +213,7 @@ void LightShader::update_GL_spot_light(
 	const GLsizei &index, SpotLight &spot_light
 ) {
 	if (
-		index >= _uni_spot_light_IDs.size() 
+		index >= _uni_spot_light_IDs.size()
 		or not spot_light.needs_any_GL_update()
 	)
 		return;
@@ -223,14 +223,14 @@ void LightShader::update_GL_spot_light(
 	update_GL_light_colors(_uni_spot_light_IDs[index], spot_light);
 	update_GL_attenuation(_uni_spot_light_IDs[index], spot_light);
 
-	if (spot_light.inner_cutoff().needs_GL_update()) {
-		(index, spot_light.inner_cutoff().get_value());
-		spot_light.inner_cutoff().set_as_GL_updated();
+	if (spot_light.get_inner_cutoff().needs_GL_update()) {
+		(index, spot_light.get_inner_cutoff().get_value());
+		spot_light.get_inner_cutoff().set_as_GL_updated();
 	}
 
-	if (spot_light.outer_cutoff().needs_GL_update()) {
-		(index, spot_light.outer_cutoff().get_value());
-		spot_light.outer_cutoff().set_as_GL_updated();
+	if (spot_light.get_outer_cutoff().needs_GL_update()) {
+		(index, spot_light.get_outer_cutoff().get_value());
+		spot_light.get_outer_cutoff().set_as_GL_updated();
 	}
 	spot_light.set_as_entirely_GL_updated();
 }

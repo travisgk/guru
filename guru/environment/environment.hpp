@@ -4,7 +4,7 @@
  * this file defines the env class, which helps simplify
  * the management of interfacing with OpenGL. it takes a Window object
  * and handles its events internally, updating the Screenbuffer and Cameras.
- * 
+ *
  */
 
 #pragma once
@@ -93,8 +93,8 @@ public:
 	// draws a skybox with the given <skybox_shader>,
 	// the Camera's skybox matrix, and an OpenGL cubemap ID.
 	static void draw_skybox(
-		const SkyboxShader &skybox_shader, 
-		const glm::mat4 &cam_skybox_mat, 
+		const SkyboxShader &skybox_shader,
+		const glm::mat4 &cam_skybox_mat,
 		GLuint cubemap_ID
 	);
 
@@ -119,7 +119,7 @@ private:
 		GLFWwindow *window, int width, int height
 	);
 
-	// binds the Screenbuffer's image buffer 
+	// binds the Screenbuffer's image buffer
 	// and blits it using the internal ScreenShader
 	// to the Screenbuffer's intermediate buffer.
 	static void _blit_frame_to_buffer();

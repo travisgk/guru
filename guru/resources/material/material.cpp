@@ -6,7 +6,7 @@
 namespace gu {
 const Color Material::DEFAULT_COLORS[N_MAP_TYPES] = {
 	Color(0.5f, 0.5f, 0.5f), // diffuse
-	Color(0.5f, 0.5f, 1.0f), // normal 
+	Color(0.5f, 0.5f, 1.0f), // normal
 	Color(0.5f, 0.5f, 0.5f), // displacement
 	Color(1.0f, 1.0f, 1.0f), // roughness
 	Color(0.0f, 0.0f, 0.0f), // ambient occlusion
