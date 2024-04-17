@@ -37,10 +37,11 @@ These instructions are modified from those given by [this user.](https://github.
 <br>
 <br>
 
-## Project Settings with Visual Studio 2022 on Windows
+## Project Settings with Visual Studio 2022
 ### General
 C++ Language Standard:
 - `ISO C++ 20 Standard`
+<br>
 
 ### C/C++ -> General
 Additional Include Directories:
@@ -48,6 +49,7 @@ Additional Include Directories:
 - ...\glm
 - ...\glfw\include
 - ...\assimp\include
+<br>
 
 ### Linker
 General-> Additional Library Directories:
