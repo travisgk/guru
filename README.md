@@ -18,10 +18,9 @@ Guru makes use of the following libraries:
 - [ASSIMP](https://github.com/assimp/assimp) (Open Asset Import Library) - helps load 3D models into the program.
 - [stb_image.h](https://github.com/nothings/stb/blob/master/stb_image.h) (v2.29) - a single-file library used for loading image data. no installation needed, this file is included in the source code.
 <br>
-<br>
 
 ## Installation
-[Setup with Visual Studio](https://github.com/travisgk/guru/blob/main/documentation/VS_SETUP_README.md)
+[Setup with Visual Studio 2022 for Windows](https://github.com/travisgk/guru/blob/main/documentation/VS_SETUP_README.md)
 <br>
 <br>
 
