@@ -5,7 +5,7 @@ This was created to explore the fundamentals of 3D graphics.
 <br>
 <br>
 ## Examples
-Coming soon!
+Further documentation is coming soon.
 <br>
 <br>
 
