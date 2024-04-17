@@ -34,8 +34,8 @@
 namespace gu {
 struct Settings {
 public:
-	static const uint8_t OPENGL_VERSION_MAJOR = 4;
-	static const uint8_t OPENGL_VERSION_MINOR = 6;
+	static const uint8_t OPENGL_VERSION_MAJOR = 3;
+	static const uint8_t OPENGL_VERSION_MINOR = 3;
 	static const uint8_t N_GLFW_SAMPLES = 4;
 	static const uint16_t MAX_BONES = 100; // model rig setting
 	static const uint8_t MAX_BONE_INFLUENCES = 4; // model rig setting
