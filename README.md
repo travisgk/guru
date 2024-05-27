@@ -1,4 +1,4 @@
-# guru (v0.1)
+# guru
 A simple OpenGL engine written in C++ for building and rendering 3D scenes.
 This was created to explore the fundamentals of 3D graphics.
 ![https://github.com/travisgk/guru/blob/main/documentation/splash_page.png](https://raw.githubusercontent.com/travisgk/guru/main/documentation/splash_page.png)
